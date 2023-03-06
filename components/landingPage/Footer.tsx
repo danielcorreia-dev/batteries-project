@@ -13,13 +13,13 @@ const Footer = () => {
         <div className="p-5">
           <ul>
             <p className="text-gray-800 font-bold text-2xl pb-4">About</p>
-            <FooterItem title="oie" link="/about"></FooterItem>
+            <FooterItem title="project" link="/about"></FooterItem>
           </ul>
         </div>
         <div className="p-5">
           <ul>
             <p className="text-gray-800 font-bold text-2xl pb-4">Team</p>
-            <FooterItem title="oie" link="/about"></FooterItem>
+            <FooterItem title="social" link="/about"></FooterItem>
           </ul>
         </div>
       </div>
