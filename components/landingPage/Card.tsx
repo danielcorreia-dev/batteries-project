@@ -8,6 +8,7 @@ interface Props {
   btn?: string;
   href?: string;
 }
+
 const Card: FunctionComponent<Props> = ({
   Icon,
   title,
@@ -22,7 +23,7 @@ const Card: FunctionComponent<Props> = ({
       <p>{content}</p>
       <Link
         href={`${href}`}
-        className={`${btn ? 'block' : 'hidden'} mt-6 hover:text-blue-500 `}
+        className={`${btn ? 'block' : 'hidden'} mt-6 hover:text-purple-700 text-purple-600 `}
       >
         {btn}
       </Link>

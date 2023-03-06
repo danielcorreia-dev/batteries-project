@@ -1,7 +1,9 @@
 import Card from '@/components/landingPage/Card';
 import LandingLayout from '@/components/layouts/LandingLayout';
 import { Inter } from '@next/font/google';
+import Link from 'next/link';
 import { TbLeaf, TbTrophy, TbRecycle } from 'react-icons/tb';
+import { IoEnterOutline } from 'react-icons/io5'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -10,7 +12,7 @@ export default function Home() {
     <>
       <LandingLayout>
         {/* Card Section */}
-        <section className="mt-12">
+        <section className="py-12 px-8">
           <div className="mx-auto md:max-w-6xl">
             <div className="text-center mb-16 mx-8 md:mx-0">
               <span className="uppercase font-bold text-md mb-2 block">
@@ -25,14 +27,14 @@ export default function Home() {
                 Icon={TbLeaf}
               />
               <Card
-                content="fklsdajflksaj"
+                content="Descubra todos os lugares próximos para o despojamento de medicamentos e pilhas"
                 title="Descarte no lugar ideal"
                 Icon={TbRecycle}
-                btn="oie"
-                href="/about"
+                btn="Explore os lugares de descarte"
+                href="/signup"
               />
               <Card
-                content="fklsdajflksaj"
+                content="Fique no topo do ranking entre seu círculo de amigos como o mais ecologicamente sustentável"
                 title="Concorra entre seus amigos"
                 Icon={TbTrophy}
               />
@@ -40,8 +42,16 @@ export default function Home() {
           </div>
         </section>
         {/* Responsive */}
-        <section>
-          
+        <section className='py-16'>
+          <div className='bg-gradient-to-b from-blue-800 to-purple-700'>
+            <div className='flex flex-col items-center justify-center p-8'>
+              <span className='block font-bold uppercase text-neutral-50 mb-2'>conheça agora</span>
+              <h3 className='font-bold text-2xl text-center text-violet-300 mb-4'>Venha conhecer nossa comunidade</h3>
+              <Link href="#" className='bg-white rounded py-2 px-4 font-bold flex items-center hover:text-violet-800 hover:shadow-lg hover:drop-shadow transition-all'>
+                <IoEnterOutline size={32} className='mr-2'/> Cadastre-se 
+              </Link>
+            </div>
+          </div>
         </section>
       </LandingLayout>
     </>

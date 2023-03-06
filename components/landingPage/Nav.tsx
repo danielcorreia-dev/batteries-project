@@ -6,7 +6,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className={`${bgColor} py-8 md:bg-blue-300 md:border-none `}>
+    <header className={`${bgColor} py-8 md:bg-blue-300`}>
       <div className="flex items-center justify-between xl:max-w-7xl xl:mx-auto max-w-full px-[8%] flex-wrap w-full">
         <h1 className="font-bold text-2xl">LogoText</h1>
 
@@ -61,7 +61,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
             Login
           </Link>
           <Link
-            className="py-2 px-5 bg-blue-500 text-white hover:bg-blue-700 rounded mt-2 transition-colors block"
+            className="py-2 px-5 bg-blue-500 text-white hover:bg-blue-700 rounded mt-2 md:mt-0 transition-colors block"
             href="signup"
           >
             Sign up
