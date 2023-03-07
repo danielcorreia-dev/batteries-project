@@ -47,7 +47,6 @@ const Form = () => {
         />
       </div>
       <button type="submit" className='font-bold text-xl w-full bg-purple-600 text-white hover:bg-purple-800 py-2 rounded transition-colors'>Cadastre-se</button>
-      
     </form>
   );
 };
