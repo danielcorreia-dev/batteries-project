@@ -1,13 +1,20 @@
 import { FunctionComponent } from 'react';
-
-interface Props {
+import { RiRegisteredFill } from 'react-icons/ri';
+interface InputData {
   type: string;
-  label?: string;
-  id?: string;
-  name?: string;
+  label: string;
+  id: string;
+  placeholder: string;
+  name: string;
 }
 
-const InputForm: FunctionComponent<Props> = ({ type, id, name, label}) => {
+const InputForm: FunctionComponent<InputData> = ({
+  type,
+  id,
+  label,
+  placeholder,
+  name,
+}) => {
   return (
     <>
       <label htmlFor={id} className="mb-4 font-semibold text-sm">
@@ -16,8 +23,9 @@ const InputForm: FunctionComponent<Props> = ({ type, id, name, label}) => {
       <input
         type={type}
         id={id}
-        name={name}
+        placeholder={placeholder}
         className="border -gray-400 rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
+        {...register(name)}
       />
     </>
   );
