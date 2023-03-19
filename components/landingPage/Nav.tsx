@@ -62,9 +62,9 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
           </Link>
           <Link
             className="py-2 px-5 bg-blue-500 text-white hover:bg-blue-700 rounded mt-2 md:mt-0 transition-colors block"
-            href="signup"
+            href="cadastro"
           >
-            Sign up
+            Cadastre-se
           </Link>
         </div>
       </div>
