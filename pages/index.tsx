@@ -37,7 +37,7 @@ export default function Home() {
     <>
       <LandingLayout>
         {/* Card Section */}
-        <section className="py-12 px-8 mb-40">
+        <section className="py-12 px-8 mb-32">
           <div className="mx-auto md:max-w-6xl">
             <div className="text-center mb-16 mx-8 md:mx-0">
               <span className="uppercase font-bold text-md mb-2 block">
@@ -68,7 +68,7 @@ export default function Home() {
         </section>
 
         {/* Slider Section */}
-        <section>
+        <section className='py-12 px-8 mb-20'>
           <div className="mx-auto max-w-5xl">
             <div>
               <span className="uppercase font-bold text-md mb-2 block">

@@ -26,14 +26,14 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
     >
       {slides.map((slide, index) => (
         <SwiperSlide key={index}>
-          <div className='flex items-center'>
+          <div className='md:flex block items-center'>
             <Image
               src={slide.image}
               alt={`Slide ${index}`}
               width={500}
               height={500}
             />
-            <div className="p-6">
+            <div className="p-6 mb-12">
               <h2 className="text-xl font-bold mb-2">{slide.title}</h2>
               <p className="text-gray-700">{slide.content}</p>
             </div>

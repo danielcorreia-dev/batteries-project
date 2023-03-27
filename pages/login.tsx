@@ -1,16 +1,29 @@
 import LoginForm from '@/components/LoginForm';
 import Footer from '@/components/landingPage/Footer';
-import NavSemLogo from '@/components/user/NavSemLogo';
+import NavSemLogo from '@/components/NavSemLogo';
 import Link from 'next/link';
+import { FiBatteryCharging } from 'react-icons/fi';
 
 const Login = () => (
   <>
-    <NavSemLogo/>
+    <NavSemLogo />
     <main className="flex flex-col justify-center items-center mx-auto max-w-5xl h-screen">
-      <Link href="cadastro" className="text-purple-500 hover:text-purple-700 mb-4">
+      <Link
+        href="cadastro"
+        className="text-purple-500 hover:text-purple-700 mb-4"
+      >
         Não tem uma conta?
       </Link>
-      <LoginForm />
+      <div className="border py-6 px-4 rounded">
+        <div className="text-center flex flex-col justify-center items-center mb-5 max-w-xs">
+          <FiBatteryCharging size={32} />
+          <h2 className="font-bold text-2xl">Entre na sua conta</h2>
+          <span className="text-md text-neutral-5<00">
+            Use seus dados de cadastro para acessar nossa plataforma
+          </span>
+        </div>
+        <LoginForm />
+      </div>
     </main>
     <Footer />
   </>
