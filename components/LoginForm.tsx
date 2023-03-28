@@ -48,7 +48,7 @@ const LoginForm = () => {
             </ErrorMessage>
           </div>
           <div className="mb-4">
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Senha:</label>
             <Field
               type="password"
               id="password"

@@ -69,7 +69,7 @@ const FormCadastro = () => {
             </ErrorMessage>
           </div>
           <div className='mb-4'>
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Senha:</label>
             <Field
               type="password"
               id="password"
@@ -81,7 +81,7 @@ const FormCadastro = () => {
             </ErrorMessage>
           </div>
           <div className='mb-4'>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <label htmlFor="confirmPassword">Confirme sua senha:</label>
             <Field
               type="password"
               id="confirmPassword"
@@ -97,7 +97,7 @@ const FormCadastro = () => {
             type="submit"
             className="border py-2 px-4 rounded bg-violet-500 text-white w-100 w-max"
           >
-            Register
+            Criar conta
           </button>
         </Form>
       )}

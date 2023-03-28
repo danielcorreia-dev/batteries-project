@@ -5,7 +5,7 @@ import { Router, useRouter } from 'next/router';
 import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 
-const UserNavbar = () => {
+const BottomUserNavbar = () => {
   const router = useRouter();
 
   const items = [
@@ -39,7 +39,7 @@ const UserNavbar = () => {
       href={item.url}
       key={'bottom-bar-' + item.url + item.text}
     >
-      <item.icon size={32}/>
+      <item.icon size={32} />
     </Link>
   ));
 
@@ -50,4 +50,4 @@ const UserNavbar = () => {
   );
 };
 
-export default UserNavbar;
+export default BottomUserNavbar;

@@ -1,9 +1,9 @@
-import UserNavbar from "@/components/user/UserNavbar";
-
+import UserLayout from "@/components/layouts/UserLayout";
+import PerfilMainFrame from "@/components/user/PerfilMainFrame";
 
 const Perfil = () => (
   <>
-    <UserNavbar/>
+    <UserLayout/>
   </>
 );
 
