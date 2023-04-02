@@ -23,7 +23,9 @@ const Card: FunctionComponent<Props> = ({
       <p>{content}</p>
       <Link
         href={`${href}`}
-        className={`${btn ? 'block' : 'hidden'} mt-6 hover:text-purple-700 text-purple-600 `}
+        className={`${
+          btn ? 'block' : 'hidden'
+        } mt-6 hover:text-purple-700 text-purple-600 `}
       >
         {btn}
       </Link>

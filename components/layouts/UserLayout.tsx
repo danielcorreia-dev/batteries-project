@@ -1,20 +1,20 @@
-import SideUserNav from "../user/SideUserNav";
+import SideUserNav from '../user/SideUserNav';
+import { ReactNode } from 'react';
 
-const UserLayout = () => {
+interface Props {
+  children?: ReactNode;
+}
+
+const UserLayout = ({ children, ...props }: Props) => {
   return (
-    <header>
-      <div>
-      {/* Sidebar */}
-      <div className="border-r border-1 border-neutral-400 w-1/6 h-screen">
-        <SideUserNav/>
+    <>
+      <div className='flex'>
+        <header className='border-r border-neutral-300 h-screen'>
+          <SideUserNav />
+        </header>
+        <div {...props}>{children}</div>
       </div>
-      {/* Main */}
-      <div></div>
-      {/* Missions */}
-      <div></div>
-
-      </div>
-    </header>
+    </>
   );
 };
 

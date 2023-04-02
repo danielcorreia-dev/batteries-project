@@ -10,7 +10,7 @@ const BottomUserNavbar = () => {
 
   const items = [
     {
-      url: '/',
+      url: '/sistema/usuario/perfil',
       text: 'Perfil',
       icon: VscAccount,
     },
@@ -44,7 +44,7 @@ const BottomUserNavbar = () => {
   ));
 
   return (
-    <div className="fixed w-max right-6 bottom-4 left-1/2 -translate-x-1/2">
+    <div className="fixed w-max right-6 bottom-4 left-1/2 -translate-x-1/2 border-t border-neutral-300">
       <div className="flex items-center justify-between">{links}</div>
     </div>
   );

@@ -33,9 +33,9 @@ const Slider: React.FC<SliderProps> = ({ slides }) => {
               width={500}
               height={500}
             />
-            <div className="p-6 mb-12">
-              <h2 className="text-xl font-bold mb-2">{slide.title}</h2>
-              <p className="text-gray-700">{slide.content}</p>
+            <div className="p-6 mb-8 text-center md:text-left">
+              <h2 className="text-2xl font-bold mb-2">{slide.title}</h2>
+              <p className="text-gray-700 text-lg">{slide.content}</p>
             </div>
           </div>
         </SwiperSlide>

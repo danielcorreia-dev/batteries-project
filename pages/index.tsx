@@ -20,15 +20,15 @@ const slides = [
   },
   {
     image: achievSlide,
-    title: 'Slide 2 Title',
+    title: 'Se torne o Campeão!',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce commodo velit nisl, quis tempor tellus aliquam a. Mauris commodo consequat dolor at vulputate. Aenean ullamcorper gravida leo, non iaculis ipsum consectetur in.',
+      'Cada descarte conta! Quanto mais você descarta, mais visibilidade e recompensas você pode ganhar.',
   },
   {
     image: mobileSlide,
     title: 'Responsivo e atualizado',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce commodo velit nisl, quis tempor tellus aliquam a. Mauris commodo consequat dolor at vulputate. Aenean ullamcorper gravida leo, non iaculis ipsum consectetur in.',
+      'Confira as principais localidades e missões próximos de você com qualquer aparelho, nossa comunidade está constantemente se atualizando e melhorando para garantir a você a melhor experiência para ajudar o mundo.',
   },
 ];
 
@@ -70,7 +70,7 @@ export default function Home() {
         {/* Slider Section */}
         <section className='py-12 px-8 mb-20'>
           <div className="mx-auto max-w-5xl">
-            <div>
+            <div className='text-center md:text-left'>
               <span className="uppercase font-bold text-md mb-2 block">
                 interativo e responsivo
               </span>
