@@ -1,5 +1,6 @@
 import Button from '@/components/landingPage/Button';
 import UserLayout from '@/components/layouts/UserLayout';
+import UserInfo from '@/components/user/configurations/UserInfo';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
@@ -17,10 +18,6 @@ interface Props {
 const TabComponent: React.FC<Props> = ({ tabs }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  const handleClickTab = (index: number) => {
-    setActiveTabIndex(index);
-  };
-
   return (
     <div className="grid grid-cols-2">
       <div className="w-max max-w-full border-r border-neutral-300 h-screen">
@@ -31,7 +28,7 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
           {tabs.map((tab, index) => (
             <li
               key={index}
-              onClick={() => handleClickTab(index)}
+              onClick={() => setActiveTabIndex(index)}
               className={classNames(
                 'p-3 flex justify-between items-center cursor-pointer transition-colors duration-75',
                 {
@@ -50,7 +47,7 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
           ))}
         </ul>
       </div>
-      <div>
+      <div className="p-4">
         {React.createElement(tabs[activeTabIndex].component, {
           ...tabs[activeTabIndex].props,
         })}
@@ -62,11 +59,7 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
 const items = [
   {
     title: 'Informações da sua conta',
-    component: Button,
-    props: {
-      content: 'teste',
-      link: '/api/hello',
-    },
+    component: UserInfo,
   },
   {
     title: 'Alterar sua senha',
@@ -80,7 +73,7 @@ const items = [
     title: 'Desativar a sua conta',
     component: Button,
     props: {
-      content: 'teswte',
+      content: 'teswte3',
       link: '/api/hello',
     },
   },

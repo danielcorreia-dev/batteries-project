@@ -6,7 +6,10 @@ type Profile = {
   name: string;
   location: string;
   bio: string;
-  avatar:  string;
+  avatar: string;
+  points: number;
+  achievments: number;
+  savedPlaces: number;
 };
 
 const Perfil = ({
@@ -20,6 +23,9 @@ const Perfil = ({
           bio={profile.bio}
           location={profile.location}
           avatar={profile.avatar}
+          points={profile.points}
+          achievments={profile.achievments}
+          savedPlaces= {profile.savedPlaces}
         />
       </UserLayout>
     </>
