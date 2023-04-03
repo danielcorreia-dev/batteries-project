@@ -24,8 +24,10 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
   return (
     <div className="grid grid-cols-2">
       <div className="w-max max-w-full border-r border-neutral-300 h-screen">
-        <h1 className='px-4 py-6 font-bold text-2xl capitalize mb-10'>configurações</h1>
-        <ul className="border">
+        <h1 className="px-4 py-6 font-bold text-2xl capitalize mb-10">
+          configurações
+        </h1>
+        <ul>
           {tabs.map((tab, index) => (
             <li
               key={index}
@@ -36,10 +38,13 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
                   ' border-blue-400 border-b-2 bg-blue-100':
                     activeTabIndex === index,
                 },
-                'border-b'
+                'border-b',
+                {
+                  'border-t-0': index === 0,
+                }
               )}
             >
-              <p className='mr-10'>{tab.title}</p>
+              <p className="mr-10">{tab.title}</p>
               <MdOutlineKeyboardArrowRight />
             </li>
           ))}

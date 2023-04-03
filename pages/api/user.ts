@@ -4,6 +4,7 @@ type Data = {
   name: string;
   location: string;
   bio: string;
+  avatar: string;
 };
 
 export default function handler(
@@ -15,6 +16,7 @@ export default function handler(
     .json({
       name: 'Bruno Golveia',
       location: 'São Paulo, SP',
-      bio: '💻🏃‍♂️ Sou desenvolvedor de software e amante da corrida. Além de ajudar o meio ambiente entre os dois!',
+      bio: '💻🏃‍♂️ Sou desenvolvedor de software e amante do ciclismo. Tenho como meta ajudar o meio ambiente entre os dois!',
+      avatar: 'https://source.unsplash.com/random'
     });
 }

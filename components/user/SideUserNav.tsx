@@ -67,7 +67,7 @@ const SideUserNav = () => {
         {
           'text-blue-700': item.url === router.asPath,
         },
-        'list-none'
+        'list-none hover:text-blue-400'
       )}
       href={item.url}
       key={'side-bar-' + item.url + item.text}
@@ -75,7 +75,7 @@ const SideUserNav = () => {
       <li className="flex items-center">
         <item.icon size={32} />
         <p
-          className={classNames('px-2', {
+          className={classNames('px-2 hover:text-blue-400', {
             'font-semibold': item.url === router.asPath,
           })}
         >

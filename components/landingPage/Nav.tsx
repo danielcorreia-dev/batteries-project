@@ -26,7 +26,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
                 href="/about"
                 className="md:px-5 py-2 block hover:text-blue-500 font-semibold"
               >
-                About
+                Sobre nós
               </Link>
             </li>
             <li>
@@ -34,7 +34,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
                 href="/project"
                 className="md:px-5 py-2 block hover:text-blue-500 font-semibold"
               >
-                Project
+                Projeto
               </Link>
             </li>
             <li>
@@ -42,7 +42,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
                 href="/team"
                 className="md:px-5 py-2 block hover:text-blue-500 font-semibold"
               >
-                Team
+                Time
               </Link>
             </li>
           </ul>
