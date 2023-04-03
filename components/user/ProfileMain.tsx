@@ -49,14 +49,16 @@ const ProfileMain = ({
   const editRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    console.log(editRef)
     let handleOutsideClick = (e:MouseEvent) => {
-      if(!editRef.current.contains(e.target) && editRef.current !== null){
+      if(!editRef.current?.contains(e.target as Node) && editRef.current !== null){
         setEditProfile(false);
       }
     }
 
     document.addEventListener('mousedown', handleOutsideClick)
-  }, []);
+  }, [editRef]);
+
   const items = [
     {
       title: 'Conquistas',
