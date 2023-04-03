@@ -25,10 +25,10 @@ const IconInfo: FunctionComponent<IconProps> = ({ Icon, points, label }) => {
 };
 
 interface ProfileProps {
-  avatar: string;
+  avatar?: string;
   name: string;
-  location: string;
-  bio: string;
+  location?: string;
+  bio?: string;
   points?: number;
   achievments?: number;
   savedPlaces?: number;
@@ -46,11 +46,11 @@ const ProfileMain = ({
   const [editProfile, setEditProfile] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  const editRef = useRef(null);
+  const editRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     let handleOutsideClick = (e:MouseEvent) => {
-      if(!editRef.current.contains(e.target)){
+      if(!editRef.current.contains(e.target) && editRef.current !== null){
         setEditProfile(false);
       }
     }
