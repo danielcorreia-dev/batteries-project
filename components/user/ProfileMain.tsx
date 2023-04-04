@@ -3,11 +3,11 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { GrLocation } from 'react-icons/gr';
 import ProfileData from './ProfileData';
 import { RiRecycleFill, RiTrophyLine, RiStarLine } from 'react-icons/ri';
-import { TbAbacus, TbAspectRatio } from 'react-icons/tb';
-import { table } from 'console';
 import classNames from 'classnames';
-import EditProfile from './EditProfile';
-import { setSourceMapRange } from 'typescript';
+// import EditProfile from './EditProfile';
+import { RiCloseLine } from 'react-icons/ri';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 interface IconProps {
   Icon: React.ElementType;
@@ -25,7 +25,7 @@ const IconInfo: FunctionComponent<IconProps> = ({ Icon, points, label }) => {
 };
 
 interface ProfileProps {
-  avatar?: string;
+  avatar: string;
   name: string;
   location?: string;
   bio?: string;
@@ -34,29 +34,46 @@ interface ProfileProps {
   savedPlaces?: number;
 }
 
-const ProfileMain = ({
-  name,
-  location,
-  bio,
-  avatar,
-  points,
-  achievments,
-  savedPlaces,
-}: ProfileProps) => {
+const ProfileMain = (props: ProfileProps) => {
+  // States
   const [editProfile, setEditProfile] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const editRef = useRef<HTMLHeadingElement>(null);
 
+  // Formik consts
+
+  const onSubmit = () => {
+    return setEditProfile(false);
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Você precisa ter um nome'),
+  });
+
+  const initialValues = {
+    avatar: props.avatar,
+    name: props.name,
+    location: props.location || '',
+    bio: props.bio || '',
+    points: props.points || 0,
+    achievments: props.achievments || 0,
+    savedPlaces: props.savedPlaces || 0,
+  };
+
+  // Close pop-up edit profile window
   useEffect(() => {
-    console.log(editRef)
-    let handleOutsideClick = (e:MouseEvent) => {
-      if(!editRef.current?.contains(e.target as Node) && editRef.current !== null){
+    console.log(editRef);
+    let handleOutsideClick = (e: MouseEvent) => {
+      if (
+        !editRef.current?.contains(e.target as Node) &&
+        editRef.current !== null
+      ) {
         setEditProfile(false);
       }
-    }
+    };
 
-    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener('mousedown', handleOutsideClick);
   }, [editRef]);
 
   const items = [
@@ -65,15 +82,50 @@ const ProfileMain = ({
     },
   ];
 
+  const EditProfileForm = () => {
+    return (
+      <div
+        className={classNames(
+          'flex justify-center items-center fixed left-0 top-0 w-full h-full z-50 bg-neutral-600 bg-opacity-25',
+          { hidden: editProfile === false }
+        )}
+      >
+        <div
+          ref={editRef}
+          // Temporary width
+          className="flex justify-between items-center h-16 w-[400px] max-w-2xl bg-white shadow-md shadow-neutral-300 rounded p-4"
+        >
+          <div className="flex items-center">
+            <RiCloseLine
+              size={40}
+              className={
+                'cursor-pointer mr-4 inline-block rounded-lg p-2 hover:bg-neutral-200'
+              }
+              onClick={() => setEditProfile(false)}
+            />
+            <h2 className="font-semibold text-xl">Editar Pefil</h2>
+          </div>
+          <button
+            onClick={onSubmit}
+            className="border rounded border-blue-400 px-2 py-1 text-blue-400 hover:bg-blue-400 hover:text-white transition-colors"
+          >
+            Salvar
+          </button>
+          <Formik></Formik>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
-      <EditProfile isActive={editProfile} forwardRef={editRef} />
+      <EditProfileForm />
       <div className="h-screen border-r border-neutral-300 ">
         <div className="flex-col items-center justify-between mb-6 max-w-xl py-4 px-8">
           <div className="flex items-center justify-between mb-4">
             <div className="relative h-32 w-32">
               <Image
-                src={avatar}
+                src={props.avatar}
                 alt="Avatar"
                 className="rounded-full"
                 objectFit="cover"
@@ -88,27 +140,27 @@ const ProfileMain = ({
             </button>
           </div>
           <div className="mb-8">
-            <h1 className="text-2xl font-bold">{name}</h1>
+            <h1 className="text-2xl font-bold">{props.name}</h1>
             <p className="text-gray-700 flex items-center mb-6">
               <GrLocation className="inline-block mr-2" />
-              {location}
+              {props.location}
             </p>
-            <p className="text-gray-700">{bio}</p>
+            <p className="text-gray-700">{props.bio}</p>
           </div>
           <div className="flex items-center justify-between ">
             <IconInfo
               Icon={RiRecycleFill}
-              points={points}
+              points={props.points}
               label={'Descartes'}
             />
             <IconInfo
               Icon={RiTrophyLine}
-              points={achievments}
+              points={props.achievments}
               label={'Conquistas'}
             />
             <IconInfo
               Icon={RiStarLine}
-              points={savedPlaces}
+              points={props.savedPlaces}
               label={'Lugares Salvos'}
             />
           </div>
