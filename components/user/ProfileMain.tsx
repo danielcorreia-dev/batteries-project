@@ -6,7 +6,7 @@ import { RiRecycleFill, RiTrophyLine, RiStarLine } from 'react-icons/ri';
 import classNames from 'classnames';
 // import EditProfile from './EditProfile';
 import { RiCloseLine } from 'react-icons/ri';
-import { Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
 interface IconProps {
@@ -93,25 +93,50 @@ const ProfileMain = (props: ProfileProps) => {
         <div
           ref={editRef}
           // Temporary width
-          className="flex justify-between items-center h-16 w-[400px] max-w-2xl bg-white shadow-md shadow-neutral-300 rounded p-4"
+          className="h-auto w-[400px] max-w-2xl bg-white shadow-md shadow-neutral-300 rounded p-4"
         >
-          <div className="flex items-center">
-            <RiCloseLine
-              size={40}
-              className={
-                'cursor-pointer mr-4 inline-block rounded-lg p-2 hover:bg-neutral-200'
-              }
-              onClick={() => setEditProfile(false)}
-            />
-            <h2 className="font-semibold text-xl">Editar Pefil</h2>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center">
+              <RiCloseLine
+                size={40}
+                className={
+                  'cursor-pointer mr-4 inline-block rounded-lg p-2 hover:bg-neutral-200'
+                }
+                onClick={() => setEditProfile(false)}
+              />
+              <h2 className="font-semibold text-xl">Editar Perfil</h2>
+            </div>
+            <button
+              onClick={onSubmit}
+              className="border rounded border-blue-400 px-2 py-1 text-blue-400 hover:bg-blue-400 hover:text-white transition-colors"
+            >
+              Salvar
+            </button>
           </div>
-          <button
-            onClick={onSubmit}
-            className="border rounded border-blue-400 px-2 py-1 text-blue-400 hover:bg-blue-400 hover:text-white transition-colors"
-          >
-            Salvar
-          </button>
-          <Formik></Formik>
+          <div>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={onSubmit}
+              validationSchema={validationSchema}
+            >
+              {({ errors, touched }) => (
+                <Form>
+                  <div className='mb-3'>
+                    <label htmlFor="name" className='text-sm text-neutral-400'>Name</label>
+                    <Field type="text" name="name" className="block px-2 py-3 border rounded border-neutral-400 max-w-max w-max"/>
+                  </div>
+                  <div className='mb-3'>
+                    <label htmlFor="location" className='text-sm text-neutral-400'>Localização</label>
+                    <Field type="text" name="location" className="block px-2 py-3 border rounded border-neutral-400 max-w-max w-max"/>
+                  </div>
+                  <div className='mb-3'>
+                    <label htmlFor="bio" className='text-sm text-neutral-400'>Bio</label>
+                    <Field type="text" name="bio" className="block px-2 py-3 border rounded border-neutral-400 max-w-max w-max"/>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       </div>
     );
