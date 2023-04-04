@@ -44,7 +44,7 @@ const BottomUserNavbar = () => {
   ));
 
   return (
-    <div className="fixed w-max right-6 bottom-2 left-1/2 -translate-x-1/2 border-t border-neutral-300">
+    <div className="fixed w-screen right-6 bottom-2 left-1/2 -translate-x-1/2 border-t border-neutral-300">
       <div className="flex items-center justify-between">{links}</div>
     </div>
   );

@@ -164,7 +164,7 @@ const ProfileMain = (props: ProfileProps) => {
               Editar perfil
             </button>
           </div>
-          <div className="mb-8">
+          <div className="mb-5 sm:mb-8">
             <h1 className="text-2xl font-bold">{props.name}</h1>
             <p className="text-gray-700 flex items-center mb-6">
               <GrLocation className="inline-block mr-2" />
@@ -172,7 +172,7 @@ const ProfileMain = (props: ProfileProps) => {
             </p>
             <p className="text-gray-700">{props.bio}</p>
           </div>
-          <div className="flex items-center justify-between ">
+          <div className="flex flex-col sm:items-center justify-between sm:flex-row">
             <IconInfo
               Icon={RiRecycleFill}
               points={props.points}
