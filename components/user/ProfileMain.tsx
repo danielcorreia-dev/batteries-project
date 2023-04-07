@@ -83,6 +83,8 @@ const ProfileMain = (props: ProfileProps) => {
   ];
 
   const EditProfileForm = () => {
+    const [count, setCount] = useState(0);
+
     return (
       <div
         className={classNames(
@@ -93,7 +95,7 @@ const ProfileMain = (props: ProfileProps) => {
         <div
           ref={editRef}
           // Temporary width
-          className="h-auto w-[400px] max-w-2xl bg-white shadow-md shadow-neutral-300 rounded p-4"
+          className="h-auto md:w-2/6 max-w-2xl bg-white shadow-md shadow-neutral-300 rounded p-4"
         >
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center">
@@ -123,15 +125,15 @@ const ProfileMain = (props: ProfileProps) => {
                 <Form>
                   <div className='mb-3'>
                     <label htmlFor="name" className='text-sm text-neutral-400'>Name</label>
-                    <Field type="text" name="name" className="block px-2 py-3 border rounded border-neutral-400 max-w-max w-max"/>
+                    <Field type="text" name="name" className="block px-2 py-3 border rounded border-neutral-400 max-w-full w-full"/>
                   </div>
                   <div className='mb-3'>
                     <label htmlFor="location" className='text-sm text-neutral-400'>Localização</label>
-                    <Field type="text" name="location" className="block px-2 py-3 border rounded border-neutral-400 max-w-max w-max"/>
+                    <Field type="text" name="location" className="block px-2 py-3 border rounded border-neutral-400  w-full"/>
                   </div>
                   <div className='mb-3'>
                     <label htmlFor="bio" className='text-sm text-neutral-400'>Bio</label>
-                    <Field type="text" name="bio" className="block px-2 py-3 border rounded border-neutral-400 max-w-max w-max"/>
+                    <Field as="textarea" rows="5" type="text" name="bio" className="block px-2 py-3 border rounded border-neutral-400 max-w-full resize-none w-full"/>
                   </div>
                 </Form>
               )}

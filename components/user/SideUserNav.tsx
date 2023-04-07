@@ -90,7 +90,7 @@ const SideUserNav = () => {
   return (
     <>
       {isBreakpoint ? (
-        <BottomUserNavbar />
+        <BottomUserNavbar items={items} />
       ) : (
         <div className="p-8 flex flex-end flex-col">
           <Link href="/sistema/usuario/perfil" className="mb-12">
