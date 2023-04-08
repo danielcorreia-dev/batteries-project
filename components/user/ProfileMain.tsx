@@ -147,7 +147,7 @@ const ProfileMain = (props: ProfileProps) => {
   return (
     <>
       <EditProfileForm />
-      <div className="h-screen border-r border-neutral-300 ">
+      <div className="h-screen border-x border-neutral-300 ">
         <div className="flex-col items-center justify-between mb-6 max-w-xl py-4 px-8">
           <div className="flex items-center justify-between mb-4">
             <div className="relative h-32 w-32">

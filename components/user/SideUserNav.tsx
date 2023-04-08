@@ -44,12 +44,12 @@ const SideUserNav = () => {
       icon: CiBookmark,
     },
     {
-      url: 'sistema/buscar',
-      text: 'Explore',
+      url: '/sistema/buscar',
+      text: 'Buscar',
       icon: HiOutlineMagnifyingGlass,
     },
     {
-      url: 'sistema/missoes',
+      url: '/sistema/missoes',
       text: 'Missões',
       icon: VscTag,
     },

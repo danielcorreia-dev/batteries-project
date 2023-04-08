@@ -9,10 +9,10 @@ const UserLayout = ({ children, ...props }: Props) => {
   return (
     <>
       <div className='flex mx-auto max-w-7xl'>
-        <header className='border-r border-neutral-300 h-screen'>
+        <header className=''>
           <SideUserNav />
         </header>
-        <div {...props}>{children}</div>
+        <div className='max-w-max flex-1'{...props}>{children}</div>
       </div>
     </>
   );
