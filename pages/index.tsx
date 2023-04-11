@@ -56,7 +56,7 @@ export default function Home() {
                 title="Descarte no lugar ideal"
                 Icon={TbRecycle}
                 btn="Explore os lugares de descarte"
-                href="/signup"
+                href="/cadastro"
               />
               <Card
                 content="Fique no topo do ranking entre seu círculo de amigos como o mais ecologicamente sustentável"
