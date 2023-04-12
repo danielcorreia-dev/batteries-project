@@ -1,3 +1,4 @@
+import UserProvider from '@/contexts/UserContext';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -8,7 +9,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Batteries Project</title>
       </Head>
-      <Component {...pageProps} />
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
     </>
   );
 }
