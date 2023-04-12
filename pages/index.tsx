@@ -6,7 +6,7 @@ const IndexPage = () => {
 
   useEffect(() => {
     router.push('/home');
-  }, []);
+  }, [router]);
 };
 
 export default IndexPage;

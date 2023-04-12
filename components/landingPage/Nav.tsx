@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
@@ -6,9 +7,9 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className={`${bgColor} py-8 md:bg-blue-300`}>
+    <header className={classNames(`${bgColor} py-8 md:bg-blue-200 md:border-none`, {'border-b': open === true})}>
       <div className="flex items-center justify-between xl:max-w-7xl xl:mx-auto max-w-full px-[8%] flex-wrap w-full">
-        <h1 className="font-bold text-2xl">LogoText</h1>
+        <h1 className="font-bold text-2xl">Batteries Project</h1>
 
         <FiMenu
           className="md:hidden block h-6 w-6 cursor-pointer"
@@ -24,7 +25,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
             <li>
               <Link
                 href="/about"
-                className="md:px-5 py-2 block hover:text-blue-500 font-semibold"
+                className="md:px-3 py-2 block text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
               >
                 Sobre nós
               </Link>
@@ -32,7 +33,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
             <li>
               <Link
                 href="/project"
-                className="md:px-5 py-2 block hover:text-blue-500 font-semibold"
+                className="md:px-5 py-2 block text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
               >
                 Projeto
               </Link>
@@ -40,7 +41,7 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
             <li>
               <Link
                 href="/team"
-                className="md:px-5 py-2 block hover:text-blue-500 font-semibold"
+                className="md:px-5 py-2 block text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
               >
                 Time
               </Link>
@@ -52,16 +53,16 @@ const LandingNav = ({ bgColor }: { bgColor: string }) => {
         <div
           className={`${
             open ? 'block' : 'hidden'
-          } md:flex md:items-center md:w-auto w-full`}
+          } md:flex md:items-center md:w-auto w-full md:text-inherit text-center`}
         >
           <Link
-            className="text-blue-500 hover:text-blue-700 transition-all font-semibold md:mr-4 md:mb-0"
+            className="text-indigo-700 hover:text-indigo-500 transition-all font-semibold md:mr-4 md:mb-0"
             href="/login"
           >
             Login
           </Link>
           <Link
-            className="py-2 px-5 bg-blue-500 text-white hover:bg-blue-700 rounded mt-2 md:mt-0 transition-colors block"
+            className="py-2 px-5 bg-indigo-800 text-white hover:bg-blue-900 rounded mt-2 md:mt-0 transition-colors block"
             href="cadastro"
           >
             Cadastre-se

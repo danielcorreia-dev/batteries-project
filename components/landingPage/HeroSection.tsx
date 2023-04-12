@@ -5,15 +5,15 @@ import heroPhoto from '../../public/hero-illustration.svg';
 const HeroSection = () => {
   return (
     <main>
-      <div className="relative px-6 lg:px-6 bg-blue-300 ">
+      <div className="relative px-6 lg:px-6 bg-blue-200 ">
         <div className="mx-auto max-w-5xl py-32 sm:py-48 lg:py-56 grid gap-4 md:grid-cols-2 items-center">
           <div className="text-center md:text-start mb-12">
-            <h1 className="text-6xl font-bold mb-6 ">
+            <h1 className="text-6xl font-bold mb-6 text-indigo-800">
               Contribua, Cresça, Ganhe.
             </h1>
-            <p className="text-gray-800 mb-12">
+            <p className="text-gray-800 mb-12 max-w-md">
               Um projeto inovador e voltado para sustentabilidade, junte-se a
-              nossa comunidade{' '}
+              nossa comunidade.
             </p>
             <Button content="Saiba mais" link="/signup"></Button>
           </div>

@@ -19,8 +19,8 @@ const Card: FunctionComponent<Props> = ({
   return (
     <div className="border border-gray-300 rounded p-6 hover:shadow-lg hover:scale-105 transition-all">
       <div>{Icon && <Icon className="h-8 w-8 text-purple-500 mb-6" />}</div>
-      <h3 className="font-bold text-2xl mb-4">{title}</h3>
-      <p>{content}</p>
+      <h3 className="font-bold text-2xl mb-4 text-indigo-800">{title}</h3>
+      <p className='text-gray-800'>{`${content}.`}</p>
       <Link
         href={`${href}`}
         className={`${

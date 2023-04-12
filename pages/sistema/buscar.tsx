@@ -90,7 +90,7 @@ const SearchBar = () => {
             <div className="mt-4">
               {loading ? <p>Loading...</p> : null}
               {results.map((item, index) => (
-                <Link href={`/sistema/empresa/${item.id}`}>
+                <Link key={item.id} href={`/sistema/empresa/${item.id}`}>
                   <p
                     className={classNames(
                       'hover:text-gray-500 hover:border-neutral-300 border border-transparent transition-colors px-2 py-4 mb-2 rounded',

@@ -10,7 +10,7 @@ interface Props {
 const LandingLayout = ({ children, ...props }: Props) => {
   return (
     <>
-      <Nav bgColor="bg-blue-300"></Nav>
+      <Nav bgColor="bg-blue-200"></Nav>
       <HeroSection />
       <div {...props}>{children}</div>
       <Footer />

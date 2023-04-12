@@ -26,9 +26,12 @@ const Footer = () => {
 
   const links = (items: FooterItems[]) =>
     items.map((item) => (
-      <li className='mb-2'>
+      <li key={item.link} className="mb-2">
         {item.link ? (
-          <Link href={item.link} className="hover:text-neutral-400 transition-colors">
+          <Link
+            href={item.link}
+            className="hover:text-neutral-400 transition-colors"
+          >
             {item.title}
           </Link>
         ) : (

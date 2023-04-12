@@ -4,7 +4,7 @@ import { Inter } from '@next/font/google';
 import Link from 'next/link';
 import { TbLeaf, TbTrophy, TbRecycle } from 'react-icons/tb';
 import { IoEnterOutline } from 'react-icons/io5';
-import naturalSlide from 'public/natural-slide1.svg';
+import diretionSlide from 'public/Directions-rafiki.svg'
 import achievSlide from 'public/achievement-slide2.svg';
 import mobileSlide from 'public/mobile-slide.svg'
 import Slider from '@/components/Slider';
@@ -13,10 +13,10 @@ const inter = Inter({ subsets: ['latin'] });
 
 const slides = [
   {
-    image: naturalSlide,
-    title: 'Slide 1 Title',
+    image: diretionSlide,
+    title: 'Tudo mapeado na sua mão',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce commodo velit nisl, quis tempor tellus aliquam a. Mauris commodo consequat dolor at vulputate. Aenean ullamcorper gravida leo, non iaculis ipsum consectetur in.',
+      'Todas as localidades onde o lixo pode ser descartado da maneira ideal agora estão na palma da sua mão, nunca foi tão rápido de achar onde despejar de forma sustentável e correta.',
   },
   {
     image: achievSlide,
@@ -28,7 +28,7 @@ const slides = [
     image: mobileSlide,
     title: 'Responsivo e atualizado',
     content:
-      'Confira as principais localidades e missões próximos de você com qualquer aparelho, nossa comunidade está constantemente se atualizando e melhorando para garantir a você a melhor experiência para ajudar o mundo.',
+      'Confira as principais missões e benefícios com qualquer aparelho, nossa comunidade está constantemente se atualizando e melhorando para garantir a você a melhor experiência para ajudar o mundo.',
   },
 ];
 
@@ -40,10 +40,10 @@ export default function Home() {
         <section className="py-12 px-8 mb-32">
           <div className="mx-auto md:max-w-6xl">
             <div className="text-center mb-16 mx-8 md:mx-0">
-              <span className="uppercase font-bold text-md mb-2 block">
+              <span className="uppercase font-bold text-md mb-2 block text-indigo-700">
                 rede social sustentável
               </span>
-              <h2 className="text-4xl font-bold">Ajude o mundo e se divirta</h2>
+              <h2 className="text-4xl font-bold text-indigo-800">Ajude o mundo e se divirta</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-16 mx-8 md:mx-0">
               <Card
@@ -68,13 +68,13 @@ export default function Home() {
         </section>
 
         {/* Slider Section */}
-        <section className='py-12 px-8 mb-20'>
+        <section className='py-12 px-8 md:mb-20'>
           <div className="mx-auto max-w-5xl">
             <div className='text-center md:text-left'>
-              <span className="uppercase font-bold text-md mb-2 block">
+              <span className="uppercase font-bold text-md mb-2 block text-indigo-700">
                 interativo e responsivo
               </span>
-              <h2 className="text-4xl font-bold leading-snug">
+              <h2 className="text-4xl font-bold leading-snug text-indigo-800 md:mb-8 mb-4">
                 Construa relações atráves <br /> da sustentabilidade
               </h2>
             </div>
