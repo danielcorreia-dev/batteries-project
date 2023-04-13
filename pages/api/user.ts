@@ -20,7 +20,7 @@ export default function handler(
       name: 'Bruno Golveia',
       location: 'São Paulo, SP',
       bio: '💻🏃‍♂️ Sou desenvolvedor de software e amante do ciclismo. Tenho como meta ajudar o meio ambiente entre os dois!',
-      avatar: 'https://source.unsplash.com/random',
+      avatar: 'https://source.unsplash.com/random?guy',
       points: 12,
       achievments: 2,
       savedPlaces: 3,

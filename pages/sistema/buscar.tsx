@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image'
 import UserLayout from '@/components/layouts/UserLayout';
 import Link from 'next/link';
 import classNames from 'classnames';
@@ -10,21 +11,21 @@ interface Item {
 }
 
 const data: Item[] = [
-  { id: 1, title: 'Lorem Ipsum' },
-  { id: 2, title: 'Dolor Sit Amet' },
-  { id: 3, title: 'Consectetur Adipiscing Elit' },
-  { id: 4, title: 'Sed Do Eiusmod Tempor Incididunt' },
-  { id: 5, title: 'Ut Labore Et Dolore Magna Aliqua' },
-  { id: 6, title: 'Ut Enim Ad Minim Veniam' },
-  { id: 7, title: 'Quis Nostrud Exercitation Ullamco' },
-  { id: 8, title: 'Laboris Nisi Ut Aliquip' },
-  { id: 9, title: 'Ex Ea Commodo Consequat' },
-  { id: 10, title: 'Duis Aute Irure Dolor In Reprehenderit' },
-  { id: 11, title: 'Voluptate Velit Esse Cillum Dolore' },
-  { id: 12, title: 'Fugiat Nulla Pariatur' },
-  { id: 13, title: 'Excepteur Sint Occaecat Cupidatat' },
-  { id: 14, title: 'Non Proident, Sunt In Culpa' },
-  { id: 15, title: 'Qui Officia Deserunt Mollit Anim' },
+  { id: 1, title: 'Pão de Açúcar' },
+  { id: 2, title: 'ExtraFarma' },
+  { id: 3, title: 'Nestlé Brasil' },
+  { id: 4, title: 'Carrefour' },
+  { id: 5, title: 'Farmácias Pague Menos' },
+  { id: 6, title: 'Cargill' },
+  { id: 7, title: 'Droga Raia' },
+  { id: 8, title: 'JBS' },
+  { id: 9, title: 'Walmart Brasil' },
+  { id: 10, title: 'Ultrafarma' },
+  { id: 11, title: 'Perdigão' },
+  { id: 12, title: 'Drogasil' },
+  { id: 13, title: 'Sadia' },
+  { id: 14, title: 'DIA Supermercados' },
+  { id: 15, title: 'Grupo Big' },
 ];
 
 const useDebounce = (value: string, delay: number) => {
@@ -90,10 +91,13 @@ const SearchBar = () => {
             <div className="mt-4">
               {loading ? <p>Loading...</p> : null}
               {results.map((item, index) => (
-                <Link key={item.id} href={`/sistema/empresa/${item.id}`}>
+                <Link key={item.id} href={`/sistema/empresa/${item.id}`} className='flex items-center mb-2'>
+                  <div className='h-16 w-16 relative mr-2'>
+                    <Image src={`https://source.unsplash.com/random?$${Math.random}&stores`} alt={''} fill className='rounded-full'/>
+                  </div>
                   <p
                     className={classNames(
-                      'hover:text-gray-500 hover:border-neutral-300 border border-transparent transition-colors px-2 py-4 mb-2 rounded',
+                      'hover:text-gray-500 transition-colors px-2 py-4 mb-2 rounded',
                       { 'mb-0': index === results.length }
                     )}
                     key={item.id}

@@ -1,24 +1,50 @@
 import Image from 'next/image';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { GrLocation } from 'react-icons/gr';
-import { RiRecycleFill, RiTrophyLine, RiStarLine, RiCloseLine, RiTimerFlashLine, RiPhoneFill } from 'react-icons/ri';
+import {
+  RiRecycleFill,
+  RiCloseLine,
+  RiTimerFlashLine,
+  RiPhoneFill,
+  RiBatterySaverLine,
+} from 'react-icons/ri';
+import { FaPills } from 'react-icons/fa';
 import classNames from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
 interface IconProps {
   Icon: React.ElementType;
+  variant?: string;
   points?: number | string;
   label: string;
 }
 
-const IconInfo: FunctionComponent<IconProps> = ({ Icon, points, label }) => {
-  return (
-    <span className="flex items-center text-sm">
-      {Icon && <Icon size={24} className="inline-block mr-1" />}
-      <b className="mr-1">{points}</b> {label}
-    </span>
-  );
+const IconInfo: FunctionComponent<IconProps> = ({
+  Icon,
+  variant,
+  points,
+  label,
+}) => {
+  switch (variant) {
+    case 'company':
+      return (
+        <span className={classNames('flex items-center text-sm mb-1')}>
+          {Icon && <Icon size={24} className="inline-block mr-1" />}
+          <div className="block">
+            <p>{label}</p>
+            <b className="mr-1">{points}</b>
+          </div>
+        </span>
+      );
+    default:
+      return (
+        <span className={classNames('flex items-center text-sm mb-1')}>
+          {Icon && <Icon size={24} className="inline-block mr-1" />}
+          <b className="mr-1">{points}</b> {label}
+        </span>
+      );
+  }
 };
 
 interface CompanyProps {
@@ -26,6 +52,7 @@ interface CompanyProps {
   name: string;
   location?: string;
   bio?: string;
+  trashType: 1 | 2 | 3;
   points?: number;
   businessHours?: string;
   contact?: string;
@@ -79,7 +106,7 @@ const CompanyProfileMain = (props: CompanyProps) => {
     },
     {
       title: 'Benefícios',
-    }
+    },
   ];
 
   const EditProfileForm = () => {
@@ -121,17 +148,40 @@ const CompanyProfileMain = (props: CompanyProps) => {
             >
               {({ errors, touched }) => (
                 <Form>
-                  <div className='mb-3'>
-                    <label htmlFor="name" className='text-sm text-neutral-400'>Name</label>
-                    <Field type="text" name="name" className="block px-2 py-3 border rounded border-neutral-400 max-w-full w-full"/>
+                  <div className="mb-3">
+                    <label htmlFor="name" className="text-sm text-neutral-400">
+                      Name
+                    </label>
+                    <Field
+                      type="text"
+                      name="name"
+                      className="block px-2 py-3 border rounded border-neutral-400 max-w-full w-full"
+                    />
                   </div>
-                  <div className='mb-3'>
-                    <label htmlFor="location" className='text-sm text-neutral-400'>Localização</label>
-                    <Field type="text" name="location" className="block px-2 py-3 border rounded border-neutral-400  w-full"/>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="location"
+                      className="text-sm text-neutral-400"
+                    >
+                      Localização
+                    </label>
+                    <Field
+                      type="text"
+                      name="location"
+                      className="block px-2 py-3 border rounded border-neutral-400  w-full"
+                    />
                   </div>
-                  <div className='mb-3'>
-                    <label htmlFor="bio" className='text-sm text-neutral-400'>Bio</label>
-                    <Field as="textarea" rows="5" type="text" name="bio" className="block px-2 py-3 border rounded border-neutral-400 max-w-full resize-none w-full"/>
+                  <div className="mb-3">
+                    <label htmlFor="bio" className="text-sm text-neutral-400">
+                      Bio
+                    </label>
+                    <Field
+                      as="textarea"
+                      rows="5"
+                      type="text"
+                      name="bio"
+                      className="block px-2 py-3 border rounded border-neutral-400 max-w-full resize-none w-full"
+                    />
                   </div>
                 </Form>
               )}
@@ -171,6 +221,29 @@ const CompanyProfileMain = (props: CompanyProps) => {
               {props.location}
             </p>
             <p className="text-gray-700">{props.bio}</p>
+            <div className="mt-2">
+              <div className="text-sm">
+                Recebemos:
+                {props.trashType === 1 && (
+                  <p className="flex items-center font-semibold flex-wrap">
+                    <RiBatterySaverLine className="inline-block mr-2" /> Pilhas
+                    e baterias.
+                  </p>
+                )}
+                {props.trashType === 2 && (
+                  <p className="flex items-center font-semibold flex-wrap">
+                    <FaPills className="inline-block mr-2" /> Medicamentos.
+                  </p>
+                )}
+                {props.trashType === 3 && (
+                  <p className='flex items-center font-semibold flex-wrap'>
+                    <FaPills className="inline-block mr-1"/>
+                    <RiBatterySaverLine className="inline-block mr-2" />
+                    Medicamentos, pilhas e baterias.
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
           <div className="flex flex-col sm:items-center justify-between sm:flex-row">
             <IconInfo
@@ -179,11 +252,13 @@ const CompanyProfileMain = (props: CompanyProps) => {
               label={'Descartes'}
             />
             <IconInfo
+              variant="company"
               Icon={RiTimerFlashLine}
               points={props.businessHours}
               label={'Horário de Func.'}
             />
             <IconInfo
+              variant="company"
               Icon={RiPhoneFill}
               points={props.contact}
               label={'Contato'}

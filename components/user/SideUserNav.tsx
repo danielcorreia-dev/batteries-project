@@ -1,10 +1,11 @@
 import classNames from 'classnames';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Router, useRouter } from 'next/router';
 import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { CiBookmark } from 'react-icons/ci';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import BottomUserNavbar from './BottomUserNavbar';
 
 const SideUserNav = () => {
@@ -29,12 +30,11 @@ const SideUserNav = () => {
     return targetReached;
   };
 
-
   const router = useRouter();
-  const agent = 'usuario';
+  const agent = 'empresa';
   const items = [
     {
-      url: '/sistema/usuario/perfil',
+      url: `/sistema/${agent}/perfil`,
       text: 'Perfil',
       icon: VscAccount,
     },
@@ -92,11 +92,30 @@ const SideUserNav = () => {
       {isBreakpoint ? (
         <BottomUserNavbar items={items} />
       ) : (
-        <div className="p-8 flex flex-end flex-col">
-          <Link href="/sistema/usuario/perfil" className="mb-12">
-            <h1>Batteries App</h1>
-          </Link>
-          <nav>{links}</nav>
+        <div className="p-8 flex flex-end flex-col justify-between h-full">
+          <div>
+            <Link href="/sistema/usuario/perfil" className="mb-12">
+              <h1>Batteries App</h1>
+            </Link>
+            <nav>{links}</nav>
+          </div>
+          {/* User Profile mini-section 
+          TODO: User Provider Logic */}
+          <div className="flex items-start">
+            <div className="relative h-12 w-12 mr-2">
+              <Image
+                src="https://source.unsplash.com/random?guy"
+                alt="Avatar"
+                className="rounded-full"
+                objectFit="cover"
+                fill
+              />
+            </div>
+            <div>
+              <p>Bruno Golveia</p>
+              <p className="text-xs text-gray-600">São Paulo, SP</p>
+            </div>
+          </div>
         </div>
       )}
     </>

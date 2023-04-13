@@ -6,6 +6,7 @@ type Company = {
   name: string;
   location: string;
   bio: string;
+  trashType: 1 | 2 | 3;
   avatar: string;
   points: number;
   businessHours: string;
@@ -21,6 +22,7 @@ const Perfil = ({
         <CompanyProfileMain
           name={company.name}
           bio={company.bio}
+          trashType={company.trashType}
           location={company.location}
           avatar={company.avatar}
           points={company.points}
