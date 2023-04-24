@@ -1,34 +1,25 @@
-import { Children, createContext, FC, useState } from 'react'
+import { createContext } from 'react';
 
-interface User {
-  id: number; 
-  username: string;
+interface AuthContextType {
+  isAuthenticated: boolean;
+}
+
+interface SignInData {
   email: string;
+  password: string;
 }
 
-interface UserContextProps {
-  user: User | null;
-  setUser: (user: User | null) => void;
-}
+export const AuthContext = createContext({} as AuthContextType);
 
-export const UserContext = createContext<UserContextProps>({
-  user: null,
-  setUser: () => null,
-})
+const UserContext = ({ children }) => {
+  const isAuthenticated = false;
 
-interface UserProviderProps {
-  children: React.ReactNode;
-}
-
-const UserProvider: FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const signIn = async (data: SignInData) => {
+  }
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ isAuthenticated }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
-
-export default UserProvider;
-

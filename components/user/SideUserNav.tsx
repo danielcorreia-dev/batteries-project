@@ -1,35 +1,15 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { CiBookmark } from 'react-icons/ci';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BottomUserNavbar from './BottomUserNavbar';
 
 const SideUserNav = () => {
-  const useMediaQuery = (width: number) => {
-    const [targetReached, setTargetReached] = useState(false);
-
-    const updateTarget = useCallback((e: MediaQueryListEvent) => {
-      e.matches ? setTargetReached(true) : setTargetReached(false);
-    }, []);
-
-    useEffect(() => {
-      const media = window.matchMedia(`(max-width: ${width}px)`);
-      media.addListener(updateTarget);
-
-      if (media.matches) {
-        setTargetReached(true);
-      }
-
-      return () => media.removeListener(updateTarget);
-    }, []);
-
-    return targetReached;
-  };
-
+  const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
   const agent = 'empresa';
   const items = [
@@ -60,6 +40,13 @@ const SideUserNav = () => {
     },
   ];
 
+  useEffect(() => {
+    const handleResize = () => setIsBreakpoint(window.innerWidth <= 767);
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const links = items.map((item) => (
     <Link
       className={classNames(
@@ -70,7 +57,7 @@ const SideUserNav = () => {
         'list-none hover:text-blue-400'
       )}
       href={item.url}
-      key={'side-bar-' + item.url + item.text}
+      key={`side-bar-${item.url}-${item.text}`}
     >
       <li className="flex items-center">
         <item.icon size={32} />
@@ -84,8 +71,6 @@ const SideUserNav = () => {
       </li>
     </Link>
   ));
-
-  const isBreakpoint = useMediaQuery(767);
 
   return (
     <>
