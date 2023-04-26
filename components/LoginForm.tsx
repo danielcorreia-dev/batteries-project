@@ -1,30 +1,40 @@
-import { Formik, Field, ErrorMessage, Form } from 'formik';
+import { Formik, Field, ErrorMessage, Form, FormikHelpers } from 'formik';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 import * as Yup from 'yup';
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-const initialValues: LoginFormValues = {
-  email: '',
-  password: '',
-  rememberMe: false,
-};
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('email invalido')
-    .required('Insira um e-mail válido'),
-  password: Yup.string().required(''),
-});
-
-const onSubmit = (values: LoginFormValues) => {
-  console.log(values);
-};
+import { signIn } from 'next-auth/react';
 
 const LoginForm = () => {
+  const [authError, setAuthError] = useState<string>('');
+  const { push } = useRouter();
+  interface LoginFormValues {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  }
+
+  const initialValues: LoginFormValues = {
+    email: '',
+    password: '',
+    rememberMe: false,
+  };
+
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('email invalido')
+      .required('Insira um e-mail válido'),
+    password: Yup.string().required(''),
+  });
+
+  const onSubmit = async (
+    { email, password, rememberMe }: LoginFormValues,
+    { setSubmitting }: FormikHelpers<LoginFormValues>
+  ) => {
+    await signIn(email, password);
+    await setSubmitting(false);
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -59,7 +69,7 @@ const LoginForm = () => {
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
           </div>
-          <div className='mb-4'>
+          <div className="mb-4">
             <label htmlFor="rememberMe">
               <Field
                 type="checkbox"
@@ -77,6 +87,7 @@ const LoginForm = () => {
           >
             Entrar
           </button>
+          {authError && <div>{authError}</div>}
         </Form>
       )}
     </Formik>
