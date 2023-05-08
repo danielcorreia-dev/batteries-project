@@ -7,8 +7,11 @@ import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { CiBookmark } from 'react-icons/ci';
 import { useEffect, useState } from 'react';
 import BottomUserNavbar from './BottomUserNavbar';
+import { useSession } from 'next-auth/react';
+import Button from '../landingPage/Button';
 
 const SideUserNav = () => {
+  const { data: session } = useSession();
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
   const agent = 'empresa';
@@ -99,6 +102,10 @@ const SideUserNav = () => {
             <div>
               <p>Bruno Golveia</p>
               <p className="text-xs text-gray-600">São Paulo, SP</p>
+              {session?.user ? 
+              <>
+                {session.user.name}
+              </> : <></>}
             </div>
           </div>
         </div>

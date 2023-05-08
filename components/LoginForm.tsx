@@ -1,9 +1,8 @@
 import { Formik, Field, ErrorMessage, Form, FormikHelpers } from 'formik';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
 import * as Yup from 'yup';
-import { signIn } from 'next-auth/react';
 
 const LoginForm = () => {
   const [authError, setAuthError] = useState<string>('');
@@ -31,8 +30,7 @@ const LoginForm = () => {
     { email, password, rememberMe }: LoginFormValues,
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
-    await signIn(email, password);
-    await setSubmitting(false);
+    const result = await signIn("credentials", { email, password, redirect: true, callbackUrl: '/home'})
   };
 
   return (
