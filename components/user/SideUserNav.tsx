@@ -100,12 +100,8 @@ const SideUserNav = () => {
               />
             </div>
             <div>
-              <p>Bruno Golveia</p>
+              <p>{session?.user.nick}</p>
               <p className="text-xs text-gray-600">São Paulo, SP</p>
-              {session?.user ? 
-              <>
-                {session.user.name}
-              </> : <></>}
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import UserLayout from '@/components/layouts/UserLayout';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 
@@ -8,7 +9,9 @@ const Perfil = (props: Props) => {
   console.log(session?.user.nick);
   return (
     <>
-      <div>{session?.user.nick}</div>
+      <UserLayout>
+
+      </UserLayout>
     </>
   );
 };

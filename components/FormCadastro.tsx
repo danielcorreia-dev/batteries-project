@@ -1,9 +1,9 @@
 import { RiBatteryChargeLine } from 'react-icons/ri';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 interface FormValues {
   email: string;
-  username: string;
+  nick: string;
   password: string;
   confirmPassword: string;
   createdOn: Date;
@@ -11,15 +11,17 @@ interface FormValues {
 
 const initialValues: FormValues = {
   email: '',
-  username: '',
+  nick: '',
   password: '',
   confirmPassword: '',
-  createdOn: new Date,
+  createdOn: new Date(),
 };
 
 const validationSchema = Yup.object({
-  email: Yup.string().email('Email invalido').required('Insira um e-mail válido'),
-  username: Yup.string().required('Insira um nome de usuário válido'),
+  email: Yup.string()
+    .email('Email invalido')
+    .required('Insira um e-mail válido'),
+  nick: Yup.string().required('Insira um nome de usuário válido'),
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters')
     .required('Required'),
@@ -29,8 +31,21 @@ const validationSchema = Yup.object({
   createdOn: Yup.date().required('Required'),
 });
 
-const onSubmit = (values: FormValues) => {
-  console.log(values);
+const onSubmit = async (
+  { email, nick, password }: FormValues,
+  { setSubmitting }: FormikHelpers<FormValues>
+) => {
+  const res = await fetch('http://localhost:3000/auth/sign-up', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: {
+      nick,
+      email,
+      password,
+    },
+  });
 };
 
 const FormCadastro = () => {
@@ -42,7 +57,7 @@ const FormCadastro = () => {
     >
       {({ errors, touched }) => (
         <Form>
-          <div className='mb-4'>
+          <div className="mb-4">
             <label htmlFor="email">Email:</label>
             <Field
               type="email"
@@ -56,7 +71,7 @@ const FormCadastro = () => {
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
           </div>
-          <div className='mb-4'>
+          <div className="mb-4">
             <label htmlFor="username">Username:</label>
             <Field
               type="text"
@@ -68,7 +83,7 @@ const FormCadastro = () => {
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
           </div>
-          <div className='mb-4'>
+          <div className="mb-4">
             <label htmlFor="password">Senha:</label>
             <Field
               type="password"
@@ -80,7 +95,7 @@ const FormCadastro = () => {
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
           </div>
-          <div className='mb-4'>
+          <div className="mb-4">
             <label htmlFor="confirmPassword">Confirme sua senha:</label>
             <Field
               type="password"
