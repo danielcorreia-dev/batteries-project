@@ -30,7 +30,7 @@ const LoginForm = () => {
     { email, password, rememberMe }: LoginFormValues,
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
-    const result = await signIn("credentials", { email, password, redirect: true, callbackUrl: '/home'})
+    const result = await signIn("credentials", { email, password, redirect: true, callbackUrl: '/sistema'})
   };
 
   return (
