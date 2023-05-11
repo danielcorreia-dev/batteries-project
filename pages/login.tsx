@@ -7,7 +7,7 @@ import { FiBatteryCharging } from 'react-icons/fi';
 const Login = () => (
   <>
     <NavSemLogo />
-    <main className="flex flex-col justify-center items-center mx-auto max-w-5xl h-screen">
+    <main className="flex flex-col items-center mx-auto max-w-5xl py-12">
       <Link
         href="cadastro"
         className="text-purple-500 hover:text-purple-700 mb-4"

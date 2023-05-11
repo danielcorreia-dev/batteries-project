@@ -1,6 +1,7 @@
 import { RiBatteryChargeLine } from 'react-icons/ri';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/router';
 interface FormValues {
   email: string;
   nick: string;
@@ -23,6 +24,10 @@ const validationSchema = Yup.object({
     .required('Insira um e-mail válido'),
   nick: Yup.string().required('Insira um nome de usuário válido'),
   password: Yup.string()
+    .matches(
+      /^(?=.*[A-Z])(?=.*[\W_]).+$/,
+      'Password must contain at least one uppercase letter and one special symbol'
+    )
     .min(8, 'Password must be at least 8 characters')
     .required('Required'),
   confirmPassword: Yup.string()
@@ -31,27 +36,29 @@ const validationSchema = Yup.object({
   createdOn: Yup.date().required('Required'),
 });
 
-const onSubmit = async ({ nick, email, password }: FormValues) => {
-  try {
-    const res = await fetch('/api/submit-form', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        nick,
-        email,
-        password,
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
-  } catch (err) {
-    console.error(`error ${err}`);
-  }
-};
-
 const FormCadastro = () => {
+  const router = useRouter();
+
+  const onSubmit = async ({ nick, email, password }: FormValues) => {
+    try {
+      const res = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          nick,
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+      router.push('/login');
+    } catch (err) {
+      console.error(`error ${err}`);
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
