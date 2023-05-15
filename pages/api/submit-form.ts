@@ -39,7 +39,7 @@ export default async function handler(
     console.error(error);
 
     if (res.status(402)) {
-      res.json({ message: 'oi' })
+      res.json({ message: 'oi' });
     }
 
     res

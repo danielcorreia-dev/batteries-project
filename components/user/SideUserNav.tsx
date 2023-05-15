@@ -14,7 +14,7 @@ const SideUserNav = () => {
   const { data: session } = useSession();
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
-  const agent = 'empresa';
+  const agent = 'usuario';
   const items = [
     {
       url: `/sistema/${agent}/perfil`,
