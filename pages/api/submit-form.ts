@@ -18,7 +18,6 @@ export default async function handler(
 
   const { email, nick, password }: FormData = req.body;
   try {
-
     const response = await fetch('http://localhost:3000/auth/sign-up', {
       method: 'POST',
       headers: {
@@ -26,6 +25,7 @@ export default async function handler(
       },
       body: JSON.stringify({ email, nick, password }),
     });
+    response.status;
 
     if (!response.ok) {
       throw new Error('Failed to submit form to external API');
@@ -37,6 +37,13 @@ export default async function handler(
     res.status(200).json({ message: 'Form submitted successfully!' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Failed to submit form', email, nick, password});
+
+    if (res.status(402)) {
+      res.json({ message: 'oi' })
+    }
+
+    res
+      .status(500)
+      .json({ message: 'Failed to submit form', email, nick, password });
   }
 }

@@ -1,5 +1,4 @@
-import { RiBatteryChargeLine } from 'react-icons/ri';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 interface FormValues {
@@ -7,7 +6,6 @@ interface FormValues {
   nick: string;
   password: string;
   confirmPassword: string;
-  createdOn: Date;
 }
 
 const initialValues: FormValues = {
@@ -15,7 +13,6 @@ const initialValues: FormValues = {
   nick: '',
   password: '',
   confirmPassword: '',
-  createdOn: new Date(),
 };
 
 const validationSchema = Yup.object({
@@ -26,20 +23,19 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .matches(
       /^(?=.*[A-Z])(?=.*[\W_]).+$/,
-      'Password must contain at least one uppercase letter and one special symbol'
+      'Senhas devem conter ao menos uma letra maiúscula e um caractere especial'
     )
     .min(8, 'Password must be at least 8 characters')
-    .required('Required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), ''], 'Passwords must match')
     .required('Você precisa colocar uma senha'),
-  createdOn: Yup.date().required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), ''], 'As senhas devem ser iguais')
+    .required('Você precisa confirmar sua senha'),
 });
 
 const FormCadastro = () => {
   const router = useRouter();
 
-  const onSubmit = async ({ nick, email, password }: FormValues) => {
+  const onSubmit = async ({ nick, email, password }: FormValues, { setFieldError }: any) => {
     try {
       const res = await fetch('/api/submit-form', {
         method: 'POST',
@@ -53,7 +49,13 @@ const FormCadastro = () => {
         }),
       });
       const data = await res.json();
-      router.push('/login');
+      if (res.status === 402) {
+        setFieldError('nick', 'Esse nick já existe');
+      }
+
+      if (res.ok) {
+        router.push('/login');
+      }
     } catch (err) {
       console.error(`error ${err}`);
     }
@@ -65,8 +67,8 @@ const FormCadastro = () => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      {({ errors, touched, isSubmitting }) => (
-        <Form>
+      {({ errors, touched, isSubmitting, setFieldError }) => (
+        <Form className="max-w-xs">
           <div className="mb-4">
             <label htmlFor="email">Email:</label>
             <Field
@@ -82,7 +84,7 @@ const FormCadastro = () => {
             </ErrorMessage>
           </div>
           <div className="mb-4">
-            <label htmlFor="nick">Username:</label>
+            <label htmlFor="nick">Nick:</label>
             <Field
               type="text"
               id="nick"
@@ -93,7 +95,7 @@ const FormCadastro = () => {
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
           </div>
-          <div className="mb-4">
+          <div className="mb-4 flex flex-col">
             <label htmlFor="password">Senha:</label>
             <Field
               type="password"
@@ -101,7 +103,7 @@ const FormCadastro = () => {
               name="password"
               className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
             />
-            <ErrorMessage name="password">
+            <ErrorMessage name="password" className="max-w-lg">
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
           </div>
@@ -130,43 +132,5 @@ const FormCadastro = () => {
     </Formik>
   );
 };
-
-// const sleep = (ms:number) => new Promise((r) => setTimeout(r, ms));
-
-// const FormCadastro = () => {
-//   return (
-//     <div>
-//       <h1>Sign Up</h1>
-//       <Formik
-//         initialValues={{
-//           firstName: '',
-//           lastName: '',
-//           email: '',
-//         }}
-//         onSubmit={async (values) => {
-//           await sleep(500);
-//           alert(JSON.stringify(values, null, 2));
-//         }}
-//       >
-//         {({ isSubmitting }) => (
-//           <Form>
-//             <label htmlFor="firstName">First Name</label>
-//             <Field name="firstName" placeholder="Jane" />
-
-//             <label htmlFor="lastName">Last Name</label>
-//             <Field name="lastName" placeholder="Doe" />
-
-//             <label htmlFor="email">Email</label>
-//             <Field name="email" placeholder="jane@acme.com" type="email" />
-
-//             <button type="submit" disabled={isSubmitting}>
-//               Submit
-//             </button>
-//           </Form>
-//         )}
-//       </Formik>
-//     </div>
-//   );
-// };
 
 export default FormCadastro;

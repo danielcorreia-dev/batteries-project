@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import { CiBookmark } from 'react-icons/ci';
+import { CiBookmark, CiLogout } from 'react-icons/ci';
 import { useEffect, useState } from 'react';
 import BottomUserNavbar from './BottomUserNavbar';
-import { useSession } from 'next-auth/react';
-import Button from '../landingPage/Button';
+import { signOut, useSession } from 'next-auth/react';
+import { sign } from 'crypto';
 
 const SideUserNav = () => {
   const { data: session } = useSession();
@@ -86,23 +86,17 @@ const SideUserNav = () => {
               <h1>Batteries App</h1>
             </Link>
             <nav>{links}</nav>
+            <button
+              onClick={() => signOut()}
+              className="text-red-500 flex items-center"
+            >
+              <CiLogout className="mr-2" size={32} />
+              Deslogar
+            </button>
           </div>
-          {/* User Profile mini-section 
-          TODO: User Provider Logic */}
-          <div className="flex items-start">
-            <div className="relative h-12 w-12 mr-2">
-              <Image
-                src="https://source.unsplash.com/random?guy"
-                alt="Avatar"
-                className="rounded-full"
-                objectFit="cover"
-                fill
-              />
-            </div>
-            <div>
-              <p>{session?.user.nick}</p>
-              <p className="text-xs text-gray-600">São Paulo, SP</p>
-            </div>
+
+          <div>
+            <p>{session?.user.nick}</p>
           </div>
         </div>
       )}

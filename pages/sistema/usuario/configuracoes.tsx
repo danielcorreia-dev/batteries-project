@@ -20,7 +20,7 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
 
   return (
     <div className="grid grid-cols-2 border-l">
-      <div className="w-max max-w-full border-r border-neutral-300 h-screen">
+      <div className="max-w-full border-r border-neutral-300 h-screen w-80">
         <h1 className="px-4 py-6 font-bold text-2xl capitalize mb-10">
           configurações
         </h1>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Image from 'next/image'
+import Image from 'next/image';
 import UserLayout from '@/components/layouts/UserLayout';
 import Link from 'next/link';
 import classNames from 'classnames';
@@ -48,6 +48,7 @@ const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const debouncedQuery = useDebounce(query, 500);
 
@@ -91,9 +92,18 @@ const SearchBar = () => {
             <div className="mt-4">
               {loading ? <p>Loading...</p> : null}
               {results.map((item, index) => (
-                <Link key={item.id} href={`/sistema/empresa/${item.id}`} className='flex items-center mb-2'>
-                  <div className='h-16 w-16 relative mr-2'>
-                    <Image src={`https://source.unsplash.com/random?$${Math.random}&stores`} alt={''} fill className='rounded-full'/>
+                <Link
+                  key={item.id}
+                  href={`/sistema/empresa/${item.id}`}
+                  className="flex items-center mb-2"
+                >
+                  <div className="h-16 w-16 relative mr-2">
+                    <Image
+                      src={`https://source.unsplash.com/random?$${Math.random}&stores`}
+                      alt={''}
+                      fill
+                      className="rounded-full"
+                    />
                   </div>
                   <p
                     className={classNames(
