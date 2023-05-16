@@ -7,7 +7,7 @@ import { IoEnterOutline } from 'react-icons/io5';
 import diretionSlide from 'public/Directions-rafiki.svg'
 import achievSlide from 'public/achievement-slide2.svg';
 import mobileSlide from 'public/mobile-slide.svg'
-import Slider from '@/components/Slider';
+import Slider from '@/components/landingPage/Slider';
 
 const inter = Inter({ subsets: ['latin'] });
 

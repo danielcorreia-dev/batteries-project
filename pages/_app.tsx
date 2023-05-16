@@ -11,9 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Batteries Project</title>
       </Head>
       <Provider>
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
+        <Component {...pageProps} />
       </Provider>
     </>
   );

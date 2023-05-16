@@ -1,20 +1,22 @@
-import classNames from 'classnames';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { CiBookmark, CiLogout } from 'react-icons/ci';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
 import BottomUserNavbar from './BottomUserNavbar';
-import { signOut, useSession } from 'next-auth/react';
-import { sign } from 'crypto';
+import classNames from 'classnames';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useUserContext } from '../layouts/UserProvider';
 
 const SideUserNav = () => {
-  const { data: session } = useSession();
+  const { userData, setUser } = useUserContext();
+  const { nick } = userData || {};
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
   const agent = 'usuario';
+
   const items = [
     {
       url: `/sistema/${agent}/perfil`,
@@ -95,8 +97,9 @@ const SideUserNav = () => {
             </button>
           </div>
 
-          <div>
-            <p>{session?.user.nick}</p>
+          {/* User Menu */}
+          <div className='flex'>
+            <p className='hover:opacity-80 transition-opacity'>{ nick }</p>
           </div>
         </div>
       )}
