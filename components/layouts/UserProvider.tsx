@@ -5,6 +5,7 @@ interface UserData {
   nick: string;
   scores: number;
   email: string;
+  company: string | null | undefined;
 }
 
 interface UserContextProps {

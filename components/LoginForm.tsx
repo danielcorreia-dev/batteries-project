@@ -30,7 +30,13 @@ const LoginForm = () => {
     { email, password, rememberMe }: LoginFormValues,
     { setSubmitting }: FormikHelpers<LoginFormValues>
   ) => {
-    const result = await signIn("credentials", { email, password, redirect: true, callbackUrl: '/sistema'})
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+
+    (!result?.ok) ? setAuthError('Email ou senha inválido') : push('/sistema');
   };
 
   return (
@@ -66,6 +72,7 @@ const LoginForm = () => {
             <ErrorMessage name="password">
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
+
           </div>
           <div className="mb-4">
             <label htmlFor="rememberMe">
@@ -81,11 +88,11 @@ const LoginForm = () => {
           </div>
           <button
             type="submit"
-            className="border py-2 px-4 rounded bg-violet-500 text-white w-100 w-max"
+            className="border py-2 px-4 mb-4 rounded bg-violet-500 text-white w-100 w-max"
           >
             Entrar
           </button>
-          {authError && <div>{authError}</div>}
+            {authError && <div className='text-red-500'>{authError}</div>}
         </Form>
       )}
     </Formik>

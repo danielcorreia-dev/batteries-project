@@ -1,4 +1,3 @@
-import { errors } from 'jose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface FormData {

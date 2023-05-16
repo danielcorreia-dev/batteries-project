@@ -35,9 +35,12 @@ const validationSchema = Yup.object({
 const FormCadastro = () => {
   const router = useRouter();
 
-  const onSubmit = async ({ nick, email, password }: FormValues, { setFieldError }: any) => {
+  const onSubmit = async (
+    { nick, email, password }: FormValues,
+    { setFieldError }: any
+  ) => {
     try {
-      const res = await fetch('/api/submit-form', {
+      const res = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -61,8 +64,8 @@ const FormCadastro = () => {
     }
   };
 
-  return (
-    <Formik
+    return (
+      <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}

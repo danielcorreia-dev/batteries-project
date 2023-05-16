@@ -1,6 +1,6 @@
 import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
+import { CiBookmark, CiLogout, CiShop } from 'react-icons/ci';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import { CiBookmark, CiLogout } from 'react-icons/ci';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
@@ -12,12 +12,12 @@ import { useUserContext } from '../layouts/UserProvider';
 
 const SideUserNav = () => {
   const { userData, setUser } = useUserContext();
-  const { nick } = userData || {};
+  const { nick, company } = userData || {};
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
   const agent = 'usuario';
 
-  const items = [
+  const baseItems = [
     {
       url: `/sistema/${agent}/perfil`,
       text: 'Perfil',
@@ -52,7 +52,7 @@ const SideUserNav = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const links = items.map((item) => (
+  const links = baseItems.map((item) => (
     <Link
       className={classNames(
         'p-4',
@@ -80,26 +80,42 @@ const SideUserNav = () => {
   return (
     <>
       {isBreakpoint ? (
-        <BottomUserNavbar items={items} />
+        <BottomUserNavbar items={baseItems} />
       ) : (
         <div className="p-8 flex flex-end flex-col justify-between h-full">
           <div>
             <Link href="/sistema/usuario/perfil" className="mb-12">
               <h1>Batteries App</h1>
             </Link>
-            <nav>{links}</nav>
+            <nav>
+              {links}
+              {company ? (
+                <Link href="/sistema/"></Link>
+              ) : (
+                <Link
+                  href="/sistema/criar-empresa"
+                  className="p-4 list-none hover:text-blue-400"
+                >
+                  <div className="flex items-center justify-start">
+                    <CiShop size={32} /> <p className="px-2">Criar empresa</p>
+                  </div>
+                </Link>
+              )}
+            </nav>
+
             <button
               onClick={() => signOut()}
               className="text-red-500 flex items-center"
             >
+              <div></div>
               <CiLogout className="mr-2" size={32} />
               Deslogar
             </button>
           </div>
 
           {/* User Menu */}
-          <div className='flex'>
-            <p className='hover:opacity-80 transition-opacity'>{ nick }</p>
+          <div className="flex">
+            <p className="hover:opacity-80 transition-opacity">{nick}</p>
           </div>
         </div>
       )}

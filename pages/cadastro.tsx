@@ -1,4 +1,4 @@
-import FormCadastro from '@/components/FormCadastro';
+import FormCadastro from '@/components/FormUserSignup';
 import Footer from '@/components/landingPage/Footer';
 import NavSemLogo from '@/components/NavSemLogo';
 import Link from 'next/link';
