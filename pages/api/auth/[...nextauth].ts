@@ -17,8 +17,9 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
+        const api = process.env.API_URL
         const { email, password } = credentials as any;
-        const res = await fetch('http:localhost:3000/auth/sign-in', {
+        const res = await fetch(`${api}/auth/sign-in`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

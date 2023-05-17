@@ -36,7 +36,7 @@ const LoginForm = () => {
       redirect: false,
     });
 
-    (!result?.ok) ? setAuthError('Email ou senha inválido') : push('/sistema');
+    !result?.ok ? setAuthError('Email ou senha inválido') : push('/sistema/');
   };
 
   return (
@@ -72,7 +72,6 @@ const LoginForm = () => {
             <ErrorMessage name="password">
               {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
             </ErrorMessage>
-
           </div>
           <div className="mb-4">
             <label htmlFor="rememberMe">
@@ -92,7 +91,7 @@ const LoginForm = () => {
           >
             Entrar
           </button>
-            {authError && <div className='text-red-500'>{authError}</div>}
+          {authError && <div className="text-red-500">{authError}</div>}
         </Form>
       )}
     </Formik>

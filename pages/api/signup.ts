@@ -17,7 +17,7 @@ export default async function handler(
 
   const { email, nick, password }: FormData = req.body;
   try {
-    const response = await fetch('http://localhost:3000/auth/sign-up', {
+    const response = await fetch(``, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

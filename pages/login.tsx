@@ -12,7 +12,7 @@ const Login = () => {
   const router = useRouter();
 
   if (session) {
-    return router.push('/sistema');
+    return router.push('/sistema/');
   }
 
   return (

@@ -1,5 +1,12 @@
 import { useSession } from 'next-auth/react';
-import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { useRouter } from 'next/router';
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  ReactNode,
+} from 'react';
 
 interface UserData {
   nick: string;
@@ -38,10 +45,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children, ...props }) => {
       try {
         if (session) {
           // Fetch user data using the session user ID
-          const res = await fetch(
-            // `http://localhost:3000/user/${session.user.id}`
-                `/api/get-user/1`
-          );
+          const res = await fetch(`/api/get-user/${session.user.id}`);
           const data: UserData = await res.json();
           setUserData(data);
         }
