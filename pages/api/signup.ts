@@ -16,8 +16,9 @@ export default async function handler(
   }
 
   const { email, nick, password }: FormData = req.body;
+  const api = process.env.API_URL;
   try {
-    const response = await fetch(``, {
+    const response = await fetch(`${api}/auth/sign-up`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

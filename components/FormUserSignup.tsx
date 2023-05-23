@@ -1,6 +1,8 @@
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import { useEffect, useRef } from 'react';
 interface FormValues {
   email: string;
   nick: string;
@@ -33,7 +35,25 @@ const validationSchema = Yup.object({
 });
 
 const FormCadastro = () => {
-  const router = useRouter();
+  const { push } = useRouter();
+
+  const redirectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleRedirect = () => {
+    if (redirectTimeoutRef.current) {
+      clearTimeout(redirectTimeoutRef.current);
+    }
+
+    push('/login');
+  }
+
+    useEffect(() => {
+    return () => {
+      if (redirectTimeoutRef.current) {
+        clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const onSubmit = async (
     { nick, email, password }: FormValues,
@@ -57,7 +77,8 @@ const FormCadastro = () => {
       }
 
       if (res.ok) {
-        router.push('/login');
+        toast.success('Sua conta foi criada!');
+        redirectTimeoutRef.current = setTimeout(handleRedirect, 3000);
       }
     } catch (err) {
       console.error(`error ${err}`);
