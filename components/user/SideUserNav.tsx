@@ -83,7 +83,7 @@ const SideUserNav = () => {
         <BottomUserNavbar items={baseItems} />
       ) : (
         <div className="p-8 flex flex-end flex-col justify-between h-full">
-          <div>
+          <div className="px-4">
             <Link href="/sistema/usuario/perfil" className="mb-12">
               <h1>Batteries App</h1>
             </Link>

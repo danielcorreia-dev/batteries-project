@@ -1,9 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useRouter } from 'next/router';
+import useRedirect from '@/lib/hooks/useRedirect';
 import * as Yup from 'yup';
+import { ToastContainer, toast } from 'react-toastify';
 
 const FormCompanySignUp = () => {
-  const { push } = useRouter();
+  const { handleRedirect } = useRedirect('/sistema');
   interface FormValues {
     title: string;
     address: string;
@@ -50,7 +52,8 @@ const FormCompanySignUp = () => {
       }
 
       if (res.ok) {
-        push('/sistema/');
+        toast.success('Sua empresa foi criada com sucesso');
+        setTimeout(handleRedirect, 1500);
       }
     } catch (err) {
       console.error(`error ${err}`);
@@ -58,51 +61,56 @@ const FormCompanySignUp = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ errors, touched, isSubmitting, setFieldError }) => (
-        <Form className="max-w-xs">
-          <div className="mb-4">
-            <label htmlFor="">Nome da empresa:</label>
-            <Field
-              type="text"
-              id="title"
-              name="title"
-              className={`${
-                errors.title && touched.title ? 'border-red-500 border-2' : ''
-              } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
-            />
-            <ErrorMessage name="title">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <div className="mb-4 flex flex-col">
-            <label htmlFor="password">Endereço:</label>
-            <Field
-              type="text"
-              id="address"
-              name="address"
-              className={`${
-                errors.address && touched.address ? 'border-red-500 border-2' : ''
-              } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
-            />
-            <ErrorMessage name="address" className="max-w-lg">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="border py-2 px-4 rounded bg-violet-500 text-white w-100 w-max"
-          >
-            Criar conta
-          </button>
-        </Form>
-      )}
-    </Formik>
+    <>
+      <ToastContainer />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ errors, touched, isSubmitting, setFieldError }) => (
+          <Form className="max-w-xs">
+            <div className="mb-4">
+              <label htmlFor="">Nome da empresa:</label>
+              <Field
+                type="text"
+                id="title"
+                name="title"
+                className={`${
+                  errors.title && touched.title ? 'border-red-500 border-2' : ''
+                } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
+              />
+              <ErrorMessage name="title">
+                {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
+              </ErrorMessage>
+            </div>
+            <div className="mb-4 flex flex-col">
+              <label htmlFor="password">Endereço:</label>
+              <Field
+                type="text"
+                id="address"
+                name="address"
+                className={`${
+                  errors.address && touched.address
+                    ? 'border-red-500 border-2'
+                    : ''
+                } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
+              />
+              <ErrorMessage name="address" className="max-w-lg">
+                {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
+              </ErrorMessage>
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="border py-2 px-4 rounded bg-violet-500 text-white w-100 w-max"
+            >
+              Criar conta
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 

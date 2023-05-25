@@ -21,7 +21,7 @@ export default async function handler(
   const api = process.env.API_URL
 
   try {
-    const response = await fetch('http://localhost:3000/company', {
+    const response = await fetch(`${api}/company`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

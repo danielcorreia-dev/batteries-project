@@ -3,6 +3,7 @@ import Footer from '@/components/landingPage/Footer';
 import NavSemLogo from '@/components/NavSemLogo';
 import Link from 'next/link';
 import { FiBatteryCharging } from 'react-icons/fi';
+
 const Cadastro = () => {
   return (
     <>

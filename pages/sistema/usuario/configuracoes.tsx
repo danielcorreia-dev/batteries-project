@@ -1,5 +1,7 @@
 import Button from '@/components/landingPage/Button';
 import UserLayout from '@/components/layouts/UserLayout';
+import ChangePassword from '@/components/user/configurations/ChangePassword';
+import DeleteAccount from '@/components/user/configurations/DeleteAccount';
 import UserInfo from '@/components/user/configurations/UserInfo';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -47,7 +49,7 @@ const TabComponent: React.FC<Props> = ({ tabs }) => {
           ))}
         </ul>
       </div>
-      <div className="p-4">
+      <div className="px-4 py-4">
         {React.createElement(tabs[activeTabIndex].component, {
           ...tabs[activeTabIndex].props,
         })}
@@ -63,19 +65,11 @@ const items = [
   },
   {
     title: 'Alterar sua senha',
-    component: Button,
-    props: {
-      content: 'teswte',
-      link: '/api/hello',
-    },
+    component: ChangePassword,
   },
   {
     title: 'Desativar a sua conta',
-    component: Button,
-    props: {
-      content: 'teswte3',
-      link: '/api/hello',
-    },
+    component: DeleteAccount,
   },
 ];
 

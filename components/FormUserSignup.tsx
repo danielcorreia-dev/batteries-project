@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useRef } from 'react';
 interface FormValues {
   email: string;
@@ -27,7 +27,7 @@ const validationSchema = Yup.object({
       /^(?=.*[A-Z])(?=.*[\W_]).+$/,
       'Senhas devem conter ao menos uma letra maiúscula e um caractere especial'
     )
-    .min(8, 'Password must be at least 8 characters')
+    .min(8, 'Senhas devem conter ao menos 8 caracteres')
     .required('Você precisa colocar uma senha'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), ''], 'As senhas devem ser iguais')
@@ -45,9 +45,9 @@ const FormCadastro = () => {
     }
 
     push('/login');
-  }
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     return () => {
       if (redirectTimeoutRef.current) {
         clearTimeout(redirectTimeoutRef.current);
@@ -85,75 +85,78 @@ const FormCadastro = () => {
     }
   };
 
-    return (
+  return (
+    <>
+      <ToastContainer />
       <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ errors, touched, isSubmitting, setFieldError }) => (
-        <Form className="max-w-xs">
-          <div className="mb-4">
-            <label htmlFor="email">Email:</label>
-            <Field
-              type="email"
-              id="email"
-              name="email"
-              className={`${
-                errors.email && touched.email ? 'border-red-500 border-2' : ''
-              } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
-            />
-            <ErrorMessage name="email">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="nick">Nick:</label>
-            <Field
-              type="text"
-              id="nick"
-              name="nick"
-              className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
-            />
-            <ErrorMessage name="nick">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <div className="mb-4 flex flex-col">
-            <label htmlFor="password">Senha:</label>
-            <Field
-              type="password"
-              id="password"
-              name="password"
-              className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
-            />
-            <ErrorMessage name="password" className="max-w-lg">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="confirmPassword">Confirme sua senha:</label>
-            <Field
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
-            />
-            <ErrorMessage name="confirmPassword">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <Field type="hidden" id="createdOn" name="createdOn"></Field>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="border py-2 px-4 rounded bg-violet-500 text-white w-100 w-max"
-          >
-            Criar conta
-          </button>
-        </Form>
-      )}
-    </Formik>
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ errors, touched, isSubmitting, setFieldError }) => (
+          <Form className="max-w-xs">
+            <div className="mb-4">
+              <label htmlFor="email">Email:</label>
+              <Field
+                type="email"
+                id="email"
+                name="email"
+                className={`${
+                  errors.email && touched.email ? 'border-red-500 border-2' : ''
+                } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
+              />
+              <ErrorMessage name="email">
+                {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
+              </ErrorMessage>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="nick">Nick:</label>
+              <Field
+                type="text"
+                id="nick"
+                name="nick"
+                className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
+              />
+              <ErrorMessage name="nick">
+                {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
+              </ErrorMessage>
+            </div>
+            <div className="mb-4 flex flex-col">
+              <label htmlFor="password">Senha:</label>
+              <Field
+                type="password"
+                id="password"
+                name="password"
+                className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
+              />
+              <ErrorMessage name="password" className="max-w-lg">
+                {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
+              </ErrorMessage>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="confirmPassword">Confirme sua senha:</label>
+              <Field
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
+              />
+              <ErrorMessage name="confirmPassword">
+                {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
+              </ErrorMessage>
+            </div>
+            <Field type="hidden" id="createdOn" name="createdOn"></Field>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="border py-2 px-4 rounded bg-violet-500 text-white w-100 w-max"
+            >
+              Criar conta
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 

@@ -8,10 +8,10 @@ interface Props {
 const UserLayout = ({ children, ...props }: Props) => {
   return (
     <>
-      <div className="flex mx-auto">
-        <header className='h-screen'>
+      <div className="flex mx-auto max-w-7xl">
+        <div>
           <SideUserNav />
-        </header>
+        </div>
         <div className="max-w-max flex-1" {...props}>
           {children}
         </div>
