@@ -1,4 +1,4 @@
-import { useUserContext } from '@/components/layouts/UserProvider';
+import { useUserContext } from '@/contexts/UserProvider';
 import { useSession } from 'next-auth/react';
 
 interface SectionProps {

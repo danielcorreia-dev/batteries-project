@@ -8,7 +8,9 @@ export default async function handler(
   console.log(id);
 
   try {
-    const response = await fetch(`https://batteries-backend.up.railway.app/user/${id}`);
+    const response = await fetch(
+      `https://batteries-backend.up.railway.app/user/${id}`
+    );
     const userData = await response.json();
 
     res.status(200).json(userData);

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useUserContext } from './layouts/UserProvider';
+import { useUserContext } from '../contexts/UserProvider';
 
 const NavSemLogo = () => {
   const { userData } = useUserContext();

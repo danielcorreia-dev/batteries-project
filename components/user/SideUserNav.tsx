@@ -8,7 +8,7 @@ import BottomUserNavbar from './BottomUserNavbar';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useUserContext } from '../layouts/UserProvider';
+import { useUserContext } from '../../contexts/UserProvider';
 
 const SideUserNav = () => {
   const { userData, setUser } = useUserContext();

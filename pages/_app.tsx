@@ -1,4 +1,4 @@
-import Provider from '@/components/layouts/Provider';
+import Provider from '@/contexts/Provider';
 import 'react-toastify/dist/ReactToastify.css';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';

@@ -45,7 +45,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children, ...props }) => {
       try {
         if (session) {
           // Fetch user data using the session user ID
-          const res = await fetch(`/api/get-user/${session.user.id}`);
+          const res = await fetch(`/api/user/${session.user.id}`);
           const data: UserData = await res.json();
           setUserData(data);
         }

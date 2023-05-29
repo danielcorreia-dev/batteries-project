@@ -1,9 +1,8 @@
+import { useUserContext } from '@/contexts/UserProvider';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import * as Yup from 'yup';
-
-type Props = {};
 
 interface FormValues {
   presentPassword: string;
@@ -31,9 +30,33 @@ const validationSchema = Yup.object({
     .required('Você precisa confirmar sua senha'),
 });
 
-const ChangePassword = ({}: Props) => {
-  const onSubmit = async () => {
-    return true;
+const ChangePassword = ({}: FormValues) => {
+  const { userData } = useUserContext();
+
+  const onSubmit = async ({ presentPassword, newPassword }: FormValues) => {
+    try {
+      const res = await fetch('/api/user/update', {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userData?.email,
+          password: presentPassword,
+          newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.update('Sua senha foi atualizada');
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (err) {
+      console.error(`error ${err}`);
+    }
   };
 
   return (

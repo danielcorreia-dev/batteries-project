@@ -1,26 +1,33 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import React from 'react';
-import * as Yup from 'yup';
-
-interface FormValues {
-  password: string;
-}
-
-const initialValues: FormValues = {
-  password: '',
-};
-
-const validationSchema = Yup.object({
-  password: Yup.string()
-    .matches(
-      /^(?=.*[A-Z])(?=.*[\W_]).+$/,
-      'Senhas devem conter ao menos uma letra maiúscula e um caractere especial'
-    )
-    .min(8, 'Senhas devem conter ao menos 8 caracteres')
-    .required('Você precisa inserir a sua senha'),
-});
+import { ToastContainer, toast } from 'react-toastify';
 
 const DeleteAccount = () => {
+  const { push } = useRouter();
+  const { data: session } = useSession();
+
+  const handleConfirmDelete = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:8080/api/user/delete/${session?.user.id}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      if (res.ok) {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        toast.error('Conta deletada com sucesso!');
+        push('/');
+      } else {
+        throw new Error('Erro ao deletar conta');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const DeletingPopUpBox = () => {
     return (
       <div>
@@ -41,7 +48,7 @@ const DeleteAccount = () => {
                 </button>
                 <button
                   className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-                  // onClick={handleConfirmDelete}
+                  onClick={handleConfirmDelete}
                 >
                   Deletar Conta
                 </button>
@@ -61,10 +68,10 @@ const DeleteAccount = () => {
   };
 
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-  const onSubmit = async () => {};
 
   return (
     <>
+      <ToastContainer />
       <div className="py-2 pb-10">
         <h1 className="font-bold text-2xl">Deletar sua conta</h1>
       </div>
