@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useRef } from 'react';
+
 interface FormValues {
   email: string;
   nick: string;
