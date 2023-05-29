@@ -12,9 +12,8 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session) router.push('/sistema');
-
-  }, [router, session])
+    if (session?.user) router.push('/sistema');
+  }, [router, session]);
 
   return (
     <>

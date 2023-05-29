@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,6 +17,7 @@ const DeleteAccount = () => {
       );
 
       if (res.ok) {
+        signOut();
         await new Promise((resolve) => setTimeout(resolve, 3000));
         toast.error('Conta deletada com sucesso!');
         push('/');
@@ -58,7 +59,7 @@ const DeleteAccount = () => {
         ) : null}
 
         <button
-          className="px-4 py-2 bg-red-500 text-white rounded"
+          className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
           onClick={() => setShowConfirmation(true)}
         >
           Deletar Conta
