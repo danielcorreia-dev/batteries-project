@@ -1,9 +1,10 @@
-import { useUserContext } from '@/contexts/UserProvider';
-import { useSession } from 'next-auth/react';
-
 interface SectionProps {
   title: string;
   data: string | undefined;
+}
+interface UserData {
+  nick: string;
+  email: string;
 }
 
 const SectionTab = ({ title, data }: SectionProps) => {
@@ -17,9 +18,8 @@ const SectionTab = ({ title, data }: SectionProps) => {
   );
 };
 
-const UserInfo = () => {
-  const { userData, setUser } = useUserContext();
-  const { nick, email } = userData || {};
+const UserInfo = ({ userData }: { userData: UserData }) => {
+  const { nick, email } = userData;
 
   return (
     <>
@@ -31,5 +31,4 @@ const UserInfo = () => {
     </>
   );
 };
-
 export default UserInfo;

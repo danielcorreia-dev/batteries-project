@@ -1,7 +1,7 @@
 import NavSemLogo from '@/components/NavSemLogo';
 import Footer from '@/components/landingPage/Footer';
 import FormCompanySignUp from '@/components/user/FormCompanySignup';
-import { CiShop } from 'react-icons/ci'
+import { CiShop } from 'react-icons/ci';
 
 const CreateCompany = () => {
   return (
@@ -12,7 +12,7 @@ const CreateCompany = () => {
           <div className="text-center flex flex-col justify-center items-center mb-5 max-w-xs">
             <CiShop size={32} />
             <h2 className="font-bold text-2xl">Crie a sua empresa</h2>
-            <span className="text-md text-neutral-5<00">
+            <span className="text-md text-neutral-500">
               Insira os dados iniciais sobre sua empresa
             </span>
           </div>

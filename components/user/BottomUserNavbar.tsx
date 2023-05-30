@@ -12,7 +12,7 @@ interface ItemsProps {
 }
 
 interface Items {
-  items: ItemsProps[]
+  items: ItemsProps[];
 }
 
 const BottomUserNavbar: React.FC<Items> = ({ items }) => {
@@ -31,7 +31,7 @@ const BottomUserNavbar: React.FC<Items> = ({ items }) => {
   ));
 
   return (
-    <div className="fixed w-screen bottom-2 left-1/2 -translate-x-1/2 border-t border-neutral-300">
+    <div className="fixed w-screen bottom-2 left-1/2 -translate-x-1/2 border-t border-neutral-300 bg-white">
       <div className="flex items-center justify-between">{links}</div>
     </div>
   );

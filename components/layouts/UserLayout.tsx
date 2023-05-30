@@ -12,7 +12,7 @@ const UserLayout = ({ children, ...props }: Props) => {
         <div>
           <SideUserNav />
         </div>
-        <div className="max-w-max flex-1" {...props}>
+        <div className="max-w-full flex-1" {...props}>
           {children}
         </div>
       </div>
