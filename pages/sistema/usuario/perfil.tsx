@@ -3,6 +3,8 @@ import { getSession } from 'next-auth/react';
 import type { GetServerSideProps } from 'next';
 import React from 'react';
 import ProfileMain from '@/components/user/ProfileMain';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 type UserData = {
   nick: string;
@@ -43,16 +45,16 @@ const Perfil = ({ userData, companies }: Props) => {
 export default Perfil;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
+  const session = await getServerSession(context.req, context.res, authOptions);
+  const api = process.env.API_URL;
+
   try {
-    const userDataResponse = await fetch(
-      `https://batteries-backend.up.railway.app/user/${session?.user?.id}`
-    );
+    const userDataResponse = await fetch(`${api}/user/${session?.user?.id}`);
 
     let companies = [];
     try {
       const companiesResponse = await fetch(
-        `https://batteries-backend.up.railway.app/user/${session?.user?.id}/companies/with-points`,
+        `${api}/user/${session?.user?.id}/companies/with-points`,
         {
           method: 'GET',
           headers: {

@@ -33,6 +33,7 @@ const LoginForm = () => {
     const result = await signIn('credentials', {
       email,
       password,
+      rememberMe,
       redirect: false,
     });
 
@@ -99,4 +100,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-

@@ -1,21 +1,24 @@
-import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
-import { CiBookmark, CiLogout, CiShop } from 'react-icons/ci';
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { signOut } from 'next-auth/react';
-import BottomUserNavbar from './BottomUserNavbar';
+import { signOut, useSession } from 'next-auth/react';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useUserContext } from '../../contexts/UserProvider';
 
+import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
+import { CiBookmark, CiLogout, CiShop } from 'react-icons/ci';
+import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
+import BottomUserNavbar from './BottomUserNavbar';
+
 const SideUserNav = () => {
-  const { userData, setUser } = useUserContext();
-  const { nick, company } = userData || {};
+  const { data: session } = useSession();
+  const { userData } = useUserContext();
+  const { nick } = userData || {};
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
   const agent = 'usuario';
+  const [hasCompany, setHasCompany] = useState(false);
 
   const baseItems = [
     {
@@ -52,8 +55,32 @@ const SideUserNav = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const fetchUserCompany = async () => {
+      try {
+        const response = await fetch(`/api/user/${session?.user.id}/company`);
+        const data = await response.json();
+
+        if (response.ok) {
+          const { companyData } = data;
+          setHasCompany(!!companyData); // Update hasCompany based on the presence of companyData
+        } else {
+          console.error('Error fetching user company:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching user company:', error);
+      }
+    };
+
+    if (session?.user && !hasCompany) {
+      fetchUserCompany();
+    }
+  }, [session?.user, hasCompany]);
+
   const links = baseItems.map((item) => (
     <Link
+      href={item.url}
+      key={`side-bar-${item.url}-${item.text}`}
       className={classNames(
         'p-4',
         {
@@ -61,8 +88,6 @@ const SideUserNav = () => {
         },
         'list-none hover:text-blue-400'
       )}
-      href={item.url}
-      key={`side-bar-${item.url}-${item.text}`}
     >
       <li className="flex items-center">
         <item.icon size={32} />
@@ -89,17 +114,29 @@ const SideUserNav = () => {
             </Link>
             <nav>
               {links}
-              {company ? (
-                <Link href="/sistema/"></Link>
+              {hasCompany ? (
+                <>
+                  <Link
+                    href="/sistema/usuario/empresa"
+                    className="p-4 list-none hover:text-blue-400"
+                  >
+                    <div className="flex items-center justify-start">
+                      <CiShop size={32} />{' '}
+                      <p className="px-2">Switch to Company Profile</p>
+                    </div>
+                  </Link>
+                </>
               ) : (
-                <Link
-                  href="/sistema/criar-empresa"
-                  className="p-4 list-none hover:text-blue-400"
-                >
-                  <div className="flex items-center justify-start">
-                    <CiShop size={32} /> <p className="px-2">Criar empresa</p>
-                  </div>
-                </Link>
+                <>
+                  <Link
+                    href="/sistema/criar-empresa"
+                    className="p-4 list-none hover:text-blue-400"
+                  >
+                    <div className="flex items-center justify-start">
+                      <CiShop size={32} /> <p className="px-2">Criar empresa</p>
+                    </div>
+                  </Link>
+                </>
               )}
             </nav>
 

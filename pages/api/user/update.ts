@@ -23,7 +23,7 @@ export default async function handler(
     res.status(405).json({ error: 'Method Not Allowed' });
     return;
   }
-
+  const session = await getServerSession(req, res, authOptions);
   const requestBody = req.body;
 
   try {

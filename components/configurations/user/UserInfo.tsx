@@ -23,7 +23,7 @@ const UserInfo = ({ userData }: { userData: UserData }) => {
 
   return (
     <>
-      <h1 className="font-bold text-2xl mb-10">Informações do Usuário</h1>
+      <h1 className="font-bold text-2xl mb-10 py-2">Informações do Usuário</h1>
       <div className="max-w-7xl">
         <SectionTab title="Nome de Usuário" data={nick} />
         <SectionTab title="Email" data={email} />

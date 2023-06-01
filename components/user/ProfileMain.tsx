@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useRef, useState } from 'react';
+import DiscardedPlaces from './DiscardedPlaces';
 
 interface IconProps {
   Icon: React.ElementType;
@@ -79,9 +80,6 @@ const ProfileMain: React.FC<Props> = ({ profileProps }) => {
   }, []);
 
   const items = [
-    {
-      title: 'Conquistas',
-    },
     {
       title: 'Lugares descartados',
     },
@@ -232,7 +230,18 @@ const ProfileMain: React.FC<Props> = ({ profileProps }) => {
             </ul>
           </nav>
         </div>
-        <div>{/* Achievements */}</div>
+        <div>
+          {activeTabIndex === 0 && (
+            <DiscardedPlaces
+              companies={
+                profileProps.companies || [
+                  { title: 'teste' },
+                  { title: 'teste2' },
+                ]
+              }
+            />
+          )}
+        </div>
       </div>
     </>
   );

@@ -1,90 +1,68 @@
-import Button from '@/components/landingPage/Button';
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/react';
 import UserLayout from '@/components/layouts/UserLayout';
-import UserInfo from '@/components/user/configurations/UserInfo';
-import classNames from 'classnames';
-import React, { useState } from 'react';
-import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import ChangePassword from '@/components/configurations/user/ChangePassword';
+import DeleteAccount from '@/components/configurations/user/DeleteAccount';
+import UserInfo from '@/components/configurations/user/UserInfo';
+import TabComponent from '@/components/configurations/user/TabConfiguration';
+import CompanyInfo from '@/components/configurations/company/CompanyInfo';
 
-interface Tab {
-  title: string;
-  component: React.FC<any>;
-  props?: any;
+interface CompanyData {
+  nick: string;
+  email: string;
+  totalScore: string;
 }
 
 interface Props {
-  tabs: Tab[];
+  companyData?: CompanyData;
 }
 
-const TabComponent: React.FC<Props> = ({ tabs }) => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-  return (
-    <div className="grid grid-cols-2 border-l">
-      <div className="w-max max-w-full border-r border-neutral-300 h-screen">
-        <h1 className="px-4 py-6 font-bold text-2xl capitalize mb-10">
-          configurações
-        </h1>
-        <ul>
-          {tabs.map((tab, index) => (
-            <li
-              key={index}
-              onClick={() => setActiveTabIndex(index)}
-              className={classNames(
-                'p-3 flex justify-between items-center cursor-pointer transition-colors duration-75',
-                {
-                  ' border-blue-400 border-b-2 bg-blue-100':
-                    activeTabIndex === index,
-                },
-                'border-b',
-                {
-                  'border-t-0': index === 0,
-                }
-              )}
-            >
-              <p className="mr-10">{tab.title}</p>
-              <MdOutlineKeyboardArrowRight />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="p-4">
-        {React.createElement(tabs[activeTabIndex].component, {
-          ...tabs[activeTabIndex].props,
-        })}
-      </div>
-    </div>
-  );
-};
-
-const items = [
+const tabs = [
   {
-    title: 'Informações da sua conta',
-    component: UserInfo,
+    title: 'Informações da empresa',
+    component: CompanyInfo,
   },
-  {
-    title: 'Alterar sua senha',
-    component: Button,
-    props: {
-      content: 'teswte',
-      link: '/api/hello',
-    },
-  },
-  {
-    title: 'Desativar a sua conta',
-    component: Button,
-    props: {
-      content: 'teswte3',
-      link: '/api/hello',
-    },
-  },
+  // {
+  //   title: 'Trocar senha',
+  //   component: ChangePassword,
+  // },
+  // {
+  //   title: 'Deletar conta',
+  //   component: DeleteAccount,
+  // },
 ];
 
-const Configuracoes = () => {
+const Configurations: React.FC<Props> = ({ companyData }) => {
   return (
     <UserLayout>
-      <TabComponent tabs={items} />
+      <TabComponent tabs={tabs} userData={companyData} />
     </UserLayout>
   );
 };
 
-export default Configuracoes;
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
+  const session = await getSession(context);
+
+  try {
+    const response = await fetch(
+      `https://batteries-backend.up.railway.app/user/${session?.user?.id}`
+    );
+    const companyData: CompanyData = await response.json();
+
+    return {
+      props: {
+        companyData,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        error: 'Failed to fetch company data',
+      },
+    };
+  }
+};
+
+export default Configurations;

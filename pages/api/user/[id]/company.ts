@@ -9,7 +9,7 @@ export default async function handler(
   const api = process.env.API_URL;
 
   try {
-    const response = await fetch(`${api}/user/${id}`);
+    const response = await fetch(`${api}/user/${id}/company`);
     const userData = await response.json();
 
     res.status(200).json(userData);
