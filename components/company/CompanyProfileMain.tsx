@@ -48,17 +48,16 @@ const IconInfo: FunctionComponent<IconProps> = ({
 };
 
 interface CompanyProps {
-  avatar: string;
   name: string;
-  location?: string;
-  bio?: string;
-  trashType: 1 | 2 | 3;
-  points?: number;
-  businessHours?: string;
-  contact?: string;
+  address: string;
 }
 
-const CompanyProfileMain = (props: CompanyProps) => {
+type Props = {
+  companyProps: CompanyProps;
+};
+
+const CompanyProfileMain:React.FC<Props> = ({ companyProps }) => {
+  const { name, address } = companyProps;
   // States
   const [editProfile, setEditProfile] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -76,13 +75,8 @@ const CompanyProfileMain = (props: CompanyProps) => {
   });
 
   const initialValues = {
-    avatar: props.avatar,
-    name: props.name,
-    location: props.location || '',
-    bio: props.bio || '',
-    points: props.points || 0,
-    businessHours: props.businessHours || 0,
-    contact: props.contact || 0,
+    name: name || '',
+    address: address || '',
   };
 
   // Close pop-up edit profile window
@@ -215,14 +209,14 @@ const CompanyProfileMain = (props: CompanyProps) => {
             </button>
           </div>
           <div className="mb-5 sm:mb-8">
-            <h1 className="text-2xl font-bold">{props.name}</h1>
+            <h1 className="text-2xl font-bold">{name}</h1>
             <p className="text-gray-700 flex items-center mb-6">
               <GrLocation className="inline-block mr-2" />
-              {props.location}
+              {address}
             </p>
-            <p className="text-gray-700">{props.bio}</p>
+            <p className="text-gray-700">{}</p>
             <div className="mt-2">
-              <div className="text-sm">
+              {/* <div className="text-sm">
                 Recebemos:
                 {props.trashType === 1 && (
                   <p className="flex items-center font-semibold flex-wrap">
@@ -236,12 +230,12 @@ const CompanyProfileMain = (props: CompanyProps) => {
                   </p>
                 )}
                 {props.trashType === 3 && (
-                  <p className='flex items-center font-semibold flex-wrap'>
-                    <FaPills className="inline-block mr-1"/>
+                  <p className="flex items-center font-semibold flex-wrap">
+                    <FaPills className="inline-block mr-1" />
                     <RiBatterySaverLine className="inline-block mr-2" />
                     Medicamentos, pilhas e baterias.
                   </p>
-                )}
+                )} */}
               </div>
             </div>
           </div>
