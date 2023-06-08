@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useRef, useState } from 'react';
-import DiscardedPlaces from './DiscardedPlaces';
+import DiscardedPlaces from './user/DiscardedPlaces';
 
 interface IconProps {
   Icon: React.ElementType;
