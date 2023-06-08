@@ -47,16 +47,16 @@ const IconInfo: FunctionComponent<IconProps> = ({
   }
 };
 
-interface CompanyProps {
+type CompanyProps = {
   name: string;
   address: string;
-}
-
-type Props = {
-  companyProps: CompanyProps;
 };
 
-const CompanyProfileMain:React.FC<Props> = ({ companyProps }) => {
+interface Props {
+  companyProps: CompanyProps;
+}
+
+const CompanyProfileMain: React.FC<Props> = ({ companyProps }) => {
   const { name, address } = companyProps;
   // States
   const [editProfile, setEditProfile] = useState(false);
@@ -192,7 +192,9 @@ const CompanyProfileMain:React.FC<Props> = ({ companyProps }) => {
       <div className="h-screen border-x border-neutral-300 ">
         <div className="flex-col items-center justify-between mb-6 max-w-xl py-4 px-8">
           <div className="flex items-center justify-between mb-4">
-            <div className="relative h-32 w-32">
+            <div>avatar</div>{' '}
+            {/* Temporarary
+              <div className="relative h-32 w-32">
               <Image
                 src={props.avatar}
                 alt="Avatar"
@@ -200,7 +202,7 @@ const CompanyProfileMain:React.FC<Props> = ({ companyProps }) => {
                 objectFit="cover"
                 fill
               />
-            </div>
+            </div> */}
             <button
               className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none transition-colors"
               onClick={() => setEditProfile(!editProfile)}
@@ -236,29 +238,28 @@ const CompanyProfileMain:React.FC<Props> = ({ companyProps }) => {
                     Medicamentos, pilhas e baterias.
                   </p>
                 )} */}
-              </div>
             </div>
           </div>
-          <div className="flex flex-col sm:items-center justify-between sm:flex-row">
-            <IconInfo
-              Icon={RiRecycleFill}
-              points={props.points}
-              label={'Descartes'}
-            />
-            <IconInfo
-              variant="company"
-              Icon={RiTimerFlashLine}
-              points={props.businessHours}
-              label={'Horário de Func.'}
-            />
-            <IconInfo
-              variant="company"
-              Icon={RiPhoneFill}
-              points={props.contact}
-              label={'Contato'}
-            />
-          </div>
         </div>
+        {/* <div className="flex flex-col sm:items-center justify-between sm:flex-row">
+          <IconInfo
+            Icon={RiRecycleFill}
+            points={props.points}
+            label={'Descartes'}
+          />
+          <IconInfo
+            variant="company"
+            Icon={RiTimerFlashLine}
+            points={props.businessHours}
+            label={'Horário de Func.'}
+          />
+          <IconInfo
+            variant="company"
+            Icon={RiPhoneFill}
+            points={props.contact}
+            label={'Contato'}
+          />
+        </div> */}
         <div className="border-b">
           <nav className="px-4">
             <ul className="flex">
