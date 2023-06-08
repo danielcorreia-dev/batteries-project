@@ -1,8 +1,11 @@
 import UserLayout from '@/layouts/UserLayout';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import userSWR, { SWRConfig } from 'swr';
+import useSWR from 'swr';
 import { fetcher } from '@/lib/utils/fetcher';
 import CompanyProfileMain from '@/components/company/CompanyProfileMain';
+import ButtonCard from '@/components/ButtonCard';
+
+const API = `https://batteries-backend.up.railway.app/company/1`;
 
 type ProfileData = {
   id: number;
@@ -11,27 +14,37 @@ type ProfileData = {
 };
 
 export const getServerSideProps: GetServerSideProps<{
-  fallback: { '/api/empresa/perfil': ProfileData };
+  fallback: { [key: string]: ProfileData[] };
 }> = async () => {
-  const profileInfo: ProfileData = await fetcher('/api/empresa/perfil');
+  const profileInfo: ProfileData[] = await fetcher(API);
   return {
     props: {
       fallback: {
-        '/api/empresa/perfil': profileInfo,
+        [API]: profileInfo,
       },
     },
   };
 };
 
-const Perfil = () => {
-  const { data, error } = userSWR('/api/empresa/perfil', fetcher);
+const Perfil = ({
+  fallback,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { data, error } = useSWR(API, { fallbackData: fallback[API] });
+
+  console.log(data);
+
+  const companyData = {
+    name: data?.[0]?.title,
+    address: data?.[0]?.address,
+  };
+
   return (
     <>
       <UserLayout>
-        <CompanyProfileMain companyProps= {
-          name: `${data.name}`,
-          address: `${data.address}`,
-        } />
+        <ProfileMain />
+        {/* <ButtonCard
+          buttonProps={{ title: 'Criar benefício', link: 'sistema/beneficio' }}
+        /> */}
       </UserLayout>
     </>
   );

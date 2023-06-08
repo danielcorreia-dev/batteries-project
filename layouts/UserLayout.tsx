@@ -1,4 +1,4 @@
-import SideUserNav from '../user/SideUserNav';
+import SideUserNav from '@/components/user/SideUserNav';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -12,7 +12,7 @@ const UserLayout = ({ children, ...props }: Props) => {
         <div>
           <SideUserNav />
         </div>
-        <div className="max-w-full flex-1" {...props}>
+        <div className="max-w-full flex-1 flex gap-2" {...props}>
           {children}
         </div>
       </div>

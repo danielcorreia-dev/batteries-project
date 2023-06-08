@@ -1,10 +1,11 @@
-import UserLayout from '@/components/layouts/UserLayout';
 import { getSession } from 'next-auth/react';
 import type { GetServerSideProps } from 'next';
 import React from 'react';
-import ProfileMain from '@/components/user/ProfileMain';
+import ProfileMain from '@/components/ProfileMain';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import UserLayout from '@/layouts/UserLayout';
+import ButtonCard from '@/components/ButtonCard';
 
 type UserData = {
   nick: string;
@@ -37,6 +38,7 @@ const Perfil = ({ userData, companies }: Props) => {
           }}
           // Pass other necessary props from the userData
         />
+        <ButtonCard buttonProps={{ title: 'teste', link: '' }} />
       </UserLayout>
     </>
   );
