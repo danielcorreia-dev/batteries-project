@@ -27,19 +27,9 @@ const SideUserNav = () => {
       icon: VscAccount,
     },
     {
-      url: '/sistema/',
-      text: 'Lugares Salvos',
-      icon: CiBookmark,
-    },
-    {
       url: '/sistema/buscar',
       text: 'Buscar',
       icon: HiOutlineMagnifyingGlass,
-    },
-    {
-      url: '/sistema/missoes',
-      text: 'Missões',
-      icon: VscTag,
     },
     {
       url: `/sistema/${agent}/configuracoes`,
