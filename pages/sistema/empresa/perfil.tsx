@@ -2,8 +2,7 @@ import UserLayout from '@/layouts/UserLayout';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/utils/fetcher';
-import CompanyProfileMain from '@/components/company/CompanyProfileMain';
-import ButtonCard from '@/components/ButtonCard';
+import ProfileMain from '@/components/ProfileMain';
 
 const API = `https://batteries-backend.up.railway.app/company/1`;
 

@@ -4,8 +4,8 @@ import React from 'react';
 import ProfileMain from '@/components/ProfileMain';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import UserLayout from '@/layouts/UserLayout';
 import ButtonCard from '@/components/ButtonCard';
+import UserLayout from '@/layouts/UserLayout';
 
 type UserData = {
   nick: string;
