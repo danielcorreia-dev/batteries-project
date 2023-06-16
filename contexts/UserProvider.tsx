@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import React, {
   useState,
   useEffect,
@@ -13,6 +12,7 @@ interface UserData {
   scores: number;
   email: string;
   company: string | null | undefined;
+  role: string;
 }
 
 interface UserContextProps {
@@ -47,6 +47,8 @@ const UserProvider: React.FC<UserProviderProps> = ({ children, ...props }) => {
           // Fetch user data using the session user ID
           const res = await fetch(`/api/user/${session.user.id}`);
           const data: UserData = await res.json();
+
+          data.role = 'user';
           setUserData(data);
         }
       } catch (err) {

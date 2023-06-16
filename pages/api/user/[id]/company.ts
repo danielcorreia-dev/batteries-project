@@ -5,7 +5,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { id } = req.query; // The 'id' parameter will be available in the 'req.query' object
-  console.log(id);
   const api = process.env.API_URL;
 
   try {

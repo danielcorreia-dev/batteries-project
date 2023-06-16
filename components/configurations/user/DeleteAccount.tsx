@@ -9,12 +9,9 @@ const DeleteAccount = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/user/delete/${session?.user.id}`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const res = await fetch(`/api/user/delete/${session?.user.id}`, {
+        method: 'DELETE',
+      });
 
       if (res.ok) {
         signOut();

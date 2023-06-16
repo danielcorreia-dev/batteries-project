@@ -17,7 +17,7 @@ const SideUserNav = () => {
   const { nick } = userData || {};
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
-  const agent = 'usuario';
+  const agent = userData?.role;
   const [hasCompany, setHasCompany] = useState(false);
 
   const baseItems = [
@@ -112,7 +112,7 @@ const SideUserNav = () => {
                   >
                     <div className="flex items-center justify-start">
                       <CiShop size={32} />{' '}
-                      <p className="px-2">Switch to Company Profile</p>
+                      <p className="px-2">Acessar Company Profile</p>
                     </div>
                   </Link>
                 </>

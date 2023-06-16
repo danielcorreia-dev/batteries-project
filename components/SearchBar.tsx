@@ -53,28 +53,30 @@ const SearchBar = <T,>({ searchProps }: Props<T>) => {
         onFocus={() => setHideSuggestions(true)}
         onBlur={() => setHideSuggestions(false)}
         value={search || ''}
+        className="w-full py-2 px-4 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      {hideSuggestions && (
-        <div>
-          {loading ? (
-            <Skeleton count={3} />
-          ) : (
-            <ul>
-              {result?.map((item, index) => {
-                return (
-                  <li
-                    key={index}
-                    onMouseDown={() => handleItemClick(item)}
-                    className="cursor-pointer"
-                  >
-                    {renderResult(item)}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-      )}
+      {hideSuggestions &&
+        search !== '' && ( // Added search !== '' check
+          <div>
+            {loading ? (
+              <Skeleton count={3} />
+            ) : (
+              <ul>
+                {result?.map((item, index) => {
+                  return (
+                    <li
+                      key={index}
+                      onMouseDown={() => handleItemClick(item)}
+                      className="cursor-pointer"
+                    >
+                      {renderResult(item)}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        )}
     </div>
   );
 };
