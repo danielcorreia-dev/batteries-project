@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import useRedirect from '@/lib/hooks/useRedirect';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const FormCompanySignUp = () => {
   const { handleRedirect } = useRedirect('/sistema');
@@ -86,6 +87,19 @@ const FormCompanySignUp = () => {
             </div>
             <div className="mb-4 flex flex-col">
               <label htmlFor="password">Endereço:</label>
+              <GooglePlacesAutocomplete
+                apiKey="AIzaSyBRTyn-nU5Ui8W9pQTU2koKI_IDiEae9OI"
+                apiOptions={{ region: 'br' }}
+                autocompletionRequest={{
+                  bounds: [
+                    { lat: 150, lng: 100 },
+                    { lat: 100, lng: 100 },
+                  ],
+                  componentRestrictions: {
+                    country: ['br'],
+                  },
+                }}
+              />
               <Field
                 type="text"
                 id="address"

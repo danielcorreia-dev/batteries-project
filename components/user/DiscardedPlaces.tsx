@@ -1,4 +1,5 @@
 import React from 'react';
+import { RiEmotionSadLine } from 'react-icons/ri';
 
 type Company = {
   title: string;
@@ -22,10 +23,13 @@ const DiscardedPlaces = ({ companies }: Props) => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col items-center justify-center p-4">
-      <h1 className="text-lg mb-10 py-2">
-        Você não descartou em nenhuma empresa ainda
-      </h1>
+    <div className="w-full mt-6">
+      <div className="flex flex-col items-center justify-center p-4">
+        <RiEmotionSadLine />
+        <h1 className="text-md py-2">
+          Você não descartou em nenhuma empresa ainda
+        </h1>
+      </div>
     </div>
   );
 };

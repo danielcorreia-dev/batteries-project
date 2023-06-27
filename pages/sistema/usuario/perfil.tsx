@@ -1,4 +1,3 @@
-import { getSession } from 'next-auth/react';
 import type { GetServerSideProps } from 'next';
 import React from 'react';
 import ProfileMain from '@/components/ProfileMain';
@@ -6,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import ButtonCard from '@/components/ButtonCard';
 import UserLayout from '@/layouts/UserLayout';
+import { TbWorldLatitude } from 'react-icons/tb';
 
 type UserData = {
   nick: string;
@@ -38,7 +38,16 @@ const Perfil = ({ userData, companies }: Props) => {
           }}
           // Pass other necessary props from the userData
         />
-        <ButtonCard buttonProps={{ title: 'teste', link: '' }} />
+        <div className="py-10">
+          <ButtonCard
+            buttonProps={{
+              icon: TbWorldLatitude,
+              title: 'Descubra',
+              description: 'Explore novas empresas na sua região',
+              link: '/sistema/buscar',
+            }}
+          />
+        </div>
       </UserLayout>
     </>
   );

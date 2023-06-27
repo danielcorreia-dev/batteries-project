@@ -8,7 +8,6 @@ export default async function handler(
 ) {
   const session = await getServerSession(req, res, authOptions);
   const { q } = req.query; // The 'q' parameter will be available in the 'req.query' object
-  console.log(q);
   const api = process.env.API_URL;
 
   try {

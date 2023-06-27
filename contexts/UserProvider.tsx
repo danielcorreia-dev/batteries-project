@@ -48,7 +48,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children, ...props }) => {
           const res = await fetch(`/api/user/${session.user.id}`);
           const data: UserData = await res.json();
 
-          data.role = 'user';
+          data.role = 'usuario';
           setUserData(data);
         }
       } catch (err) {

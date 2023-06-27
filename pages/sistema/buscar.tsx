@@ -1,5 +1,6 @@
 import UserLayout from '@/layouts/UserLayout';
 import SearchBar from '@/components/SearchBar';
+import SearchBarArea from '@/components/SearchBarArea';
 
 const Buscar = () => {
   const searchProps = {
@@ -17,9 +18,9 @@ const Buscar = () => {
   return (
     <>
       <UserLayout>
-        <div>
+        <SearchBarArea>
           <SearchBar searchProps={searchProps} />
-        </div>
+        </SearchBarArea>
       </UserLayout>
     </>
   );

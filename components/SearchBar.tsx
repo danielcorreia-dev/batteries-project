@@ -7,6 +7,7 @@ export type SearchProps<T> = {
   placeholder: string;
   fetchData: (query: string) => Promise<T[]>;
   renderResult: (item: T) => React.ReactNode;
+  ref?: React.RefObject<HTMLInputElement>;
 };
 
 type Props<T> = {
@@ -41,11 +42,12 @@ const SearchBar = <T,>({ searchProps }: Props<T>) => {
   }, [debouncedSearch, fetchData]);
 
   const handleItemClick = (item: T) => {
-    setSearch(item.toString());
+    const itemLabel = item.label || item.nick || item.toString();
+    setSearch(itemLabel);
   };
 
   return (
-    <div>
+    <div className="w-full">
       <input
         type="search"
         placeholder={placeholder}
@@ -53,13 +55,13 @@ const SearchBar = <T,>({ searchProps }: Props<T>) => {
         onFocus={() => setHideSuggestions(true)}
         onBlur={() => setHideSuggestions(false)}
         value={search || ''}
-        className="w-full py-2 px-4 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full self-stretch flex-1 py-2 px-4 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
       />
       {hideSuggestions &&
         search !== '' && ( // Added search !== '' check
           <div>
             {loading ? (
-              <Skeleton count={3} />
+              <Skeleton count={3} height={12} />
             ) : (
               <ul>
                 {result?.map((item, index) => {
