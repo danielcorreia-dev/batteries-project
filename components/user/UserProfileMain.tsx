@@ -10,6 +10,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useRef, useState } from 'react';
 import DiscardedPlaces from './DiscardedPlaces';
+import Avatar from '@/components/Avatar';
 
 interface IconProps {
   Icon: React.ElementType;
@@ -42,7 +43,7 @@ type Company = {
   title: string;
 };
 
-const ProfileMain: React.FC<Props> = ({ profileProps }) => {
+const UserProfileMain: React.FC<Props> = ({ profileProps }) => {
   const { name, location, bio, points, achievements, savedPlaces } =
     profileProps;
   const [editProfile, setEditProfile] = useState(false);
@@ -135,41 +136,6 @@ const ProfileMain: React.FC<Props> = ({ profileProps }) => {
                     className="text-red-500"
                   />
                 </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="location"
-                    className="text-sm text-neutral-400"
-                  >
-                    Localização
-                  </label>
-                  <Field
-                    type="text"
-                    name="location"
-                    className="block px-2 py-3 border rounded border-neutral-400  w-full"
-                  />
-                  <ErrorMessage
-                    name="location"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="bio" className="text-sm text-neutral-400">
-                    Bio
-                  </label>
-                  <Field
-                    as="textarea"
-                    rows="5"
-                    type="text"
-                    name="bio"
-                    className="block px-2 py-3 border rounded border-neutral-400 max-w-full resize-none w-full"
-                  />
-                  <ErrorMessage
-                    name="bio"
-                    component="div"
-                    className="text-red-500"
-                  />
-                </div>
               </Form>
             )}
           </Formik>
@@ -182,35 +148,26 @@ const ProfileMain: React.FC<Props> = ({ profileProps }) => {
     <>
       <EditProfileForm />
       <div className="h-screen md:border-x border-neutral-300 max-w-xl w-full">
-        <div className="flex-col items-center justify-between mb-6 max-w-xl py-4 px-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="relative h-32 w-32">
-              {/* <Image src={props.} alt="Avatar" className="rounded-full" objectFit="cover" fill /> */}
-              image
+        <div className="md:py-8">
+          <div className="flex-col items-center justify-between max-w-xl py-4 px-8">
+            <div className="flex items-center justify-between mb-4">
+              <Avatar />
+              {/* <button
+                className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none transition-colors"
+                onClick={() => setEditProfile(!editProfile)}
+              >
+                Editar perfil
+              </button> */}
             </div>
-            <button
-              className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none transition-colors"
-              onClick={() => setEditProfile(!editProfile)}
-            >
-              Editar perfil
-            </button>
-          </div>
-          <div className="mb-5 sm:mb-8">
-            <h1 className="text-2xl font-bold">{name}</h1>
-            <p className="text-gray-700 flex items-center mb-6">
-              <GrLocation className="inline-block mr-2" />
-              {location}
-            </p>
-            <p className="text-gray-700">{bio}</p>
-          </div>
-          <div className="flex flex-col sm:items-center justify-between sm:flex-row">
-            <IconInfo
-              Icon={RiRecycleFill}
-              points={points}
-              label={'Descartes'}
-            />
-            {/* <IconInfo Icon={RiTrophyLine} points={achievements} label={'Conquistas'} />
+            <div className="mb-5 sm:mb-8">
+              <h1 className="text-2xl font-bold">{name}</h1>
+              <p className="text-gray-700">{bio}</p>
+            </div>
+            <div className="flex flex-col sm:items-center justify-between sm:flex-row">
+              <IconInfo Icon={RiRecycleFill} points={points} label={'Pontos'} />
+              {/* <IconInfo Icon={RiTrophyLine} points={achievements} label={'Conquistas'} />
             <IconInfo Icon={RiStarLine} points={savedPlaces} label={'Lugares Salvos'} /> */}
+            </div>
           </div>
         </div>
         <div className="border-b">
@@ -247,4 +204,4 @@ const ProfileMain: React.FC<Props> = ({ profileProps }) => {
   );
 };
 
-export default ProfileMain;
+export default UserProfileMain;

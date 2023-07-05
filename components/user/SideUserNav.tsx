@@ -1,35 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
-import classNames from 'classnames';
-import Image from 'next/image';
-import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import { useUserContext } from '../../contexts/UserProvider';
-
-import { VscAccount, VscTag, VscGear } from 'react-icons/vsc';
-import { CiBookmark, CiLogout, CiShop } from 'react-icons/ci';
+import { VscAccount, VscGear } from 'react-icons/vsc';
+import { CiLogout, CiShop } from 'react-icons/ci';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
+import { BsPersonDown, BsTags } from 'react-icons/bs';
 import BottomUserNavbar from './BottomUserNavbar';
 
+import useSWR from 'swr';
+import { fetcher } from '@/lib/utils/fetcher';
+
+import classNames from 'classnames';
+import Link from 'next/link';
+import { useRoleContext, UserRole } from '@/contexts/RoleProvider';
+import Skeleton from 'react-loading-skeleton';
+
 const SideUserNav = () => {
-  const { data: session } = useSession();
   const { userData } = useUserContext();
   const { nick } = userData || {};
+
+  const { role } = useRoleContext();
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
-  const agent = 'usuario';
-  const [hasCompany, setHasCompany] = useState(false);
+  const { data, error, isLoading } = useSWR(
+    role === UserRole.Usuario ? '/api/user/company' : null,
+    fetcher
+  );
 
   const baseItems = [
     {
-      url: `/sistema/${agent}/perfil`,
+      url: `/sistema/${role}/perfil`,
       text: 'Perfil',
       icon: VscAccount,
-    },
-    {
-      url: '/sistema/',
-      text: 'Lugares Salvos',
-      icon: CiBookmark,
     },
     {
       url: '/sistema/buscar',
@@ -37,12 +40,7 @@ const SideUserNav = () => {
       icon: HiOutlineMagnifyingGlass,
     },
     {
-      url: '/sistema/missoes',
-      text: 'Missões',
-      icon: VscTag,
-    },
-    {
-      url: `/sistema/${agent}/configuracoes`,
+      url: `/sistema/${role}/configuracoes`,
       text: 'Configurações',
       icon: VscGear,
     },
@@ -54,28 +52,6 @@ const SideUserNav = () => {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    const fetchUserCompany = async () => {
-      try {
-        const response = await fetch(`/api/user/${session?.user.id}/company`);
-        const data = await response.json();
-
-        if (response.ok) {
-          const { companyData } = data;
-          setHasCompany(!!companyData); // Update hasCompany based on the presence of companyData
-        } else {
-          console.error('Error fetching user company:', data.error);
-        }
-      } catch (error) {
-        console.error('Error fetching user company:', error);
-      }
-    };
-
-    if (session?.user && !hasCompany) {
-      fetchUserCompany();
-    }
-  }, [session?.user, hasCompany]);
 
   const links = baseItems.map((item) => (
     <Link
@@ -107,52 +83,84 @@ const SideUserNav = () => {
       {isBreakpoint ? (
         <BottomUserNavbar items={baseItems} />
       ) : (
-        <div className="p-8 flex flex-end flex-col justify-between h-full">
-          <div className="px-4">
+        <div className="px-5 py-8 flex flex-end flex-col justify-between h-screen max-w-sm">
+          <div className="px-4 pb-8">
             <Link href="/sistema/usuario/perfil" className="mb-12">
               <h1>Batteries App</h1>
             </Link>
             <nav>
               {links}
-              {hasCompany ? (
-                <>
-                  <Link
-                    href="/sistema/usuario/empresa"
-                    className="p-4 list-none hover:text-blue-400"
-                  >
-                    <div className="flex items-center justify-start">
-                      <CiShop size={32} />{' '}
-                      <p className="px-2">Switch to Company Profile</p>
-                    </div>
-                  </Link>
-                </>
+              {isLoading ? (
+                <Skeleton />
               ) : (
                 <>
-                  <Link
-                    href="/sistema/criar-empresa"
-                    className="p-4 list-none hover:text-blue-400"
-                  >
-                    <div className="flex items-center justify-start">
-                      <CiShop size={32} /> <p className="px-2">Criar empresa</p>
-                    </div>
-                  </Link>
+                  {data?.id && role === UserRole.Usuario && (
+                    <>
+                      <Link
+                        href="/sistema/empresa/logar-empresa"
+                        className="p-4 list-none hover:text-blue-400"
+                      >
+                        <div className="flex items-center justify-start">
+                          <CiShop size={32} /> <p className="px-2">Empresa</p>
+                        </div>
+                      </Link>
+                    </>
+                  )}
+                  {!data?.id && role === UserRole.Usuario && (
+                    <>
+                      <Link
+                        href={'/sistema/criar-empresa'}
+                        className="p-4 list-none hover:text-blue-400"
+                      >
+                        <div className="flex items-center justify-start">
+                          <BsPersonDown size={32} />
+                          <p className="px-2">Criar Empresa</p>
+                        </div>
+                      </Link>
+                    </>
+                  )}
+                  {role === UserRole.Empresa && (
+                    <>
+                      <Link href={'/sistema/empresa/beneficios'}>
+                        <div className="flex items-center justify-start hover:text-blue-400">
+                          <BsTags size={32} />
+                          <p className="px-2 list-none">Benefícios</p>
+                        </div>
+                      </Link>
+                      <Link
+                        href={'/sistema/empresa/deslogar'}
+                        className="p-4 list-none hover:text-blue-400"
+                      >
+                        <div className="flex items-center justify-start max-w-[200px] whitespace-pre-wrap">
+                          <BsPersonDown size={32} />
+                          <p className="px-2">
+                            Voltar para o perfil de usuário
+                          </p>
+                        </div>
+                      </Link>
+                    </>
+                  )}
                 </>
               )}
+              <button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                className="text-red-500 flex items-center"
+              >
+                <div></div>
+                <CiLogout className="mr-2" size={32} />
+                Deslogar
+              </button>
             </nav>
-
-            <button
-              onClick={() => signOut()}
-              className="text-red-500 flex items-center"
-            >
-              <div></div>
-              <CiLogout className="mr-2" size={32} />
-              Deslogar
-            </button>
           </div>
 
           {/* User Menu */}
           <div className="flex">
-            <p className="hover:opacity-80 transition-opacity">{nick}</p>
+            {role === UserRole.Usuario && (
+              <p className="hover:opacity-80 transition-opacity">{nick}</p>
+            )}
+            {role === UserRole.Empresa && (
+              <p className="hover:opacity-80 transition-opacity">{data}</p>
+            )}
           </div>
         </div>
       )}

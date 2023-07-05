@@ -5,6 +5,8 @@ import { authOptions } from './auth/[...nextauth]';
 interface CompanyFormData {
   title: string;
   address: string;
+  openingHours: string;
+  phoneNumber: string;
 }
 
 export default async function handler(
@@ -12,22 +14,28 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== 'POST') {
-    res.status(405).end(); // Method Not Allowed
+    res.status(405).end();
     return;
   }
 
-  const { title, address }: CompanyFormData = req.body;
+  const { title, address, openingHours, phoneNumber }: CompanyFormData =
+    req.body;
   const session = await getServerSession(req, res, authOptions);
-  const api = process.env.API_URL
-
+  const api = process.env.API_URL;
   try {
     const response = await fetch(`${api}/company`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session?.user.accessToken}`
+        Authorization: `Bearer ${session?.user.accessToken}`,
       },
-      body: JSON.stringify({ title, address }),
+      body: JSON.stringify({
+        title,
+        address,
+        phoneNumber,
+        openingHours,
+        userId: session?.user.id,
+      }),
     });
     response.status;
 
@@ -40,10 +48,8 @@ export default async function handler(
 
     res.status(200).json({ message: 'Form submitted successfully!' });
   } catch (error) {
-    console.error(error);
-
     res
       .status(500)
-      .json({ message: 'Failed to submit form', title, address});
+      .json({ message: 'Failed to submit form', id: session?.user.id });
   }
 }

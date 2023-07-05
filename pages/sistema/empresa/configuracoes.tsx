@@ -1,38 +1,27 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getSession } from 'next-auth/react';
-import UserLayout from '@/components/layouts/UserLayout';
-import ChangePassword from '@/components/configurations/user/ChangePassword';
-import DeleteAccount from '@/components/configurations/user/DeleteAccount';
-import UserInfo from '@/components/configurations/user/UserInfo';
 import TabComponent from '@/components/configurations/user/TabConfiguration';
 import CompanyInfo from '@/components/configurations/company/CompanyInfo';
-
-interface CompanyData {
-  nick: string;
-  email: string;
-  totalScore: string;
-}
-
-interface Props {
-  companyData?: CompanyData;
-}
+import UserLayout from '@/layouts/UserLayout';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import CompanyDelete from '@/components/configurations/company/CompanyDelete';
 
 const tabs = [
   {
     title: 'Informações da empresa',
     component: CompanyInfo,
   },
-  // {
-  //   title: 'Trocar senha',
-  //   component: ChangePassword,
-  // },
-  // {
-  //   title: 'Deletar conta',
-  //   component: DeleteAccount,
-  // },
+  {
+    title: 'Deletar empresa',
+    component: CompanyDelete,
+  },
 ];
 
-const Configurations: React.FC<Props> = ({ companyData }) => {
+const CompanyConfigurations = ({
+  companyData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  console.log(companyData);
   return (
     <UserLayout>
       <TabComponent tabs={tabs} userData={companyData} />
@@ -40,29 +29,53 @@ const Configurations: React.FC<Props> = ({ companyData }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const session = await getSession(context);
+type CompanyProps = {
+  title: string;
+  id: any;
+  address: string;
+  phoneNumber: string;
+  openingHours: string;
+  benefits?: [];
+};
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const api = process.env.API_URL;
+  const session = await getServerSession(context.req, context.res, authOptions);
   try {
-    const response = await fetch(
-      `https://batteries-backend.up.railway.app/user/${session?.user?.id}`
+    const userCompanyResponse = await fetch(
+      `${api}/user/${session?.user.id}/company`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.accessToken}`,
+        },
+      }
     );
-    const companyData: CompanyData = await response.json();
+
+    if (!userCompanyResponse.ok) {
+      throw new Error(
+        `Failed to fetch company data: ${userCompanyResponse.status}`
+      );
+    }
+
+    const companyData: CompanyProps = await userCompanyResponse.json();
 
     return {
       props: {
         companyData,
       },
     };
-  } catch (error) {
+  } catch (error: any) {
+    console.log('Error fetching company data:', error);
+
     return {
       props: {
-        error: 'Failed to fetch company data',
+        error: {
+          message: 'Failed to fetch company data',
+          details: error.message,
+        },
       },
     };
   }
 };
 
-export default Configurations;
+export default CompanyConfigurations;

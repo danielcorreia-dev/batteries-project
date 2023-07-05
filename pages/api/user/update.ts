@@ -27,8 +27,6 @@ export default async function handler(
   const requestBody = req.body;
 
   try {
-    console.log('Received request body:', requestBody);
-
     const { email, password, newPassword }: UserUpdateProps =
       await userUpdateSchema.validate(requestBody);
 

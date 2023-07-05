@@ -1,10 +1,10 @@
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
-import UserLayout from '@/components/layouts/UserLayout';
 import ChangePassword from '@/components/configurations/user/ChangePassword';
 import DeleteAccount from '@/components/configurations/user/DeleteAccount';
 import UserInfo from '@/components/configurations/user/UserInfo';
 import TabComponent from '@/components/configurations/user/TabConfiguration';
+import UserLayout from '@/layouts/UserLayout';
 
 interface UserData {
   nick: string;

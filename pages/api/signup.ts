@@ -32,7 +32,6 @@ export default async function handler(
     }
 
     const data = await response.json();
-    console.log(data);
 
     res.status(200).json({ message: 'Form submitted successfully!' });
   } catch (error) {

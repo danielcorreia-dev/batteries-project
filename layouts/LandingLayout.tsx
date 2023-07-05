@@ -1,7 +1,7 @@
+import Footer from '@/components/landingPage/Footer';
+import HeroSection from '@/components/landingPage/HeroSection';
+import Nav from '@/components/landingPage/Nav';
 import { ReactNode } from 'react';
-import Footer from '../landingPage/Footer';
-import HeroSection from '../landingPage/HeroSection';
-import Nav from '../landingPage/Nav';
 
 interface Props {
   children?: ReactNode;

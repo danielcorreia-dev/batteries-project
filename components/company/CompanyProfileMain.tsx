@@ -12,6 +12,8 @@ import { FaPills } from 'react-icons/fa';
 import classNames from 'classnames';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import InputMask from 'react-input-mask';
+import Avatar from '../Avatar';
 
 interface IconProps {
   Icon: React.ElementType;
@@ -30,7 +32,7 @@ const IconInfo: FunctionComponent<IconProps> = ({
     case 'company':
       return (
         <span className={classNames('flex items-center text-sm mb-1')}>
-          {Icon && <Icon size={24} className="inline-block mr-1" />}
+          {Icon && <Icon size={24} className="inline-block mr-4" />}
           <div className="block">
             <p>{label}</p>
             <b className="mr-1">{points}</b>
@@ -47,19 +49,23 @@ const IconInfo: FunctionComponent<IconProps> = ({
   }
 };
 
-interface CompanyProps {
-  avatar: string;
-  name: string;
-  location?: string;
-  bio?: string;
-  trashType: 1 | 2 | 3;
-  points?: number;
-  businessHours?: string;
-  contact?: string;
+type CompanyProps = {
+  title: string;
+  address: string;
+  phoneNumber: string;
+  openingHours: string;
+  benefits?: [];
+};
+
+interface Props {
+  companyProps?: CompanyProps;
 }
 
-const CompanyProfileMain = (props: CompanyProps) => {
+const CompanyProfileMain = ({ companyProps }: Props) => {
   // States
+  const { title, address, phoneNumber, openingHours, benefits } =
+    companyProps || {};
+
   const [editProfile, setEditProfile] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
@@ -72,22 +78,17 @@ const CompanyProfileMain = (props: CompanyProps) => {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Você precisa ter um nome'),
+    name: Yup.string().required('Sua empresa precisa ter um nome'),
   });
 
   const initialValues = {
-    avatar: props.avatar,
-    name: props.name,
-    location: props.location || '',
-    bio: props.bio || '',
-    points: props.points || 0,
-    businessHours: props.businessHours || 0,
-    contact: props.contact || 0,
+    title,
+    address,
+    phoneNumber,
+    openingHours,
   };
 
-  // Close pop-up edit profile window
   useEffect(() => {
-    console.log(editRef);
     let handleOutsideClick = (e: MouseEvent) => {
       if (
         !editRef.current?.contains(e.target as Node) &&
@@ -101,9 +102,6 @@ const CompanyProfileMain = (props: CompanyProps) => {
   }, [editRef]);
 
   const items = [
-    {
-      title: 'Fotos',
-    },
     {
       title: 'Benefícios',
     },
@@ -149,39 +147,77 @@ const CompanyProfileMain = (props: CompanyProps) => {
               {({ errors, touched }) => (
                 <Form>
                   <div className="mb-3">
-                    <label htmlFor="name" className="text-sm text-neutral-400">
-                      Name
+                    <label htmlFor="title" className="text-sm text-neutral-400">
+                      Nome da empresa
                     </label>
                     <Field
                       type="text"
-                      name="name"
+                      name="title"
                       className="block px-2 py-3 border rounded border-neutral-400 max-w-full w-full"
                     />
                   </div>
                   <div className="mb-3">
                     <label
-                      htmlFor="location"
+                      htmlFor="address"
                       className="text-sm text-neutral-400"
                     >
                       Localização
                     </label>
                     <Field
                       type="text"
-                      name="location"
+                      name="address"
                       className="block px-2 py-3 border rounded border-neutral-400  w-full"
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="bio" className="text-sm text-neutral-400">
-                      Bio
+                    <label
+                      htmlFor="phoneNumber"
+                      className="text-sm text-neutral-400"
+                    >
+                      Contato
                     </label>
                     <Field
-                      as="textarea"
-                      rows="5"
-                      type="text"
-                      name="bio"
-                      className="block px-2 py-3 border rounded border-neutral-400 max-w-full resize-none w-full"
-                    />
+                      name="phoneNumber"
+                      className="block px-2 py-3 border rounded border-neutral-400 focus:border-blue-500 max-w-full resize-none w-full"
+                    >
+                      {({ field, form, error }: any) => (
+                        <InputMask
+                          mask="(99) 99999-9999"
+                          maskChar="_"
+                          {...field}
+                          className={`${
+                            errors.phoneNumber && touched.phoneNumber
+                              ? 'border-red-500 border-2'
+                              : ''
+                          } block px-2 py-3 border rounded border-neutral-400 focus:border-blue-500 max-w-full resize-none w-full`}
+                        />
+                      )}
+                    </Field>
+                  </div>
+                  <div className="mb-3">
+                    <label
+                      htmlFor="openingHours"
+                      className="text-sm text-neutral-400"
+                    >
+                      Horário de funcionamento
+                    </label>
+                    <Field
+                      name="openingHours"
+                      className="block px-2 py-3 border rounded border-neutral-400 focus:border-blue-500 max-w-full resize-none w-full"
+                    >
+                      {({ field, form, error }: any) => (
+                        <InputMask
+                          mask="das 99:99 às 99:99"
+                          maskChar="*"
+                          {...field}
+                          className={`${
+                            errors.phoneNumber && touched.phoneNumber
+                              ? 'border-red-500 border-2'
+                              : ''
+                          } block px-2 py-3 border rounded border-neutral-400 focus:border-blue-500 max-w-full resize-none w-full`}
+                        />
+                      )}
+                    </Field>
                   </div>
                 </Form>
               )}
@@ -195,18 +231,10 @@ const CompanyProfileMain = (props: CompanyProps) => {
   return (
     <>
       <EditProfileForm />
-      <div className="h-screen border-x border-neutral-300 ">
-        <div className="flex-col items-center justify-between mb-6 max-w-xl py-4 px-8">
+      <div className="h-screen md:border-x border-neutral-300 max-w-xl w-full">
+        <div className="flex-col items-center justify-between  max-w-xl pt-10 px-8">
           <div className="flex items-center justify-between mb-4">
-            <div className="relative h-32 w-32">
-              <Image
-                src={props.avatar}
-                alt="Avatar"
-                className="rounded-full"
-                objectFit="cover"
-                fill
-              />
-            </div>
+            <Avatar avatarProps={{ variant: 'company' }} />
             <button
               className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none transition-colors"
               onClick={() => setEditProfile(!editProfile)}
@@ -215,52 +243,25 @@ const CompanyProfileMain = (props: CompanyProps) => {
             </button>
           </div>
           <div className="mb-5 sm:mb-8">
-            <h1 className="text-2xl font-bold">{props.name}</h1>
-            <p className="text-gray-700 flex items-center mb-6">
+            <h1 className="text-2xl font-bold">{title}</h1>
+            <p className="text-gray-700 flex items-center mb-2">
               <GrLocation className="inline-block mr-2" />
-              {props.location}
+              {address}
             </p>
-            <p className="text-gray-700">{props.bio}</p>
-            <div className="mt-2">
-              <div className="text-sm">
-                Recebemos:
-                {props.trashType === 1 && (
-                  <p className="flex items-center font-semibold flex-wrap">
-                    <RiBatterySaverLine className="inline-block mr-2" /> Pilhas
-                    e baterias.
-                  </p>
-                )}
-                {props.trashType === 2 && (
-                  <p className="flex items-center font-semibold flex-wrap">
-                    <FaPills className="inline-block mr-2" /> Medicamentos.
-                  </p>
-                )}
-                {props.trashType === 3 && (
-                  <p className='flex items-center font-semibold flex-wrap'>
-                    <FaPills className="inline-block mr-1"/>
-                    <RiBatterySaverLine className="inline-block mr-2" />
-                    Medicamentos, pilhas e baterias.
-                  </p>
-                )}
-              </div>
-            </div>
           </div>
+        </div>
+        <div className="px-8 mb-6">
           <div className="flex flex-col sm:items-center justify-between sm:flex-row">
-            <IconInfo
-              Icon={RiRecycleFill}
-              points={props.points}
-              label={'Descartes'}
-            />
             <IconInfo
               variant="company"
               Icon={RiTimerFlashLine}
-              points={props.businessHours}
-              label={'Horário de Func.'}
+              points={openingHours}
+              label={'Horário de funcionamento'}
             />
             <IconInfo
               variant="company"
               Icon={RiPhoneFill}
-              points={props.contact}
+              points={phoneNumber}
               label={'Contato'}
             />
           </div>

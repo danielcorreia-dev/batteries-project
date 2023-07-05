@@ -4,7 +4,7 @@ import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
 interface Tab {
   title: string;
-  component: React.ComponentType<any>;
+  component: any;
 }
 
 interface Props {
@@ -18,12 +18,11 @@ const TabComponent: React.FC<Props> = ({ tabs, userData }) => {
   const handleTabClick = (index: number) => {
     setActiveTabIndex(index);
   };
-
   return (
-    <div className="grid grid-cols-2 border-l max-w-7xl">
+    <div className="grid grid-flow-col border-l max-w-7xl">
       <div className="max-w-full border-r border-neutral-300 h-screen w-80">
         <h1 className="px-4 py-6 font-bold text-2xl capitalize mb-10">
-          Configurations
+          Configurações
         </h1>
         <ul>
           {tabs.map((tab, index) => (

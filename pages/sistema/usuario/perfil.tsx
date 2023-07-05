@@ -1,10 +1,12 @@
-import UserLayout from '@/components/layouts/UserLayout';
-import { getSession } from 'next-auth/react';
 import type { GetServerSideProps } from 'next';
 import React from 'react';
-import ProfileMain from '@/components/user/ProfileMain';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import ButtonCard from '@/components/ButtonCard';
+import UserLayout from '@/layouts/UserLayout';
+import { TbWorldLatitude } from 'react-icons/tb';
+import UserProfileMain from '@/components/user/UserProfileMain';
+import { createPartiallyEmittedExpression } from 'typescript';
 
 type UserData = {
   nick: string;
@@ -29,7 +31,7 @@ const Perfil = ({ userData, companies }: Props) => {
     <>
       <UserLayout>
         {/* Pass the necessary props to the ProfileMain component */}
-        <ProfileMain
+        <UserProfileMain
           profileProps={{
             name: nick,
             points: parseInt(totalScore),
@@ -37,6 +39,17 @@ const Perfil = ({ userData, companies }: Props) => {
           }}
           // Pass other necessary props from the userData
         />
+        <div className="py-10">
+          <ButtonCard
+            buttonProps={{
+              icon: TbWorldLatitude,
+              color: 'text-blue-500',
+              title: 'Descubra',
+              description: 'Explore novas empresas na sua região',
+              link: '/sistema/buscar',
+            }}
+          />
+        </div>
       </UserLayout>
     </>
   );
@@ -65,11 +78,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       companies = await companiesResponse.json();
     } catch (error) {
-      console.log('Error fetching companies:', error);
+      console.error('Error fetching companies:', error);
     }
 
     const userData = await userDataResponse.json();
-
+    companies = companies.map((company: any) => {
+      return {
+        title: company.company.title,
+        address: company.company.address,
+      };
+    });
     return {
       props: {
         userData,

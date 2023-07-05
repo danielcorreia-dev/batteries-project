@@ -9,12 +9,9 @@ const DeleteAccount = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/user/delete/${session?.user.id}`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const res = await fetch(`/api/user/delete/${session?.user.id}`, {
+        method: 'DELETE',
+      });
 
       if (res.ok) {
         signOut();
@@ -69,31 +66,32 @@ const DeleteAccount = () => {
   };
 
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-
   return (
     <>
       <ToastContainer />
-      <div className="py-2 pb-10">
-        <h1 className="font-bold text-2xl">Deletar sua conta</h1>
+      <div className="flex-1 roundedp-2">
+        <div className="py-2 pb-10">
+          <h1 className="font-bold text-2xl">Deletar sua conta</h1>
+        </div>
+        <div className="max-w-2xl mb-4 flex bg-red-200 p-4 rounded">
+          <ol className="max-w-xl">
+            <li className="mb-2">
+              <b>Perda de dados</b>: Ao excluir sua conta, todos os dados
+              associados a ela serão permanentemente removidos de nossos
+              sistemas. Isso inclui informações pessoais, histórico de
+              atividades, configurações personalizadas e qualquer pontuação que
+              você tenha adquirido.
+            </li>
+            <li>
+              <p className="text-gray-500 text-sm mb-4">
+                Ao deletar sua conta, você perderá todos os seus dados e não
+                poderá recuperá-los.
+              </p>
+            </li>
+          </ol>
+        </div>
+        <DeletingPopUpBox />
       </div>
-      <div className="max-w-2xl mb-4">
-        <ol className="max-w-xl">
-          <li className="mb-2">
-            <b>Perda de dados</b>: Ao excluir sua conta, todos os dados
-            associados a ela serão permanentemente removidos de nossos sistemas.
-            Isso inclui informações pessoais, histórico de atividades,
-            configurações personalizadas e qualquer pontuação que você tenha
-            adquirido.
-          </li>
-          <li>
-            <p className="text-gray-500 text-sm mb-4">
-              Ao deletar sua conta, você perderá todos os seus dados e não
-              poderá recuperá-los.
-            </p>
-          </li>
-        </ol>
-      </div>
-      <DeletingPopUpBox />
     </>
   );
 };

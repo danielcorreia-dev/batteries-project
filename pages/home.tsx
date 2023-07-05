@@ -1,13 +1,13 @@
 import Card from '@/components/landingPage/Card';
-import LandingLayout from '@/components/layouts/LandingLayout';
 import { Inter } from '@next/font/google';
 import Link from 'next/link';
 import { TbLeaf, TbTrophy, TbRecycle } from 'react-icons/tb';
 import { IoEnterOutline } from 'react-icons/io5';
-import diretionSlide from 'public/Directions-rafiki.svg'
+import diretionSlide from 'public/Directions-rafiki.svg';
 import achievSlide from 'public/achievement-slide2.svg';
-import mobileSlide from 'public/mobile-slide.svg'
+import mobileSlide from 'public/mobile-slide.svg';
 import Slider from '@/components/landingPage/Slider';
+import LandingLayout from '@/layouts/LandingLayout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -43,7 +43,9 @@ export default function Home() {
               <span className="uppercase font-bold text-md mb-2 block text-indigo-700">
                 rede social sustentável
               </span>
-              <h2 className="text-4xl font-bold text-indigo-800">Ajude o mundo e se divirta</h2>
+              <h2 className="text-4xl font-bold text-indigo-800">
+                Ajude o mundo e se divirta
+              </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-16 mx-8 md:mx-0">
               <Card
@@ -68,9 +70,9 @@ export default function Home() {
         </section>
 
         {/* Slider Section */}
-        <section className='py-12 px-8 md:mb-20'>
+        <section className="py-12 px-8 md:mb-20">
           <div className="mx-auto max-w-5xl">
-            <div className='text-center md:text-left'>
+            <div className="text-center md:text-left">
               <span className="uppercase font-bold text-md mb-2 block text-indigo-700">
                 interativo e responsivo
               </span>
