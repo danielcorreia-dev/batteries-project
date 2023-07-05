@@ -31,8 +31,10 @@ const BottomUserNavbar: React.FC<Items> = ({ items }) => {
   ));
 
   return (
-    <div className="fixed w-screen bottom-2 left-1/2 -translate-x-1/2 border-t border-neutral-300 bg-white">
-      <div className="flex items-center justify-between">{links}</div>
+    <div className="fixed w-screen bottom-0 left-0 z-50 bg-white">
+      <div className="flex items-center justify-between h-16 bg-white">
+        {links}
+      </div>
     </div>
   );
 };

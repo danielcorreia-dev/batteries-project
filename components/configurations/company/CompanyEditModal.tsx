@@ -1,8 +1,8 @@
-import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import useRedirect from '@/lib/hooks/useRedirect';
+import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRef } from 'react';
-import useRedirect from '@/lib/hooks/useRedirect';
 import InputMask from 'react-input-mask';
 import Autocomplete from 'react-google-autocomplete';
 
@@ -11,6 +11,7 @@ type CompanyProps = {
   address: string;
   phoneNumber: string;
   openingHours: string;
+  benefits?: [];
 };
 
 type Props = {
@@ -19,12 +20,18 @@ type Props = {
 
 const FormCompanySignUp: React.FC<Props> = ({ companyValues }) => {
   const { handleRedirect } = useRedirect('/sistema');
+  interface FormValues {
+    title: string;
+    address: string;
+    phoneNumber: string;
+    openingHours: string;
+  }
 
-  const initialValues: CompanyProps = {
-    title: '',
-    address: '',
-    phoneNumber: '',
-    openingHours: '',
+  const initialValues: FormValues = {
+    title: companyValues.title || '',
+    address: companyValues.address || '',
+    phoneNumber: companyValues.phoneNumber || '',
+    openingHours: companyValues.openingHours || '',
   };
 
   const validationSchema = Yup.object({
@@ -44,10 +51,11 @@ const FormCompanySignUp: React.FC<Props> = ({ companyValues }) => {
         if (!value) return true;
 
         const addressArray = value.split(',');
+        const street = addressArray[0]?.trim();
         const city = addressArray[1]?.trim();
         const state = addressArray[2]?.trim();
 
-        if (!city || !state) {
+        if (!city || !state || !street) {
           return false;
         }
 
@@ -68,12 +76,12 @@ const FormCompanySignUp: React.FC<Props> = ({ companyValues }) => {
   });
 
   const onSubmit = async (
-    { title, address, phoneNumber, openingHours }: CompanyProps,
+    { title, address, phoneNumber, openingHours }: FormValues,
     { setFieldError }: any
   ) => {
     try {
-      const res = await fetch('/api/create-company', {
-        method: 'POST',
+      const res = await fetch('/api/company/update', {
+        method: 'PUT',
         headers: {
           'Content-type': 'application/json',
         },
@@ -90,7 +98,7 @@ const FormCompanySignUp: React.FC<Props> = ({ companyValues }) => {
       }
 
       if (res.ok) {
-        toast.success('Sua empresa foi criada com sucesso');
+        toast.success('Sua empresa foi atualizada com sucesso');
         setTimeout(handleRedirect, 1500);
       }
     } catch (err) {
@@ -144,27 +152,38 @@ const FormCompanySignUp: React.FC<Props> = ({ companyValues }) => {
                 type="text"
                 id="address"
                 name="address"
-                component={Autocomplete}
-                apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}
-                onPlaceSelected={(place: any) => {
-                  const address = place.formatted_address;
-                  const addressArray = address.split(',');
-                  const city = addressArray[1];
-                  const state = addressArray[2];
-                  const fullAddress = `${city.trim()}, ${state.trim()}, Brasil`;
-                  setFieldValue('address', fullAddress);
-                }}
-                inputAutocompleteValue="on"
-                ref={googlePlacesRef}
-                options={{
-                  types: ['address'],
-                  componentRestrictions: { country: 'br' },
-                }}
-                className={`${
-                  errors.address && touched.address
-                    ? 'border-red-500 border-2'
-                    : ''
-                } border rounded p-2 block mt-1 w-full bg-neutral-200 outline-none focus:border-2 focus:border-blue-500`}
+                component={({ field, form }: any) => (
+                  <Autocomplete
+                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}
+                    onPlaceSelected={(place: any) => {
+                      if (place && place.formatted_address) {
+                        const address = place.formatted_address;
+                        const addressArray = address.split(',');
+                        const street = addressArray[0];
+                        const city = addressArray[1];
+                        const state = addressArray[2];
+                        const fullAddress = `${street.trim()}, ${city.trim()}, ${state.trim()}`;
+                        form.setFieldValue(field.name, fullAddress);
+                      }
+                    }}
+                    placeholder="Ex: Rua dos Pinheiros, 0 - Bairro, Cidade - Estado, Brasil"
+                    ref={googlePlacesRef}
+                    options={{
+                      types: ['address'],
+                      componentRestrictions: { country: 'br' },
+                    }}
+                    className={`${
+                      form.errors.address && form.touched.address
+                        ? 'border-red-500 border-2'
+                        : ''
+                    } border rounded p-2 block mt-1 w-full bg-neutral-200 outline-none focus:border-2 focus:border-blue-500`}
+                    value={field.value}
+                    onChange={(event: any) => {
+                      form.setFieldValue(field.name, event.target.value);
+                    }}
+                    autoFocus={true}
+                  />
+                )}
               />
               <ErrorMessage
                 name="address"

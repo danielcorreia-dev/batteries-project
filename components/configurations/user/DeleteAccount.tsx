@@ -66,7 +66,6 @@ const DeleteAccount = () => {
   };
 
   const [showConfirmation, setShowConfirmation] = React.useState(false);
-
   return (
     <>
       <ToastContainer />

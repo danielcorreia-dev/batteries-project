@@ -1,52 +1,89 @@
 import UserLayout from '@/layouts/UserLayout';
 import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import useSWR from 'swr';
-import { fetcher } from '@/lib/utils/fetcher';
-import ProfileMain from '@/components/ProfileMain';
+import CompanyProfileMain from '@/components/company/CompanyProfileMain';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { BsCheck2Circle, BsPersonCheck } from 'react-icons/bs';
+import ButtonCard from '@/components/ButtonCard';
 
-const API = `https://batteries-backend.up.railway.app/company/1`;
-
-type ProfileData = {
-  id: number;
-  name: string;
+type CompanyProps = {
+  title: string;
   address: string;
-};
-
-export const getServerSideProps: GetServerSideProps<{
-  fallback: { [key: string]: ProfileData[] };
-}> = async () => {
-  const profileInfo: ProfileData[] = await fetcher(API);
-  return {
-    props: {
-      fallback: {
-        [API]: profileInfo,
-      },
-    },
-  };
+  phoneNumber: string;
+  openingHours: string;
+  benefits?: [];
 };
 
 const Perfil = ({
-  fallback,
+  companyData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data, error } = useSWR(API, { fallbackData: fallback[API] });
-
-  console.log(data);
-
-  const companyData = {
-    name: data?.[0]?.title,
-    address: data?.[0]?.address,
-  };
-
   return (
     <>
       <UserLayout>
-        <ProfileMain />
-        {/* <ButtonCard
-          buttonProps={{ title: 'Criar benefício', link: 'sistema/beneficio' }}
-        /> */}
+        <CompanyProfileMain companyProps={companyData} />
+        <div className="flex flex-col items-center py-8">
+          <ButtonCard
+            buttonProps={{
+              icon: BsPersonCheck,
+              color: 'text-blue-500',
+              title: 'Pontuar usuário',
+              description: 'Pontue um usuário por ter feito um descarte',
+              link: '/sistema/empresa/pontuar',
+            }}
+          />
+          <ButtonCard
+            buttonProps={{
+              icon: BsCheck2Circle,
+              description: 'Crie um novo benefício para sua empresa',
+              color: 'text-green-500',
+              title: 'Criar benefício',
+              link: '/sistema/empresa/beneficios/criar-beneficio',
+            }}
+          />
+        </div>
       </UserLayout>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const api = process.env.API_URL;
+  const session = await getServerSession(context.req, context.res, authOptions);
+  try {
+    const userCompanyResponse = await fetch(
+      `${api}/user/${session?.user.id}/company`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.accessToken}`,
+        },
+      }
+    );
+
+    if (!userCompanyResponse.ok) {
+      throw new Error(
+        `Failed to fetch company data: ${userCompanyResponse.status}`
+      );
+    }
+
+    const companyData: CompanyProps = await userCompanyResponse.json();
+
+    return {
+      props: {
+        companyData,
+      },
+    };
+  } catch (error: any) {
+    console.log('Error fetching company data:', error);
+
+    return {
+      props: {
+        error: {
+          message: 'Failed to fetch company data',
+          details: error.message,
+        },
+      },
+    };
+  }
 };
 
 export default Perfil;

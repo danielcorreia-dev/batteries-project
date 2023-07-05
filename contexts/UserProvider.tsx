@@ -12,7 +12,6 @@ interface UserData {
   scores: number;
   email: string;
   company: string | null | undefined;
-  role: string;
 }
 
 interface UserContextProps {
@@ -48,7 +47,6 @@ const UserProvider: React.FC<UserProviderProps> = ({ children, ...props }) => {
           const res = await fetch(`/api/user/${session.user.id}`);
           const data: UserData = await res.json();
 
-          data.role = 'usuario';
           setUserData(data);
         }
       } catch (err) {

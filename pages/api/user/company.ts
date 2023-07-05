@@ -10,7 +10,7 @@ export default async function handler(
   const { q } = req.query; // The 'id' parameter will be available in the 'req.query' object
   try {
     const response = await fetch(
-      `${process.env.API_URL}/user/${session?.user.id}/companies?owner=${q}}`,
+      `${process.env.API_URL}/user/${session?.user.id}/company`,
       {
         headers: {
           'Content-Type': 'application/json',
