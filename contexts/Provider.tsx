@@ -1,8 +1,9 @@
 import { SessionProvider } from 'next-auth/react';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import UserProvider from './UserProvider';
 import { SkeletonTheme } from 'react-loading-skeleton';
-import RoleProvider from './RoleProvider';
+import { useRouter } from 'next/router';
+import { RoleProvider } from './RoleProvider';
 
 interface Props {
   children: ReactNode;
