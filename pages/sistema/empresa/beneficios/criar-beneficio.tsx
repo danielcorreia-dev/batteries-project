@@ -12,10 +12,10 @@ const CriarBeneficio = (props: Props) => {
     <UserLayout>
       <div className="w-full">
         <div className="relative w-full min-h-fit">
-          <div className="flex-col justify-start md:max-w-3xl py-8">
+          <div className="flex-col justify-start md:max-w-3xl py-8 px-4">
             <div className="mb-8">
               <div className="flex justify-between mb-4">
-                <div>
+                <div className="">
                   <h2 className="text-2xl font-semibold">Criar Benefício</h2>
                   <div className="flex-col justify-start items-start">
                     <p className="text-sm text-gray-500 mb-4">

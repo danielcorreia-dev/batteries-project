@@ -6,21 +6,19 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { BsCheck2Circle, BsPersonCheck } from 'react-icons/bs';
 import ButtonCard from '@/components/ButtonCard';
 
-type CompanyProps = {
-  title: string;
-  address: string;
-  phoneNumber: string;
-  openingHours: string;
-  benefits?: [];
-};
-
 const Perfil = ({
   companyData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const updatedCompanyData = {
+    ...companyData,
+    openHours: companyData.openingHours,
+  };
+  delete updatedCompanyData.openingHours;
+
   return (
     <>
       <UserLayout>
-        <CompanyProfileMain companyProps={companyData} />
+        <CompanyProfileMain companyProps={updatedCompanyData} />
         <div className="flex flex-col items-center py-8">
           <ButtonCard
             buttonProps={{
@@ -65,7 +63,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       );
     }
 
-    const companyData: CompanyProps = await userCompanyResponse.json();
+    const companyData = await userCompanyResponse.json();
+    const companyID = companyData.id;
+
+    const companyBenefitsResponse = await fetch(
+      `${api}/company/${companyID}/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.accessToken}`,
+        },
+      }
+    );
+
+    const companyProfile = await companyBenefitsResponse.json();
+    const companyBenefits = companyProfile[0].benefit;
+
+    Object.assign(companyData, { benefits: companyBenefits });
 
     return {
       props: {

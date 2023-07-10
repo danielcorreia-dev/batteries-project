@@ -1,44 +1,53 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 export enum UserRole {
   Usuario = 'usuario',
   Empresa = 'empresa',
 }
-
-interface RoleContextProps {
+interface RoleContextType {
   role: UserRole;
-  updateRole: (newRole: UserRole) => void;
+  setRole: (newRole: UserRole) => void;
 }
 
-const RoleContext = createContext<RoleContextProps | undefined>(undefined);
+const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
-export const useRoleContext = (): RoleContextProps => {
+export function useRole(): RoleContextType {
   const context = useContext(RoleContext);
   if (!context) {
-    throw new Error('useRoleContext must be used within a RoleProvider');
+    throw new Error('useRole must be used within a RoleProvider');
   }
   return context;
-};
+}
 
 interface RoleProviderProps {
+  initialValue?: UserRole;
   children: React.ReactNode;
 }
 
-const RoleProvider: React.FC<RoleProviderProps> = ({ children }) => {
-  const [role, setRole] = useState<UserRole>(UserRole.Usuario);
+export const RoleProvider: React.FC<RoleProviderProps> = ({
+  initialValue = UserRole.Usuario,
+  children,
+}) => {
+  const [role, setRole] = useState<UserRole>(initialValue);
 
-  const updateRole = (newRole: UserRole) => {
+  useEffect(() => {
+    const storedRole = localStorage.getItem('userRole');
+    if (
+      storedRole &&
+      Object.values(UserRole).includes(storedRole as UserRole)
+    ) {
+      setRole(storedRole as UserRole);
+    }
+  }, []);
+
+  const handleSetRole = (newRole: UserRole) => {
     setRole(newRole);
-  };
-
-  const contextValue: RoleContextProps = {
-    role,
-    updateRole,
+    localStorage.setItem('userRole', newRole);
   };
 
   return (
-    <RoleContext.Provider value={contextValue}>{children}</RoleContext.Provider>
+    <RoleContext.Provider value={{ role, setRole: handleSetRole }}>
+      {children}
+    </RoleContext.Provider>
   );
 };
-
-export default RoleProvider;

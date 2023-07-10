@@ -6,21 +6,22 @@ import { VscAccount, VscGear } from 'react-icons/vsc';
 import { CiLogout, CiShop } from 'react-icons/ci';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import { BsPersonDown, BsTags } from 'react-icons/bs';
+import Image from 'next/image';
 import BottomUserNavbar from './BottomUserNavbar';
+import Logo from 'public/icon.png';
 
 import useSWR from 'swr';
 import { fetcher } from '@/lib/utils/fetcher';
 
 import classNames from 'classnames';
 import Link from 'next/link';
-import { useRoleContext, UserRole } from '@/contexts/RoleProvider';
+import { useRole, UserRole } from '@/contexts/RoleProvider';
 import Skeleton from 'react-loading-skeleton';
 
 const SideUserNav = () => {
   const { userData } = useUserContext();
   const { nick } = userData || {};
-
-  const { role } = useRoleContext();
+  const { role, setRole } = useRole();
   const [isBreakpoint, setIsBreakpoint] = useState(false);
   const router = useRouter();
   const { data, error, isLoading } = useSWR(
@@ -83,10 +84,15 @@ const SideUserNav = () => {
       {isBreakpoint ? (
         <BottomUserNavbar items={baseItems} />
       ) : (
-        <div className="px-5 py-8 flex flex-end flex-col justify-between h-screen max-w-sm">
+        <div className="px-5 py-8 flex flex-end flex-col justify-between h-screen max-w-sm items-start">
           <div className="px-4 pb-8">
-            <Link href="/sistema/usuario/perfil" className="mb-12">
-              <h1>Batteries App</h1>
+            <Link href={`/sistema/${role}/perfil`} className="mb-12">
+              {/* <h1>Batteries App</h1> */}
+              <div className="p-2 bg-neutral-800 inline-flex rounded-full hover:opacity-80 transition-opacity">
+                <div className="relative w-8 h-8">
+                  <Image alt="logo" src={Logo}></Image>
+                </div>
+              </div>
             </Link>
             <nav>
               {links}
@@ -122,7 +128,12 @@ const SideUserNav = () => {
                   {role === UserRole.Empresa && (
                     <>
                       <Link href={'/sistema/empresa/beneficios'}>
-                        <div className="flex items-center justify-start hover:text-blue-400">
+                        <div
+                          className={`flex items-center justify-start hover:text-blue-400 ${
+                            router.asPath === '/sistema/empresa/beneficios' &&
+                            'text-blue-700'
+                          }`}
+                        >
                           <BsTags size={32} />
                           <p className="px-2 list-none">Benefícios</p>
                         </div>
@@ -143,7 +154,10 @@ const SideUserNav = () => {
                 </>
               )}
               <button
-                onClick={() => signOut({ callbackUrl: '/' })}
+                onClick={() => {
+                  signOut({ callbackUrl: '/' });
+                  setRole(UserRole.Usuario);
+                }}
                 className="text-red-500 flex items-center"
               >
                 <div></div>

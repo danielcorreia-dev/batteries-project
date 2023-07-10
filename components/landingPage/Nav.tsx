@@ -2,14 +2,25 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
+import Logo from 'public/icon.png';
+import Image from 'next/image';
 
 const LandingNav = ({ bgColor }: { bgColor: string }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className={classNames(`${bgColor} py-8 md:bg-blue-200 md:border-none`, {'border-b': open === true})}>
+    <header
+      className={classNames(`${bgColor} py-8 md:bg-blue-200 md:border-none`, {
+        'border-b': open === true,
+      })}
+    >
       <div className="flex items-center justify-between xl:max-w-7xl xl:mx-auto max-w-full px-[8%] flex-wrap w-full">
-        <h1 className="font-bold text-2xl">Batteries Project</h1>
+        <div className="flex flex-row gap-2">
+          <div className="relative h-8 w-8">
+            <Image alt="logo" src={Logo} />
+          </div>
+          <h1 className="font-bold text-2xl">Batteries Project</h1>
+        </div>
 
         <FiMenu
           className="md:hidden block h-6 w-6 cursor-pointer"

@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useEffect, useRef } from 'react';
 
 interface FormValues {
@@ -88,7 +88,6 @@ const FormCadastro = () => {
 
   return (
     <>
-      <ToastContainer />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

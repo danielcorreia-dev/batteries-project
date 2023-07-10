@@ -51,11 +51,9 @@ const SearchBar = <T extends object>({ searchProps }: Props<T>) => {
     fetchDataFromAPI();
   }, [debouncedSearch, fetchData]);
 
-  const handleItemClick = (item: T & { label?: string }) => {
+  const handleItemClick = (item: T & { title?: string; nick?: string }) => {
     const itemLabel =
-      item && ('label' in item ? item.label : (item as any).nick)
-        ? (item as any)
-        : (item as any).title || item.toString();
+      (item && ('label' in item ? item.title : item.nick)) || item.toString();
 
     setSearch(itemLabel);
     if (setValue) {

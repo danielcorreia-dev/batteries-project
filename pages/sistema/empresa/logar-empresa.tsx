@@ -1,4 +1,4 @@
-import { useRoleContext, UserRole } from '@/contexts/RoleProvider';
+import { useRole, UserRole } from '@/contexts/RoleProvider';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { CgSpinnerAlt } from 'react-icons/cg';
@@ -6,20 +6,19 @@ import { CgSpinnerAlt } from 'react-icons/cg';
 type Props = {};
 
 const LogarEmpresa = (props: Props) => {
-  const { updateRole } = useRoleContext();
+  const { setRole } = useRole();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    updateRole(UserRole.Empresa);
-    // Simulating a delay for the loading screen
+    setRole(UserRole.Empresa);
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
       router.push('/sistema/empresa/perfil');
     }, 2000);
 
     return () => clearTimeout(loadingTimer);
-  }, [updateRole, router]);
+  }, [setRole, router]);
 
   return (
     <div>

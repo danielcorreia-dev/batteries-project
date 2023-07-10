@@ -16,6 +16,8 @@ type UserData = {
 
 export type Company = {
   title: string;
+  address: string;
+  scores: number;
 }[];
 
 interface Props {
@@ -26,6 +28,7 @@ interface Props {
 const Perfil = ({ userData, companies }: Props) => {
   const { nick, totalScore } = userData;
   const companiesArray = [...companies];
+  console.log(companies);
 
   return (
     <>
@@ -86,6 +89,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return {
         title: company.company.title,
         address: company.company.address,
+        scores: company.scores,
       };
     });
     return {

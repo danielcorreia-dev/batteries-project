@@ -6,7 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'GET') {
     res.status(405).end();
     return;
   }
@@ -30,25 +30,27 @@ export default async function handler(
   const dataCompanyId = await responseCompany.json();
   const companyId = dataCompanyId.id;
 
-  const body = JSON.parse(req.body);
-  const { userId, score } = body;
+  const { id, status } = req.body;
 
   try {
-    const response = await fetch(`${api}/company/${companyId}/user`, {
-      method: 'POST',
+    const response = await fetch(`${api}/company/${companyId}/benefits/`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${session?.user.accessToken}`,
       },
-      body: JSON.stringify({
-        companyId,
-        userId,
-        scores: score,
-      }),
     });
 
     if (!response.ok) {
       throw new Error('Failed to submit form to external API');
+    }
+
+    if (response.status === 401) {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (response.ok) {
+      res.status(204).end();
     }
 
     const data = await response.json();
@@ -57,9 +59,6 @@ export default async function handler(
   } catch (error) {
     res.status(500).json({
       message: 'Failed to submit form',
-      userId,
-      companyId,
-      score,
     });
   }
 }

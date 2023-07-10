@@ -4,31 +4,54 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getServerSession } from 'next-auth';
 import React from 'react';
+import { useRouter } from 'next/router';
+import ButtonCard from '@/components/ButtonCard';
+import { BsMap } from 'react-icons/bs';
 
 type CompanyProps = {
   title: string;
   id: any;
   address: string;
   phoneNumber: string;
-  openingHours: string;
+  openHours: string;
   benefits?: [];
+  [key: string]: any;
 };
 
 type Props = {
-  companyData?: CompanyProps | undefined;
+  companyData?: CompanyProps;
   error?: {
     message: string;
     details: string;
   };
 };
 
-const idProfile = ({
+const IdProfile = ({
   companyData,
+  error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const location = companyData?.address
+    ? encodeURIComponent(companyData.address)
+    : '';
+
   return (
-    <UserLayout>
-      <CompanyProfileMain companyProps={companyData[0]} />
-    </UserLayout>
+    <>
+      <UserLayout>
+        <CompanyProfileMain companyProps={companyData} user={false} />
+        <div className="flex flex-col items-center py-8">
+          <ButtonCard
+            buttonProps={{
+              icon: BsMap,
+              color: 'text-blue-500',
+              title: 'Ver localização',
+              description: 'Veja a localização da empresa no mapa',
+              link: `https://www.google.com/maps/search/?api=1&query=${location}`,
+              blank: true,
+            }}
+          />
+        </div>
+      </UserLayout>
+    </>
   );
 };
 
@@ -47,12 +70,21 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     });
 
     if (!userCompanyResponse.ok) {
-      throw new Error(
-        `Failed to fetch company data: ${userCompanyResponse.status}`
-      );
+      context.res.statusCode = 404;
+      return {
+        notFound: true,
+      };
     }
 
-    const companyData: CompanyProps = await userCompanyResponse.json();
+    const companyDataArr: CompanyProps[] = await userCompanyResponse.json();
+
+    const companyData = companyDataArr[0];
+
+    if (!companyData || companyData.length === 0 || companyData === undefined) {
+      return {
+        notFound: true,
+      };
+    }
 
     return {
       props: {
@@ -73,4 +105,4 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   }
 };
 
-export default idProfile;
+export default IdProfile;

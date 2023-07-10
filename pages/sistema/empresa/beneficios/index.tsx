@@ -3,14 +3,14 @@ import UserLayout from '@/layouts/UserLayout';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getServerSession } from 'next-auth';
-import React from 'react';
+import React, { FC } from 'react';
 
 type Benefit = {
   id: number;
   benefit: string;
   description: string;
   scoreNeeded: number;
-  active: boolean;
+  status: boolean;
 };
 
 const benefit = [
@@ -59,18 +59,22 @@ const benefit = [
 ];
 
 type Props = {
-  benefits: Benefit[];
+  companyBenefits: Benefit[];
+  companyId: number;
 };
 
-const Beneficios = ({
+const Beneficios: FC<Props> = ({
   companyBenefits,
+  companyId,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log(companyBenefits);
   return (
     <UserLayout>
       <div className="w-full md:p-0 px-8 border-l-[1px] border-1 border-neutral-200">
         <div className="px-6">
-          {/* <CompanyBenefitList benefits={benefits} /> */}
+          <CompanyBenefitList
+            benefits={companyBenefits}
+            companyId={companyId}
+          />
         </div>
       </div>
     </UserLayout>
@@ -97,17 +101,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     const companyData = await userCompanyResponse.json();
-    const companyBenefitsResponse = await fetch(`${api}/company/10/profile`, {
-      headers: {
-        Authorization: `Bearer ${session?.user.accessToken}`,
-      },
-    });
+    const companyBenefitsResponse = await fetch(
+      `${api}/company/${companyData.id}/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.accessToken}`,
+        },
+      }
+    );
 
     const companyProfile = await companyBenefitsResponse.json();
     const companyBenefits = companyProfile[0].benefit;
 
     return {
       props: {
+        companyId: companyData.id,
         companyBenefits,
       },
     };

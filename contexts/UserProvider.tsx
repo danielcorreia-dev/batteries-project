@@ -21,7 +21,6 @@ interface UserContextProps {
 
 interface UserProviderProps {
   children: ReactNode;
-  // Allow any additional props
   [key: string]: any;
 }
 
