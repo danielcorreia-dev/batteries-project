@@ -10,6 +10,7 @@ const randomIcon = randomIcons[Math.floor(Math.random() * randomIcons.length)];
 type Company = {
   title: string;
   address: string;
+  scores: number;
 }[];
 
 interface Props {
@@ -22,16 +23,22 @@ const DiscardedPlaces = ({ companies }: Props) => {
       <div className="p-4">
         <ul>
           {companies.map((company, index) => (
-            <li key={index} className="block w-full">
-              <div className="flex items-center">
-                <div className="flex items-center justify-center w-12 h-12 bg-neutral-200 rounded-full mr-5">
-                  {React.createElement(randomIcon, {
-                    className: 'w-6 h-6 text-blue-700',
-                  })}
+            <li key={index} className="block w-full mb-2 p-4 border-b">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className="flex items-center justify-center w-12 h-12 bg-neutral-200 rounded-full mr-5">
+                    {React.createElement(randomIcon, {
+                      className: 'w-6 h-6 text-blue-700',
+                    })}
+                  </div>
+                  <div>
+                    <h2 className="font-semibold text-lg">{company.title}</h2>
+                    <p className="text-sm text-gray-500"> {company.address}</p>
+                  </div>
                 </div>
                 <div>
-                  <h2 className="font-semibold text-lg">{company.title}</h2>
-                  <p className="text-sm text-gray-500"> {company.address}</p>
+                  <span className="font-semibold">{company.scores}</span>
+                  <h2 className="text-sm text-gray-500">Pontos</h2>
                 </div>
               </div>
             </li>

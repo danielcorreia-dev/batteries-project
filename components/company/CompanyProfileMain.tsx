@@ -14,6 +14,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import InputMask from 'react-input-mask';
 import Avatar from '../Avatar';
+import CompanyProfileBenefitList from './CompanyProfileBenefitList';
 
 interface IconProps {
   Icon: React.ElementType;
@@ -53,17 +54,18 @@ type CompanyProps = {
   title: string;
   address: string;
   phoneNumber: string;
-  openingHours: string;
+  openHours: string;
   benefits?: [];
 };
 
 interface Props {
   companyProps?: CompanyProps;
+  user?: boolean;
 }
 
-const CompanyProfileMain = ({ companyProps }: Props) => {
+const CompanyProfileMain = ({ companyProps, user = true }: Props) => {
   // States
-  const { title, address, phoneNumber, openingHours, benefits } =
+  const { title, address, phoneNumber, openHours, benefits } =
     companyProps || {};
 
   const [editProfile, setEditProfile] = useState(false);
@@ -85,7 +87,7 @@ const CompanyProfileMain = ({ companyProps }: Props) => {
     title,
     address,
     phoneNumber,
-    openingHours,
+    openHours,
   };
 
   useEffect(() => {
@@ -106,6 +108,8 @@ const CompanyProfileMain = ({ companyProps }: Props) => {
       title: 'Benefícios',
     },
   ];
+
+  const companyExists = companyProps && Object.keys(companyProps).length > 0;
 
   const EditProfileForm = () => {
     return (
@@ -196,13 +200,13 @@ const CompanyProfileMain = ({ companyProps }: Props) => {
                   </div>
                   <div className="mb-3">
                     <label
-                      htmlFor="openingHours"
+                      htmlFor="openHours"
                       className="text-sm text-neutral-400"
                     >
                       Horário de funcionamento
                     </label>
                     <Field
-                      name="openingHours"
+                      name="openHours"
                       className="block px-2 py-3 border rounded border-neutral-400 focus:border-blue-500 max-w-full resize-none w-full"
                     >
                       {({ field, form, error }: any) => (
@@ -235,12 +239,16 @@ const CompanyProfileMain = ({ companyProps }: Props) => {
         <div className="flex-col items-center justify-between  max-w-xl pt-10 px-8">
           <div className="flex items-center justify-between mb-4">
             <Avatar avatarProps={{ variant: 'company' }} />
-            <button
-              className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none transition-colors"
-              onClick={() => setEditProfile(!editProfile)}
-            >
-              Editar Empresa
-            </button>
+            {user ? (
+              <button
+                className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none transition-colors"
+                onClick={() => setEditProfile(!editProfile)}
+              >
+                Editar Empresa
+              </button>
+            ) : (
+              ''
+            )}
           </div>
           <div className="mb-5 sm:mb-8">
             <h1 className="text-2xl font-bold">{title}</h1>
@@ -255,7 +263,7 @@ const CompanyProfileMain = ({ companyProps }: Props) => {
             <IconInfo
               variant="company"
               Icon={RiTimerFlashLine}
-              points={openingHours}
+              points={openHours}
               label={'Horário de funcionamento'}
             />
             <IconInfo
@@ -283,7 +291,9 @@ const CompanyProfileMain = ({ companyProps }: Props) => {
             </ul>
           </nav>
         </div>
-        <div>{/* Achievments */}</div>
+        <div>
+          <CompanyProfileBenefitList benefits={benefits || []} />
+        </div>
       </div>
     </>
   );

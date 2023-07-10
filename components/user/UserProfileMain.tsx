@@ -37,14 +37,17 @@ interface ProfileProps {
   achievements?: number;
   savedPlaces?: number;
   companies?: Company[];
+  user?: boolean;
 }
 
 type Company = {
   title: string;
+  address: string;
+  scores: number;
 };
 
 const UserProfileMain: React.FC<Props> = ({ profileProps }) => {
-  const { name, location, bio, points, achievements, savedPlaces } =
+  const { name, location, bio, points, achievements, savedPlaces, companies } =
     profileProps;
   const [editProfile, setEditProfile] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -189,14 +192,7 @@ const UserProfileMain: React.FC<Props> = ({ profileProps }) => {
         </div>
         <div>
           {activeTabIndex === 0 && (
-            <DiscardedPlaces
-              companies={
-                profileProps.companies || [
-                  { title: 'teste' },
-                  { title: 'teste2' },
-                ]
-              }
-            />
+            <DiscardedPlaces companies={companies || []} />
           )}
         </div>
       </div>

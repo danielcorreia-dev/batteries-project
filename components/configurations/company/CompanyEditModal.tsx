@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import useRedirect from '@/lib/hooks/useRedirect';
 import * as Yup from 'yup';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useRef } from 'react';
 import InputMask from 'react-input-mask';
 import Autocomplete from 'react-google-autocomplete';
@@ -116,7 +116,6 @@ const FormCompanySignUp: React.FC<Props> = ({ companyValues }) => {
 
   return (
     <>
-      <ToastContainer />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

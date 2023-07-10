@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import DeleteCompanyModal from './DeleteCompanyModal';
 import { useRouter } from 'next/router';
 
@@ -59,7 +59,6 @@ const CompanyDelete = ({ userData }: { userData: CompanyProps }) => {
 
   return (
     <>
-      <ToastContainer />
       <div className="flex-1 rounded-2">
         <div className="py-2 pb-10">
           <h1 className="font-bold text-2xl">Deletar sua empresa</h1>

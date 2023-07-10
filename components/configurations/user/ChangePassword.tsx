@@ -1,7 +1,7 @@
 import { useUserContext } from '@/contexts/UserProvider';
 import { Field, Form, Formik, ErrorMessage } from 'formik';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 interface FormValues {
@@ -74,7 +74,6 @@ const ChangePassword = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="py-2 mb-10">
         <h1 className="font-bold text-2xl">Altere sua senha</h1>
       </div>

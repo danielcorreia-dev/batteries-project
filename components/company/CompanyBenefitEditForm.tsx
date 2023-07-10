@@ -6,8 +6,7 @@ import * as Yup from 'yup';
 
 type Props = {
   initialValues?: BenefitValues;
-  onSubmit?: () => Promise<void>;
-  edit?: boolean;
+  id: number;
 };
 
 interface BenefitValues {
@@ -30,41 +29,41 @@ const defaultInitialValues: BenefitValues = {
   scoreNeeded: 0,
 };
 
-const defaultOnSubmit = async (
-  { benefit, description, scoreNeeded }: BenefitValues,
-  { setFieldError }: any
-) => {
-  try {
-    const response = await fetch('/api/company/create-benefit', {
-      method: 'POST',
-      body: JSON.stringify({
-        benefit,
-        description,
-        scoreNeeded,
-      }),
-    });
-
-    if (!response.ok) {
-      const data = await response.json();
-      setFieldError('benefit', data.message);
-    }
-
-    if (response.ok) {
-      toast.success('Benefício criado com sucesso');
-      setTimeout(() => {
-        router.back();
-      }, 1000);
-    }
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 const CompanyBenefitForm: React.FC<Props> = ({
   initialValues = defaultInitialValues,
-  onSubmit = defaultOnSubmit,
-  edit,
+  id,
 }) => {
+  const onSubmit = async (
+    { benefit, description, scoreNeeded }: BenefitValues,
+    { setFieldError }: any
+  ) => {
+    try {
+      const response = await fetch('/api/company/update-benefit', {
+        method: 'POST',
+        body: JSON.stringify({
+          id,
+          benefit,
+          description,
+          scoreNeeded,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        setFieldError('benefit', data.message);
+      }
+
+      if (response.ok) {
+        toast.success('Benefício criado com sucesso');
+        setTimeout(() => {
+          router.back();
+        }, 1000);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <>
       <Formik
@@ -157,7 +156,7 @@ const CompanyBenefitForm: React.FC<Props> = ({
                 disabled={isSubmitting}
                 className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none"
               >
-                {edit ? 'Editar' : 'Criar'}
+                Salvar
               </button>
             </div>
           </Form>

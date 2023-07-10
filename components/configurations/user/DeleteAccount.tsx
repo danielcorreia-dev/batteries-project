@@ -1,7 +1,7 @@
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const DeleteAccount = () => {
   const { push } = useRouter();
@@ -68,7 +68,6 @@ const DeleteAccount = () => {
   const [showConfirmation, setShowConfirmation] = React.useState(false);
   return (
     <>
-      <ToastContainer />
       <div className="flex-1 roundedp-2">
         <div className="py-2 pb-10">
           <h1 className="font-bold text-2xl">Deletar sua conta</h1>

@@ -2,6 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 
+interface BenefitData {
+  benefit: string;
+  description: string;
+  scoreNeeded: number;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -30,20 +36,19 @@ export default async function handler(
   const dataCompanyId = await responseCompany.json();
   const companyId = dataCompanyId.id;
 
-  const body = JSON.parse(req.body);
-  const { userId, score } = body;
+  const { id, benefit, description, scoreNeeded } = req.body;
 
   try {
-    const response = await fetch(`${api}/company/${companyId}/user`, {
-      method: 'POST',
+    const response = await fetch(`${api}/company/${companyId}/benefits/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${session?.user.accessToken}`,
       },
       body: JSON.stringify({
-        companyId,
-        userId,
-        scores: score,
+        benefit,
+        description,
+        scoreNeeded,
       }),
     });
 
@@ -57,9 +62,6 @@ export default async function handler(
   } catch (error) {
     res.status(500).json({
       message: 'Failed to submit form',
-      userId,
-      companyId,
-      score,
     });
   }
 }
