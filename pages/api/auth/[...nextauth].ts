@@ -6,23 +6,18 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
-
       credentials: {
         email: { label: 'Username', type: 'text', placeholder: 'jsmith' },
         password: { label: 'Password', type: 'password' },
         rememberMe: { label: 'Remember me', type: 'checkbox' },
       },
-
       async authorize(credentials, req) {
         const api = process.env.API_URL;
         const { email, password } = credentials as any;
         const res = await fetch(`${api}/auth/sign-in`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
+          body: JSON.stringify({ email, password }),
         });
         const user = await res.json();
 
@@ -48,7 +43,27 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      const api = process.env.API_URL;
+      // Check if the token has expired or is about to expire (e.g., within 5 minutes)
+      const tokenExpired = Date.now() > ((token?.exp || 0) as number) * 1000;
+      const tokenExpiringSoon =
+        ((token?.exp || 0) as number) * 1000 - Date.now() < 5 * 60 * 1000;
+
+      // If the token has expired or is about to expire, refresh it
+      if (tokenExpired || tokenExpiringSoon) {
+        const refreshedToken = await fetch(`${api}/auth/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken: token.refreshToken }),
+        }).then((res) => res.json());
+
+        // Update the token with the refreshed token values
+        if (refreshedToken) {
+          return { ...token, ...refreshedToken };
+        }
+      }
+
+      return token;
     },
 
     async session({ session, token, user }) {
