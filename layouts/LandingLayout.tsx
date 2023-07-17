@@ -5,13 +5,13 @@ import { ReactNode } from 'react';
 
 interface Props {
   children?: ReactNode;
+  navColor?: string;
 }
 
-const LandingLayout = ({ children, ...props }: Props) => {
+const LandingLayout = ({ navColor, children, ...props }: Props) => {
   return (
     <>
-      <Nav bgColor="bg-blue-200"></Nav>
-      <HeroSection />
+      <Nav bgColor={navColor} />
       <div {...props}>{children}</div>
       <Footer />
     </>

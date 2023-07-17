@@ -150,7 +150,7 @@ const UserProfileMain: React.FC<Props> = ({ profileProps }) => {
   return (
     <>
       <EditProfileForm />
-      <div className="h-screen md:border-x border-neutral-300 max-w-xl w-full">
+      <div className="h-screen md:border-x border-neutral-300 max-w-2xl w-full">
         <div className="md:py-8">
           <div className="flex-col items-center justify-between max-w-xl py-4 px-8">
             <div className="flex items-center justify-between mb-4">

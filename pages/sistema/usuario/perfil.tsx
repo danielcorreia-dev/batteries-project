@@ -7,6 +7,7 @@ import UserLayout from '@/layouts/UserLayout';
 import { TbWorldLatitude } from 'react-icons/tb';
 import UserProfileMain from '@/components/user/UserProfileMain';
 import { createPartiallyEmittedExpression } from 'typescript';
+import { BsTrophyFill } from 'react-icons/bs';
 
 type UserData = {
   nick: string;
@@ -42,7 +43,7 @@ const Perfil = ({ userData, companies }: Props) => {
           }}
           // Pass other necessary props from the userData
         />
-        <div className="py-10">
+        <div className="flex flex-col items-center py-8">
           <ButtonCard
             buttonProps={{
               icon: TbWorldLatitude,
@@ -50,6 +51,15 @@ const Perfil = ({ userData, companies }: Props) => {
               title: 'Descubra',
               description: 'Explore novas empresas na sua região',
               link: '/sistema/buscar',
+            }}
+          />
+          <ButtonCard
+            buttonProps={{
+              icon: BsTrophyFill,
+              color: 'text-blue-500',
+              title: 'Ranking Global',
+              description: 'Veja o ranking global de pontos',
+              link: '/sistema/usuario/ranking',
             }}
           />
         </div>

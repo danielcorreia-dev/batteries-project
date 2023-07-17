@@ -34,6 +34,7 @@ const IdProfile = ({
     ? encodeURIComponent(companyData.address)
     : '';
 
+  console.log(companyData);
   return (
     <>
       <UserLayout>

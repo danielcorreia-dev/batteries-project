@@ -25,7 +25,7 @@ const Login = () => {
         >
           Não tem uma conta?
         </Link>
-        <div className="border py-6 px-4 rounded">
+        <div className="border py-6 px-4 rounded min-h-fit mb-4">
           <div className="text-center flex flex-col justify-center items-center mb-5 max-w-xs">
             <FiBatteryCharging size={32} />
             <h2 className="font-bold text-2xl">Entre na sua conta</h2>

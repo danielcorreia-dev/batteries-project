@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.1.1",
     "@next/font": "13.1.6",
     "@types/node": "18.11.19",
     "@types/react": "^18.0.27",
@@ -25,6 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-google-autocomplete": "^2.7.3",
+    "react-hook-form": "^7.45.1",
     "react-icons": "^4.7.1",
     "react-id-swiper": "^4.0.0",
     "react-input-mask": "^2.0.4",

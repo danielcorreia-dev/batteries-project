@@ -1,5 +1,3 @@
-'use client';
-
 import { axiosAuth } from 'lib/axios';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';

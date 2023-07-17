@@ -1,35 +1,43 @@
-import { Formik, Field, ErrorMessage, Form, FormikHelpers } from 'formik';
+import { useForm, Controller } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
 
-const LoginForm = () => {
+type Props = {};
+
+const LoginForm: FC<Props> = ({}) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [authError, setAuthError] = useState<string>('');
-  const { push } = useRouter();
-  interface LoginFormValues {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-  }
 
-  const initialValues: LoginFormValues = {
-    email: '',
-    password: '',
-    rememberMe: false,
-  };
+  const { push } = useRouter();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email('email invalido')
+      .email('Email inválido')
       .required('Insira um e-mail válido'),
-    password: Yup.string().required(''),
+    password: Yup.string().required('Insira a senha'),
   });
 
-  const onSubmit = async (
-    { email, password, rememberMe }: LoginFormValues,
-    { setSubmitting }: FormikHelpers<LoginFormValues>
-  ) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(LoginSchema),
+  });
+
+  const onSubmit = async (data: any) => {
+    setAuthError('');
+    const { email, password } = data;
+
     const result = await signIn('credentials', {
       email,
       password,
@@ -37,65 +45,98 @@ const LoginForm = () => {
       redirect: false,
     });
 
-    !result?.ok ? setAuthError('Email ou senha inválido') : push('/sistema/');
+    if (!result?.ok) {
+      setAuthError('Email ou senha inválido');
+    } else {
+      push('/sistema/');
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleRememberMeChange = (e: any) => {
+    setRememberMe(e.target.checked);
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={LoginSchema}
-      onSubmit={onSubmit}
-    >
-      {({ errors, touched, values }) => (
-        <Form>
-          <div className="mb-4">
-            <label htmlFor="email">Email:</label>
-            <Field
-              type="email"
-              id="email"
-              name="email"
-              className={`${
-                errors.email && touched.email ? 'border-red-500 border-2' : ''
-              } border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500`}
-            />
-            <ErrorMessage name="email">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password">Senha:</label>
-            <Field
-              type="password"
-              id="password"
-              name="password"
-              className="border rounded p-2 block mt-1 w-full bg-gray-300 outline-none focus:border-2 focus:border-purple-500"
-            />
-            <ErrorMessage name="password">
-              {(msg) => <p className="text-red-500 text-sm">{msg}</p>}
-            </ErrorMessage>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="rememberMe">
-              <Field
-                type="checkbox"
-                className="w-4 h-4 accent-violet-500 mr-2"
-                id="rememberMe"
-                name="rememberMe"
-                checked={values.rememberMe}
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-4">
+          <label htmlFor="email">Email:</label>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <input
+                {...field}
+                type="email"
+                className={`${
+                  errors.email ? 'border-red-500 border-2' : ''
+                } border rounded p-2 block mt-1 w-full bg-neutral-100 outline-none focus:border-2 focus:border-purple-500`}
               />
-              Lembrar de mim
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="border py-2 px-4 mb-4 rounded bg-violet-500 text-white w-100 w-max"
-          >
-            Entrar
-          </button>
-          {authError && <div className="text-red-500">{authError}</div>}
-        </Form>
-      )}
-    </Formik>
+            )}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password">Senha:</label>
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <div className="relative">
+                <input
+                  {...field}
+                  type={showPassword ? 'text' : 'password'}
+                  className="border rounded p-2 block mt-1 w-full bg-neutral-100 outline-none focus:border-2 focus:border-purple-500"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 h-max "
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <BsEyeSlash size={20} />
+                  ) : (
+                    <BsEye size={20} />
+                  )}
+                </button>
+              </div>
+            )}
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="rememberMe">
+            <input
+              type="checkbox"
+              className="w-4 h-4 accent-violet-500 mr-2"
+              checked={rememberMe}
+              onChange={handleRememberMeChange}
+            />
+            Lembrar de mim
+          </label>
+        </div>
+        <button
+          type="submit"
+          className={`border py-2 px-4 mb-4 rounded bg-violet-500 text-white w-100 w-max transition-all ${
+            isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={isSubmitting}
+        >
+          <span className="transition-all">
+            {isSubmitting ? 'Entrando...' : 'Entrar'}
+          </span>
+        </button>
+        {authError && <div className="text-red-500">{authError}</div>}
+      </form>
+    </>
   );
 };
 

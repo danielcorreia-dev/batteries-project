@@ -18,7 +18,7 @@ const UserLayout = ({ children, ...props }: Props) => {
   return (
     <>
       <div className="flex mx-auto max-w-7xl">
-        <div>
+        <div className="w-min">
           <SideUserNav />
         </div>
         <div className={`max-w-full flex-1 flex gap-2`} {...props}>

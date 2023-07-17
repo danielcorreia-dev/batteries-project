@@ -2,7 +2,6 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -20,13 +19,9 @@ export const authOptions: NextAuthOptions = {
           body: JSON.stringify({ email, password }),
         });
         const user = await res.json();
-
-        // If no error and we have user data, return it
         if (res.ok && user) {
           return user;
         }
-
-        // Return null if user data could not be retrieved
         return null;
       },
     }),
@@ -43,30 +38,10 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      const api = process.env.API_URL;
-      // Check if the token has expired or is about to expire (e.g., within 5 minutes)
-      const tokenExpired = Date.now() > ((token?.exp || 0) as number) * 1000;
-      const tokenExpiringSoon =
-        ((token?.exp || 0) as number) * 1000 - Date.now() < 5 * 60 * 1000;
-
-      // If the token has expired or is about to expire, refresh it
-      if (tokenExpired || tokenExpiringSoon) {
-        const refreshedToken = await fetch(`${api}/auth/refresh`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refreshToken: token.refreshToken }),
-        }).then((res) => res.json());
-
-        // Update the token with the refreshed token values
-        if (refreshedToken) {
-          return { ...token, ...refreshedToken };
-        }
-      }
-
-      return token;
+      return { ...token, ...user };
     },
 
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.user = token as any;
       return session;
     },

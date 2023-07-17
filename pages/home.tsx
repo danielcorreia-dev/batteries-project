@@ -8,6 +8,7 @@ import achievSlide from 'public/achievement-slide2.svg';
 import mobileSlide from 'public/mobile-slide.svg';
 import Slider from '@/components/landingPage/Slider';
 import LandingLayout from '@/layouts/LandingLayout';
+import HeroSection from '@/components/landingPage/HeroSection';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,6 +38,7 @@ export default function Home() {
     <>
       <LandingLayout>
         {/* Card Section */}
+        <HeroSection />
         <section className="py-12 px-8 mb-32">
           <div className="mx-auto md:max-w-6xl">
             <div className="text-center mb-16 mx-8 md:mx-0">

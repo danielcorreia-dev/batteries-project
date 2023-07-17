@@ -55,7 +55,7 @@ type CompanyProps = {
   address: string;
   phoneNumber: string;
   openHours: string;
-  benefits?: [];
+  benefit?: [];
 };
 
 interface Props {
@@ -64,10 +64,11 @@ interface Props {
 }
 
 const CompanyProfileMain = ({ companyProps, user = true }: Props) => {
-  // States
-  const { title, address, phoneNumber, openHours, benefits } =
+  const { title, address, phoneNumber, openHours, benefit } =
     companyProps || {};
 
+  console.log(benefit);
+  // States
   const [editProfile, setEditProfile] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
@@ -235,8 +236,8 @@ const CompanyProfileMain = ({ companyProps, user = true }: Props) => {
   return (
     <>
       <EditProfileForm />
-      <div className="h-screen md:border-x border-neutral-300 max-w-xl w-full">
-        <div className="flex-col items-center justify-between  max-w-xl pt-10 px-8">
+      <div className="h-screen md:border-x border-neutral-300 max-w-2xl w-full">
+        <div className="flex-col items-center justify-between  max-w-2xl pt-10 px-8">
           <div className="flex items-center justify-between mb-4">
             <Avatar avatarProps={{ variant: 'company' }} />
             {user ? (
@@ -292,7 +293,7 @@ const CompanyProfileMain = ({ companyProps, user = true }: Props) => {
           </nav>
         </div>
         <div>
-          <CompanyProfileBenefitList benefits={benefits || []} />
+          <CompanyProfileBenefitList benefits={benefit || []} />
         </div>
       </div>
     </>

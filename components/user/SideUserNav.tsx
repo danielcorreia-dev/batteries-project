@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import { useUserContext } from '../../contexts/UserProvider';
-import { VscAccount, VscGear } from 'react-icons/vsc';
-import { CiLogout, CiShop } from 'react-icons/ci';
-import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import { BsPersonDown, BsTags } from 'react-icons/bs';
+import {
+  BsPersonDown,
+  BsTags,
+  BsPersonCircle,
+  BsGear,
+  BsSearch,
+  BsShop,
+  BsTrophy,
+  BsBoxArrowInLeft,
+} from 'react-icons/bs';
 import Image from 'next/image';
 import BottomUserNavbar from './BottomUserNavbar';
 import Logo from 'public/icon.png';
@@ -23,27 +29,22 @@ const SideUserNav = () => {
   const { nick } = userData || {};
   const { role, setRole } = useRole();
   const [isBreakpoint, setIsBreakpoint] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const router = useRouter();
-  const { data, error, isLoading } = useSWR(
-    role === UserRole.Usuario ? '/api/user/company' : null,
-    fetcher
-  );
-
+  const timeoutRef = useRef<unknown | null>(null);
+  const { data, error, isLoading } = useSWR('/api/user/company', fetcher, {
+    revalidateOnFocus: false,
+  });
   const baseItems = [
     {
       url: `/sistema/${role}/perfil`,
       text: 'Perfil',
-      icon: VscAccount,
+      icon: BsPersonCircle,
     },
     {
       url: '/sistema/buscar',
       text: 'Buscar',
-      icon: HiOutlineMagnifyingGlass,
-    },
-    {
-      url: `/sistema/${role}/configuracoes`,
-      text: 'Configurações',
-      icon: VscGear,
+      icon: BsSearch,
     },
   ];
 
@@ -53,6 +54,16 @@ const SideUserNav = () => {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const handleMenuOpen = () => {
+    clearInterval(timeoutRef.current as number);
+    setIsMenuOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    clearInterval(timeoutRef.current as number);
+    timeoutRef.current = setTimeout(() => setIsMenuOpen(false), 300);
+  };
 
   const links = baseItems.map((item) => (
     <Link
@@ -67,7 +78,7 @@ const SideUserNav = () => {
       )}
     >
       <li className="flex items-center">
-        <item.icon size={32} />
+        <item.icon size={28} />
         <p
           className={classNames('px-2 hover:text-blue-400', {
             'font-semibold': item.url === router.asPath,
@@ -84,96 +95,164 @@ const SideUserNav = () => {
       {isBreakpoint ? (
         <BottomUserNavbar items={baseItems} />
       ) : (
-        <div className="px-5 py-8 flex flex-end flex-col justify-between h-screen max-w-sm items-start">
-          <div className="px-4 pb-8">
-            <Link href={`/sistema/${role}/perfil`} className="mb-12">
-              {/* <h1>Batteries App</h1> */}
-              <div className="p-2 bg-neutral-800 inline-flex rounded-full hover:opacity-80 transition-opacity">
-                <div className="relative w-8 h-8">
-                  <Image alt="logo" src={Logo}></Image>
+        <div className="px-5 py-8 flex flex-end flex-col justify-between h-screen w-48">
+          <div className="px-4 pb-8 min-w-max">
+            <div className="mb-4">
+              <Link href={`/sistema/${role}/perfil`} className="mb-12">
+                <div className="p-2 bg-neutral-800 inline-flex rounded-full hover:opacity-80 transition-opacity">
+                  <div className="relative w-8 h-8">
+                    <Image alt="logo" src={Logo}></Image>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
+
             <nav>
-              {links}
-              {isLoading ? (
-                <Skeleton />
-              ) : (
-                <>
-                  {data?.id && role === UserRole.Usuario && (
-                    <>
-                      <Link
-                        href="/sistema/empresa/logar-empresa"
-                        className="p-4 list-none hover:text-blue-400"
-                      >
-                        <div className="flex items-center justify-start">
-                          <CiShop size={32} /> <p className="px-2">Empresa</p>
-                        </div>
-                      </Link>
-                    </>
-                  )}
-                  {!data?.id && role === UserRole.Usuario && (
-                    <>
-                      <Link
-                        href={'/sistema/criar-empresa'}
-                        className="p-4 list-none hover:text-blue-400"
-                      >
-                        <div className="flex items-center justify-start">
-                          <BsPersonDown size={32} />
-                          <p className="px-2">Criar Empresa</p>
-                        </div>
-                      </Link>
-                    </>
-                  )}
-                  {role === UserRole.Empresa && (
-                    <>
-                      <Link href={'/sistema/empresa/beneficios'}>
-                        <div
-                          className={`flex items-center justify-start hover:text-blue-400 ${
-                            router.asPath === '/sistema/empresa/beneficios' &&
-                            'text-blue-700'
-                          }`}
+              <ul>
+                {links}
+                {isLoading ? (
+                  <>
+                    <Skeleton />
+                    <Skeleton />
+                  </>
+                ) : (
+                  <>
+                    {data?.id && role === UserRole.Usuario && (
+                      <>
+                        <Link
+                          href="/sistema/empresa/logar-empresa"
+                          className="p-4 list-none hover:text-blue-400"
                         >
-                          <BsTags size={32} />
-                          <p className="px-2 list-none">Benefícios</p>
-                        </div>
-                      </Link>
-                      <Link
-                        href={'/sistema/empresa/deslogar'}
-                        className="p-4 list-none hover:text-blue-400"
-                      >
-                        <div className="flex items-center justify-start max-w-[200px] whitespace-pre-wrap">
-                          <BsPersonDown size={32} />
-                          <p className="px-2">
-                            Voltar para o perfil de usuário
-                          </p>
-                        </div>
-                      </Link>
-                    </>
-                  )}
-                </>
-              )}
-              <button
-                onClick={() => {
-                  signOut({ callbackUrl: '/' });
-                  setRole(UserRole.Usuario);
-                }}
-                className="text-red-500 flex items-center"
-              >
-                <div></div>
-                <CiLogout className="mr-2" size={32} />
-                Deslogar
-              </button>
+                          <div className="flex items-center justify-start">
+                            <BsShop size={28} /> <p className="px-2">Empresa</p>
+                          </div>
+                        </Link>
+                        <Link
+                          href="/sistema/usuario/ranking"
+                          className="p-4 list-none hover:text-blue-400"
+                        >
+                          <div className="flex items-center justify-start">
+                            <BsTrophy size={28} />{' '}
+                            <p className="px-2">Ranking</p>
+                          </div>
+                        </Link>
+                      </>
+                    )}
+                    {!data?.id && role === UserRole.Usuario && (
+                      <>
+                        <Link
+                          href={'/sistema/criar-empresa'}
+                          className="p-4 list-none hover:text-blue-400"
+                        >
+                          <div className="flex items-center justify-start">
+                            <BsPersonDown size={32} />
+                            <p className="px-2">Criar Empresa</p>
+                          </div>
+                        </Link>
+                      </>
+                    )}
+                    {role === UserRole.Empresa && (
+                      <>
+                        <Link href={'/sistema/empresa/beneficios'}>
+                          <div
+                            className={`flex items-center justify-start hover:text-blue-400 ${
+                              router.asPath === '/sistema/empresa/beneficios' &&
+                              'text-blue-700'
+                            }`}
+                          >
+                            <BsTags size={28} />
+                            <p className="px-2 list-none">Benefícios</p>
+                          </div>
+                        </Link>
+                        <Link
+                          href={'/sistema/empresa/deslogar'}
+                          className="p-4 list-none hover:text-blue-400"
+                        >
+                          <div className="flex items-center justify-start whitespace-pre-wrap">
+                            <BsPersonDown size={28} />
+                            <p className="px-2 max-w-min">Perfil de usuário</p>
+                          </div>
+                        </Link>
+                      </>
+                    )}
+                  </>
+                )}
+              </ul>
             </nav>
           </div>
 
           {/* User Menu */}
-          <div className="flex">
+          <div
+            className="relative"
+            onMouseEnter={handleMenuOpen} // Show the dropdown on mouse enter
+            onMouseLeave={handleMenuClose} // Hide the dropdown on mouse leave
+          >
             {role === UserRole.Usuario && (
-              <p className="hover:opacity-80 transition-opacity">{nick}</p>
+              <span className="hover:opacity-80 transition-opacity">
+                {nick}
+              </span>
+            )}
+            {role === UserRole.Empresa && <span>{data?.title}</span>}
+            {/* Dropdown menu */}
+            {role === UserRole.Usuario && (
+              <div
+                className={`absolute z-10 mt-2 py-2 w-48 bottom-7 bg-white rounded-md shadow-lg ${
+                  isMenuOpen ? 'block' : 'hidden'
+                }`}
+                onMouseEnter={() => setIsMenuOpen(true)} // Keep the dropdown open on menu hover
+                onMouseLeave={() => setIsMenuOpen(false)} // Hide the dropdown on menu leave
+              >
+                {/* Add dropdown menu items here */}
+                <button
+                  className="flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-neutral-100 hover:text-red-500 transition-all items-center cursor-pointer space-x-2"
+                  // className="flex items-center space-x-2 "
+                  onClick={() => {
+                    signOut({ callbackUrl: '/' });
+                    setRole(UserRole.Usuario);
+                  }}
+                >
+                  <BsBoxArrowInLeft /> <span>Deslogar</span>
+                </button>
+                <Link
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-neutral-100 hover:text-blue-500 transition-all"
+                  href={`/sistema/${role}/configuracoes`}
+                >
+                  <div className="flex space-x-2 items-center">
+                    <BsGear />
+                    <span>Configurações</span>
+                  </div>
+                </Link>
+              </div>
             )}
             {role === UserRole.Empresa && (
-              <p className="hover:opacity-80 transition-opacity">{data}</p>
+              <div
+                className={`absolute z-10 mt-2 py-2 w-48 bottom-7 bg-white rounded-md shadow-lg ${
+                  isMenuOpen ? 'block' : 'hidden'
+                }`}
+                onMouseEnter={() => setIsMenuOpen(true)} // Keep the dropdown open on menu hover
+                onMouseLeave={() => setIsMenuOpen(false)} // Hide the dropdown on menu leave
+              >
+                {/* Add dropdown menu items here */}
+                <button
+                  className="flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-neutral-100 hover:text-red-500 transition-all items-center cursor-pointer space-x-2"
+                  // className="flex items-center space-x-2 "
+                  onClick={() => {
+                    signOut({ callbackUrl: '/' });
+                    setRole(UserRole.Usuario);
+                  }}
+                >
+                  <BsBoxArrowInLeft /> <span>Deslogar</span>
+                </button>
+                <Link
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-neutral-100 hover:text-blue-500 transition-all"
+                  href={`/sistema/${role}/configuracoes`}
+                >
+                  <div className="flex space-x-2 items-center">
+                    <BsGear />
+                    <span>Configurações</span>
+                  </div>
+                </Link>
+              </div>
             )}
           </div>
         </div>

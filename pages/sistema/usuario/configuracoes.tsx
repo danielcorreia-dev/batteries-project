@@ -32,6 +32,7 @@ const tabs = [
 ];
 
 const Configurations: React.FC<Props> = ({ userData }) => {
+  console.log(userData);
   return (
     <UserLayout>
       <TabComponent tabs={tabs} userData={userData} />

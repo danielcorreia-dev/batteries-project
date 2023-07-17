@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = process.env.API_URL;
+const BASE_URL = 'https://batteries-backend.up.railway.app';
+
 export default axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },

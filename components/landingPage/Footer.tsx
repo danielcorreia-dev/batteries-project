@@ -9,7 +9,6 @@ const Footer = () => {
   const contactItems: FooterItems[] = [
     { title: 'Time', link: '/time' },
     { title: 'Contato', link: '/contato' },
-    { title: 'Suporte', link: '/suporte' },
     { title: 'FAQ', link: '/FAQ' },
   ];
 
@@ -17,11 +16,6 @@ const Footer = () => {
     { title: 'Sobre nós', link: '/sobre-nos' },
     { title: 'Parceiros', link: '/parceiros' },
     { title: 'Projeto', link: '/projeto' },
-  ];
-
-  const policiesItems: FooterItems[] = [
-    { title: 'Política de Privacidade', link: '/politica-de-privacidade' },
-    { title: 'Termos e Condições', link: '/termos-e-condicoes' },
   ];
 
   const links = (items: FooterItems[]) =>
@@ -44,7 +38,7 @@ const Footer = () => {
 
   return (
     <footer>
-      <div className="bg-gray-50 h-1/2 w-full flex md:flex-row justify-around flex-col items-start p-20 border-t border-neutral-200">
+      <div className="bg-gray-50 h-1/2 w-full flex md:flex-row justify-around  flex-col items-start p-20 border-t border-neutral-200">
         <div className="p-2">
           <ul>
             <p className="text-gray-800 font-bold text-2xl pb-4">Recursos</p>
@@ -55,12 +49,6 @@ const Footer = () => {
           <ul>
             <p className="text-gray-800 font-bold text-2xl pb-4">Web-app</p>
             {links(appItems)}
-          </ul>
-        </div>
-        <div className="p-2">
-          <ul>
-            <p className="text-gray-800 font-bold text-2xl pb-4">Políticas</p>
-            {links(policiesItems)}
           </ul>
         </div>
       </div>
