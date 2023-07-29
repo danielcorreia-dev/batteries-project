@@ -13,51 +13,6 @@ type Benefit = {
   status: boolean;
 };
 
-const benefit = [
-  {
-    id: 1,
-    title: 'Benefício 1',
-    description: 'Descrição do benefício 1',
-    scoreNeeded: 100,
-    active: true,
-  },
-  {
-    id: 2,
-    title: 'Benefício 1',
-    description: 'Descrição do benefício 1',
-    scoreNeeded: 100,
-    active: true,
-  },
-  {
-    id: 3,
-    title: 'Benefício 1',
-    description: 'Descrição do benefício 1',
-    scoreNeeded: 100,
-    active: true,
-  },
-  {
-    id: 4,
-    title: 'Benefício 1',
-    description: 'Descrição do benefício 1',
-    scoreNeeded: 100,
-    active: true,
-  },
-  {
-    id: 5,
-    title: 'Benefício 1',
-    description: 'Descrição do benefício 1',
-    scoreNeeded: 100,
-    active: true,
-  },
-  {
-    id: 6,
-    title: 'Benefício 1',
-    description: 'Descrição do benefício 1',
-    scoreNeeded: 100,
-    active: true,
-  },
-];
-
 type Props = {
   companyBenefits: Benefit[];
   companyId: number;

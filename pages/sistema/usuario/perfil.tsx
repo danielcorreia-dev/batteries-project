@@ -27,9 +27,9 @@ interface Props {
 }
 
 const Perfil = ({ userData, companies }: Props) => {
+  console.log(userData);
   const { nick, totalScore } = userData;
   const companiesArray = [...companies];
-  console.log(companies);
 
   return (
     <>
@@ -75,7 +75,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const api = process.env.API_URL;
 
   try {
-    const userDataResponse = await fetch(`${api}/user/${session?.user?.id}`);
+    const userDataResponse = await fetch(
+      `${api}/user/${session?.user?.id}/profile`
+    );
 
     let companies = [];
     try {

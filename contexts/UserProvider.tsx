@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 
 interface UserData {
+  id: number;
   nick: string;
   scores: number;
   email: string;
